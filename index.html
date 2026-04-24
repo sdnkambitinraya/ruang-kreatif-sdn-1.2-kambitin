@@ -16,14 +16,12 @@
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            /* Background dibuat lebih gelap dan pekat warnanya */
             background: linear-gradient(135deg, #a5b4fc 0%, #ddd6fe 30%, #a7f3d0 60%, #93c5fd 100%);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
             min-height: 100vh;
             color: #1e1b4b;
             overflow-x: hidden;
-            /* Tambahan overlay agar tidak terlalu terang menyilaukan */
             background-attachment: fixed;
         }
 
@@ -35,7 +33,6 @@
 
         .hero-title {
             font-family: 'Sora', sans-serif;
-            /* Warna teks dibuat kontras gelap agar mudah dibaca di bg berwarna */
             background: linear-gradient(to right, #312e81, #064e3b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -95,12 +92,20 @@
             gap: 2.5rem;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
         }
+
+        .animate-spin-slow {
+            animation: spin 8s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
     <div class="noise"></div>
 
-    <!-- Navbar -->
     <nav id="navbar" class="fixed top-0 w-full z-50 px-6 py-6">
         <div class="max-w-7xl mx-auto flex justify-between items-center nav-glass rounded-[2.5rem] px-10 py-5 shadow-2xl">
             <div class="flex items-center gap-4">
@@ -119,7 +124,6 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section class="pt-52 pb-24 px-6 text-center">
         <div class="max-w-4xl mx-auto">
             <div class="inline-flex items-center gap-2 bg-indigo-900 text-white px-8 py-2.5 rounded-full text-[11px] font-black tracking-[0.2em] uppercase mb-10 shadow-2xl">
@@ -132,8 +136,8 @@
             <h1 class="hero-title text-6xl md:text-8xl font-black mb-12 leading-[1.05]">
                 Ruang Kreatif <br>SDN 1.2 Kambitin
             </h1>
-            <p class="text-xl md:text-2xl text-indigo-950/70 mb-16 max-w-3xl mx-auto leading-relaxed font-bold">
-                Eksplorasi tanpa batas. Dokumentasi karya terbaik siswa-siswi kebanggaan SDN 1.2 Kambitin.
+            <p class="text-xl md:text-2xl text-indigo-950/70 mb-16 max-w-3xl mx-auto leading-relaxed font-bold italic">
+                "Dari ruang kelas menuju kanvas dunia, inovasi tanpa batas."
             </p>
             
             <div class="relative max-w-2xl mx-auto mb-20 group">
@@ -143,9 +147,7 @@
         </div>
     </section>
 
-    <!-- Content Section -->
     <main class="max-w-7xl mx-auto px-6 pb-48">
-        <!-- Filter Tabs -->
         <div class="flex flex-wrap justify-center gap-4 mb-24" id="categoryFilters">
             <button class="filter-pill active px-12 py-5 rounded-[2rem] text-xs uppercase tracking-widest shadow-xl" data-category="all">Semua</button>
             <button class="filter-pill px-12 py-5 rounded-[2rem] text-xs uppercase tracking-widest shadow-xl" data-category="Hasil Karya">🎨 Karya</button>
@@ -153,21 +155,17 @@
             <button class="filter-pill px-12 py-5 rounded-[2rem] text-xs uppercase tracking-widest shadow-xl" data-category="Video Pembelajaran">📹 Video</button>
         </div>
 
-        <div id="karyaGrid" class="bento-grid">
-            <!-- Kartu akan muncul di sini -->
-        </div>
+        <div id="karyaGrid" class="bento-grid"></div>
 
-        <!-- Empty State -->
         <div id="emptyState" class="hidden text-center py-40 bg-white/20 backdrop-blur-3xl rounded-[5rem] border-4 border-white/40 border-dashed">
             <div class="w-40 h-40 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-10 shadow-inner">
                 <i data-lucide="compass" class="text-indigo-400 w-20 h-20 animate-spin-slow"></i>
             </div>
             <h3 class="text-4xl font-black text-indigo-950">Hasil tidak ditemukan</h3>
-            <p class="text-indigo-900/60 mt-4 text-xl font-medium">Coba gunakan kata kunci lain, Bu Novi!</p>
+            <p class="text-indigo-900/60 mt-4 text-xl font-medium">Coba gunakan kata kunci atau kategori yang lain ya!</p>
         </div>
     </main>
 
-    <!-- Footer -->
     <footer class="bg-indigo-950 text-white py-32 px-10 rounded-t-[6rem] shadow-[0_-20px_50px_rgba(0,0,0,0.1)]">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-24">
             <div>
