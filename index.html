@@ -9,20 +9,22 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            --primary: #8b5cf6;
-            --secondary: #6d28d9;
-            --glass: rgba(255, 255, 255, 0.9);
+            --primary: #7c3aed;
+            --secondary: #4f46e5;
+            --glass: rgba(255, 255, 255, 0.95);
         }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            /* Warna Background yang lebih pekat dan berwarna */
-            background: linear-gradient(135deg, #c7d2fe 0%, #f5f3ff 25%, #d1fae5 50%, #bae6fd 75%, #e0e7ff 100%);
+            /* Background dibuat lebih gelap dan pekat warnanya */
+            background: linear-gradient(135deg, #a5b4fc 0%, #ddd6fe 30%, #a7f3d0 60%, #93c5fd 100%);
             background-size: 400% 400%;
-            animation: gradientBG 12s ease infinite;
+            animation: gradientBG 15s ease infinite;
             min-height: 100vh;
-            color: #1f2937;
+            color: #1e1b4b;
             overflow-x: hidden;
+            /* Tambahan overlay agar tidak terlalu terang menyilaukan */
+            background-attachment: fixed;
         }
 
         @keyframes gradientBG {
@@ -33,60 +35,65 @@
 
         .hero-title {
             font-family: 'Sora', sans-serif;
-            background: linear-gradient(to right, #4c1d95, #065f46);
+            /* Warna teks dibuat kontras gelap agar mudah dibaca di bg berwarna */
+            background: linear-gradient(to right, #312e81, #064e3b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
         }
 
         .glass-card {
             background: var(--glass);
-            backdrop-filter: blur(20px);
-            border: 2px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.1);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 20px 40px rgba(49, 46, 129, 0.12);
             transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         .glass-card:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 30px 60px rgba(139, 92, 246, 0.2);
-            border-color: #a78bfa;
+            transform: translateY(-15px);
+            box-shadow: 0 40px 80px rgba(79, 70, 229, 0.2);
+            border-color: var(--primary);
+        }
+
+        .nav-glass {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid rgba(124, 58, 237, 0.1);
         }
 
         .filter-pill {
             transition: all 0.3s ease;
-            background: white;
-            border: 2px solid #e5e7eb;
-            color: #4b5563;
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid transparent;
+            font-weight: 700;
         }
 
         .filter-pill.active {
-            background: #8b5cf6;
+            background: #4338ca;
             color: white;
-            border-color: #8b5cf6;
-            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3);
-            transform: scale(1.05);
-        }
-
-        .nav-glass {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            box-shadow: 0 12px 24px rgba(67, 56, 202, 0.3);
+            transform: translateY(-2px);
         }
 
         .noise {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
-            opacity: 0.05;
+            opacity: 0.08;
             z-index: 9999;
             background-image: url('https://grainy-gradients.vercel.app/noise.svg');
         }
 
         @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(40px); }
+            from { opacity: 0; transform: translateY(50px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        .bento-grid {
+            display: grid;
+            gap: 2.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
         }
     </style>
 </head>
@@ -95,82 +102,82 @@
 
     <!-- Navbar -->
     <nav id="navbar" class="fixed top-0 w-full z-50 px-6 py-6">
-        <div class="max-w-7xl mx-auto flex justify-between items-center nav-glass rounded-[2rem] px-8 py-4">
-            <div class="flex items-center gap-3">
-                <div class="w-12 h-12 bg-gradient-to-tr from-violet-600 to-emerald-500 rounded-2xl flex items-center justify-center text-white font-bold text-2xl shadow-lg">R</div>
+        <div class="max-w-7xl mx-auto flex justify-between items-center nav-glass rounded-[2.5rem] px-10 py-5 shadow-2xl">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-indigo-700 rounded-2xl flex items-center justify-center text-white font-bold text-2xl shadow-inner">R</div>
                 <div>
-                    <h1 class="font-extrabold text-xl leading-none text-violet-950">Ruang Kreatif</h1>
-                    <span class="text-[10px] uppercase tracking-[0.2em] text-emerald-700 font-black">SDN 1.2 Kambitin</span>
+                    <h1 class="font-extrabold text-xl leading-none text-indigo-950">Ruang Kreatif</h1>
+                    <span class="text-[10px] uppercase tracking-[0.3em] text-emerald-700 font-black">SDN 1.2 Kambitin</span>
                 </div>
             </div>
-            <div class="hidden md:flex gap-10 font-bold text-sm text-gray-700">
-                <a href="#" class="hover:text-violet-600 transition-colors">Beranda</a>
-                <a href="#" class="hover:text-violet-600 transition-colors">Koleksi</a>
-                <a href="#" class="hover:text-violet-600 transition-colors">Kontak</a>
+            <div class="hidden md:flex gap-10 font-bold text-sm text-indigo-900/80">
+                <a href="#" class="hover:text-indigo-600 transition-colors">Beranda</a>
+                <a href="#" class="hover:text-indigo-600 transition-colors">Koleksi</a>
+                <a href="#" class="hover:text-indigo-600 transition-colors">Tentang</a>
             </div>
-            <button class="md:hidden text-violet-900"><i data-lucide="menu"></i></button>
+            <button class="md:hidden text-indigo-900"><i data-lucide="menu"></i></button>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="pt-48 pb-20 px-6 text-center">
+    <section class="pt-52 pb-24 px-6 text-center">
         <div class="max-w-4xl mx-auto">
-            <div class="inline-flex items-center gap-2 bg-violet-600 text-white px-6 py-2 rounded-full text-xs font-bold tracking-widest uppercase mb-8 shadow-xl">
-                <i data-lucide="sparkles" class="w-4 h-4"></i> Portal Karya Siswa
+            <div class="inline-flex items-center gap-2 bg-indigo-900 text-white px-8 py-2.5 rounded-full text-[11px] font-black tracking-[0.2em] uppercase mb-10 shadow-2xl">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                PORTAL KARYA DIGITAL
             </div>
-            <h1 class="hero-title text-6xl md:text-8xl font-black mb-10 leading-[1.1]">
-                Ruang Kreatif <br>Ibu Novi
+            <h1 class="hero-title text-6xl md:text-8xl font-black mb-12 leading-[1.05]">
+                Ruang Kreatif <br>SDN 1.2 Kambitin
             </h1>
-            <p class="text-xl md:text-2xl text-violet-950/80 mb-16 max-w-3xl mx-auto leading-relaxed font-semibold">
-                Menyimpan setiap jejak kreativitas siswa SDN 1.2 Kambitin dalam satu wadah digital yang menginspirasi.
+            <p class="text-xl md:text-2xl text-indigo-950/70 mb-16 max-w-3xl mx-auto leading-relaxed font-bold">
+                Eksplorasi tanpa batas. Dokumentasi karya terbaik siswa-siswi kebanggaan SDN 1.2 Kambitin.
             </p>
             
             <div class="relative max-w-2xl mx-auto mb-20 group">
-                <input type="text" id="searchInput" placeholder="Cari karya seru di sini..." class="w-full pl-16 pr-8 py-6 rounded-[2.5rem] border-none shadow-2xl focus:ring-8 focus:ring-violet-200 outline-none transition-all bg-white/95 text-xl font-medium text-violet-900">
-                <i data-lucide="search" class="absolute left-6 top-1/2 -translate-y-1/2 text-violet-600 w-7 h-7 group-focus-within:scale-110 transition-transform"></i>
+                <input type="text" id="searchInput" placeholder="Cari karya seru..." class="w-full pl-16 pr-8 py-7 rounded-[3rem] border-none shadow-2xl focus:ring-8 focus:ring-indigo-100 outline-none transition-all bg-white text-xl font-bold text-indigo-950 placeholder:text-indigo-200">
+                <i data-lucide="search" class="absolute left-6 top-1/2 -translate-y-1/2 text-indigo-600 w-8 h-8 group-focus-within:scale-110 transition-transform"></i>
             </div>
         </div>
     </section>
 
     <!-- Content Section -->
-    <main class="max-w-7xl mx-auto px-6 pb-40">
+    <main class="max-w-7xl mx-auto px-6 pb-48">
         <!-- Filter Tabs -->
-        <div class="flex flex-wrap justify-center gap-5 mb-20" id="categoryFilters">
-            <button class="filter-pill active px-10 py-4 rounded-3xl text-sm font-black uppercase tracking-widest shadow-md" data-category="all">Semua</button>
-            <button class="filter-pill px-10 py-4 rounded-3xl text-sm font-black uppercase tracking-widest shadow-md" data-category="Hasil Karya">🎨 Karya</button>
-            <button class="filter-pill px-10 py-4 rounded-3xl text-sm font-black uppercase tracking-widest shadow-md" data-category="Game Interaktif">🎮 Game</button>
-            <button class="filter-pill px-10 py-4 rounded-3xl text-sm font-black uppercase tracking-widest shadow-md" data-category="Video Pembelajaran">📹 Video</button>
+        <div class="flex flex-wrap justify-center gap-4 mb-24" id="categoryFilters">
+            <button class="filter-pill active px-12 py-5 rounded-[2rem] text-xs uppercase tracking-widest shadow-xl" data-category="all">Semua</button>
+            <button class="filter-pill px-12 py-5 rounded-[2rem] text-xs uppercase tracking-widest shadow-xl" data-category="Hasil Karya">🎨 Karya</button>
+            <button class="filter-pill px-12 py-5 rounded-[2rem] text-xs uppercase tracking-widest shadow-xl" data-category="Game Interaktif">🎮 Game</button>
+            <button class="filter-pill px-12 py-5 rounded-[2rem] text-xs uppercase tracking-widest shadow-xl" data-category="Video Pembelajaran">📹 Video</button>
         </div>
 
         <div id="karyaGrid" class="bento-grid">
-            <!-- Cards will be injected by JS -->
+            <!-- Kartu akan muncul di sini -->
         </div>
 
         <!-- Empty State -->
-        <div id="emptyState" class="hidden text-center py-32 bg-white/40 backdrop-blur-2xl rounded-[4rem] border-4 border-dashed border-white/60">
-            <div class="w-32 h-32 bg-violet-100 rounded-full flex items-center justify-center mx-auto mb-8">
-                <i data-lucide="ghost" class="text-violet-500 w-16 h-16"></i>
+        <div id="emptyState" class="hidden text-center py-40 bg-white/20 backdrop-blur-3xl rounded-[5rem] border-4 border-white/40 border-dashed">
+            <div class="w-40 h-40 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-10 shadow-inner">
+                <i data-lucide="compass" class="text-indigo-400 w-20 h-20 animate-spin-slow"></i>
             </div>
-            <h3 class="text-3xl font-black text-violet-950">Oops! Belum Ada Karya</h3>
-            <p class="text-violet-900/60 mt-4 text-lg font-medium">Coba cari dengan kata kunci lain ya, Ibu Novi!</p>
+            <h3 class="text-4xl font-black text-indigo-950">Hasil tidak ditemukan</h3>
+            <p class="text-indigo-900/60 mt-4 text-xl font-medium">Coba gunakan kata kunci lain, Bu Novi!</p>
         </div>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-violet-950 text-white py-24 px-6 rounded-t-[5rem]">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-20">
+    <footer class="bg-indigo-950 text-white py-32 px-10 rounded-t-[6rem] shadow-[0_-20px_50px_rgba(0,0,0,0.1)]">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-24">
             <div>
-                <h2 class="font-black text-4xl mb-8">SDN 1.2 Kambitin</h2>
-                <p class="text-violet-200/70 text-xl leading-relaxed mb-10">Membangun generasi kreatif dan inovatif melalui teknologi dan dedikasi.</p>
-                <div class="flex gap-6">
-                    <a href="#" class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center hover:bg-violet-600 transition-all"><i data-lucide="youtube"></i></a>
-                    <a href="#" class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center hover:bg-violet-600 transition-all"><i data-lucide="instagram"></i></a>
-                </div>
+                <h2 class="font-black text-5xl mb-10">SDN 1.2 Kambitin</h2>
+                <p class="text-indigo-200/60 text-2xl leading-relaxed max-w-md">Dedikasi untuk mencerdaskan kehidupan bangsa melalui inovasi digital.</p>
             </div>
             <div class="flex flex-col justify-end md:items-end">
                 <div class="text-left md:text-right">
-                    <p class="text-2xl font-bold mb-2">© <span id="year"></span> Ruang Kreatif</p>
-                    <p class="text-violet-400 font-medium italic">Karya Ibu Novi Rosita, S.Pd</p>
+                    <p class="text-3xl font-black mb-4">© <span id="year"></span> Ruang Kreatif</p>
+                    <p class="text-indigo-400 text-xl font-bold italic tracking-wide">Karya Ibu Novi Rosita, S.Pd</p>
                 </div>
             </div>
         </div>
@@ -184,8 +191,7 @@
             { Judul_Karya: "Koleksi Bahasa Inggris", Kategori: "Hasil Karya", Mata_Pelajaran: "Bahasa Inggris", Kelas: "Kelas 3-6", Link_Media: "#", Link_Thumbnail: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=800", Deskripsi: "Kumpulan tugas, tulisan, dan proyek kreatif siswa dalam Bahasa Inggris." },
             { Judul_Karya: "Mutiara PAI", Kategori: "Hasil Karya", Mata_Pelajaran: "PAI", Kelas: "Kelas 1-6", Link_Media: "#", Link_Thumbnail: "https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?q=80&w=800", Deskripsi: "Galeri karya religius, poster adab, dan video hafalan siswa SDN 1.2 Kambitin." },
             { Judul_Karya: "English Fun Adventure", Kategori: "Game Interaktif", Mata_Pelajaran: "Bahasa Inggris", Kelas: "Kelas 3-6", Link_Media: "#", Link_Thumbnail: "https://images.unsplash.com/photo-1611996591253-067530e0ea4a?q=80&w=800", Deskripsi: "Belajar Bahasa Inggris jadi lebih seru dengan tantangan game interaktif!" },
-            { Judul_Karya: "Petualangan Matematika", Kategori: "Game Interaktif", Mata_Pelajaran: "Matematika", Kelas: "Kelas 1-6", Link_Media: "#", Link_Thumbnail: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=800", Deskripsi: "Asah logika berhitungmu dalam tantangan matematika seru!" },
-            { Judul_Karya: "Ekosistem Sungai", Kategori: "Hasil Karya", Mata_Pelajaran: "IPA", Kelas: "Kelas 5", Link_Media: "#", Link_Thumbnail: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=800", Deskripsi: "Laporan proyek pengamatan alam sekitar oleh siswa Kelas 5." }
+            { Judul_Karya: "Petualangan Matematika", Kategori: "Game Interaktif", Mata_Pelajaran: "Matematika", Kelas: "Kelas 1-6", Link_Media: "#", Link_Thumbnail: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=800", Deskripsi: "Asah logika berhitungmu dalam tantangan matematika seru!" }
         ];
 
         let currentData = [];
@@ -241,26 +247,26 @@
             empty.classList.add('hidden');
             filtered.forEach((item, index) => {
                 const card = document.createElement('div');
-                card.className = `glass-card rounded-[3.5rem] overflow-hidden flex flex-col group`;
-                card.style.animation = `fadeUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards ${index * 0.15}s`;
+                card.className = `glass-card rounded-[4rem] overflow-hidden flex flex-col group`;
+                card.style.animation = `fadeUp 1s cubic-bezier(0.19, 1, 0.22, 1) forwards ${index * 0.15}s`;
                 card.style.opacity = '0';
                 
                 card.innerHTML = `
-                    <div class="relative overflow-hidden aspect-[4/3] m-4 rounded-[2.5rem]">
+                    <div class="relative overflow-hidden aspect-[4/3] m-5 rounded-[3rem] shadow-lg">
                         <img src="${item.Link_Thumbnail}" alt="${item.Judul_Karya}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
-                        <div class="absolute top-6 left-6 bg-white/95 backdrop-blur px-5 py-2 rounded-2xl text-[12px] font-black text-violet-800 uppercase tracking-widest shadow-xl">
+                        <div class="absolute bottom-6 left-6 bg-white/95 backdrop-blur px-6 py-2.5 rounded-2xl text-[12px] font-black text-indigo-900 uppercase tracking-widest shadow-2xl">
                             ${item.Kategori}
                         </div>
                     </div>
-                    <div class="px-10 pb-10 flex-grow flex flex-col">
-                        <div class="flex flex-wrap gap-2 mb-4">
-                             <span class="text-[10px] bg-emerald-600 text-white px-4 py-1.5 rounded-full font-black uppercase tracking-tighter">${item.Kelas}</span>
-                             <span class="text-[10px] bg-violet-600 text-white px-4 py-1.5 rounded-full font-black uppercase tracking-tighter">${item.Mata_Pelajaran}</span>
+                    <div class="px-12 pb-12 flex-grow flex flex-col">
+                        <div class="flex flex-wrap gap-2 mb-6">
+                             <span class="text-[10px] bg-emerald-700 text-white px-4 py-2 rounded-full font-black uppercase tracking-widest">${item.Kelas}</span>
+                             <span class="text-[10px] bg-indigo-700 text-white px-4 py-2 rounded-full font-black uppercase tracking-widest">${item.Mata_Pelajaran}</span>
                         </div>
-                        <h3 class="font-black text-3xl text-violet-950 mb-4 leading-tight group-hover:text-violet-600 transition-colors">${item.Judul_Karya}</h3>
-                        <p class="text-base text-violet-900/60 mb-8 flex-grow leading-relaxed font-medium line-clamp-3">${item.Deskripsi}</p>
-                        <a href="${item.Link_Media}" target="_blank" class="w-full bg-violet-950 text-white font-black py-5 rounded-[2rem] text-center shadow-2xl hover:bg-emerald-600 transition-all active:scale-95 flex items-center justify-center gap-3">
-                            BUKA KARYA <i data-lucide="arrow-right-circle" class="w-6 h-6"></i>
+                        <h3 class="font-black text-3xl text-indigo-950 mb-4 leading-tight group-hover:text-indigo-600 transition-colors">${item.Judul_Karya}</h3>
+                        <p class="text-lg text-indigo-900/60 mb-10 flex-grow leading-relaxed font-semibold line-clamp-3">${item.Deskripsi}</p>
+                        <a href="${item.Link_Media}" target="_blank" class="w-full bg-indigo-950 text-white font-black py-6 rounded-[2.5rem] text-center shadow-2xl hover:bg-emerald-700 hover:scale-[1.02] transition-all active:scale-95 flex items-center justify-center gap-4 text-sm tracking-[0.1em]">
+                            LIHAT KARYA <i data-lucide="arrow-right" class="w-6 h-6"></i>
                         </a>
                     </div>
                 `;
