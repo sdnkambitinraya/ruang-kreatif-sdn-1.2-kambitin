@@ -115,22 +115,62 @@
             transform: translateY(-2px);
         }
 
-        .school-layout {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr;
-            gap: 2rem;
+        /* Lightbox Styles */
+        #lightbox {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
-
-        @media (max-width: 1024px) {
-            .school-layout { grid-template-columns: 1fr; }
+        #lightbox.active {
+            display: flex;
+            opacity: 1;
         }
+        #lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        #lightbox.active img {
+            transform: scale(1);
+        }
+        .close-lightbox {
+            position: absolute;
+            top: 20px; right: 20px;
+            color: white;
+            cursor: pointer;
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+        .close-lightbox:hover { background: rgba(255,255,255,0.2); }
     </style>
 </head>
 <body>
 
     <div id="stars" class="stars-container"></div>
 
-    <!-- Navigasi dengan menu yang diperbarui -->
+    <!-- Lightbox Modal -->
+    <div id="lightbox" onclick="closeLightbox()">
+        <div class="close-lightbox">
+            <i data-lucide="x" class="w-6 h-6"></i>
+        </div>
+        <img id="lightboxImg" src="" alt="Full Screen" onclick="event.stopPropagation()">
+    </div>
+
+    <!-- Navigasi -->
     <nav class="fixed top-0 w-full z-50 px-6 py-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center bg-slate-900/60 backdrop-blur-xl rounded-2xl px-6 py-3 shadow-2xl border border-white/10">
             <div class="flex items-center gap-3">
@@ -143,6 +183,7 @@
             <div class="flex items-center gap-4 sm:gap-8">
                 <div class="hidden sm:flex gap-6 font-bold text-[10px] uppercase tracking-widest text-slate-400">
                     <a href="javascript:void(0)" onclick="setTab('all')" class="hover:text-white transition-colors">Beranda</a>
+                    <a href="javascript:void(0)" onclick="setTab('Profil')" class="hover:text-white transition-colors">Profil</a>
                     <a href="javascript:void(0)" onclick="setTab('Hasil Karya')" class="hover:text-white transition-colors">Galeri</a>
                 </div>
                 <div class="pl-4 border-l border-white/10">
@@ -182,14 +223,15 @@
     </header>
 
     <main class="max-w-7xl mx-auto px-6 py-12 relative z-10">
-        <!-- TAB KATEGORI UTAMA -->
+        <!-- Tab Kategori -->
         <div class="flex flex-wrap justify-center gap-3 mb-10">
             <button class="filter-pill active px-10 py-4 rounded-xl text-[10px] uppercase tracking-widest" data-category="all">Beranda</button>
+            <button class="filter-pill px-10 py-4 rounded-xl text-[10px] uppercase tracking-widest" data-category="Profil">🏫 Profil Sekolah</button>
             <button class="filter-pill px-10 py-4 rounded-xl text-[10px] uppercase tracking-widest" data-category="Hasil Karya">🎨 Karya Siswa</button>
             <button class="filter-pill px-10 py-4 rounded-xl text-[10px] uppercase tracking-widest" data-category="Game Interaktif">🎮 Game Edukasi</button>
         </div>
 
-        <!-- FILTER RUANG (HANYA MUNCUL UNTUK KARYA & GAME) -->
+        <!-- Filter Ruang (Hanya untuk Karya/Game) -->
         <div id="roomFilter" class="mb-12 hidden">
             <p class="text-center text-slate-500 font-bold text-[9px] uppercase tracking-[0.2em] mb-4">Pilih Ruang Kelas</p>
             <div class="flex flex-wrap justify-center gap-2">
@@ -231,6 +273,29 @@
             }
         }
 
+        window.openLightbox = function(src) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightboxImg');
+            lightboxImg.src = src;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        window.closeLightbox = function() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function formatImageUrl(url) {
+            if (!url) return 'https://images.unsplash.com/photo-1594608661623-aa0bd3a67d28?q=80&w=800';
+            if (url.includes('drive.google.com')) {
+                const idMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+                return idMatch ? `https://lh3.googleusercontent.com/d/${idMatch[1]}` : url;
+            }
+            return url;
+        }
+
         function detectClass(item) {
             if(item.Kelas) return item.Kelas;
             const text = `${item.Judul_Karya} ${item.Deskripsi}`.toLowerCase();
@@ -250,13 +315,11 @@
             document.body.appendChild(script);
         }
 
-        // Fungsi pembantu untuk mengganti tab lewat navigasi
         window.setTab = function(category) {
             const buttons = document.querySelectorAll('.filter-pill');
             buttons.forEach(btn => {
                 if (btn.dataset.category === category) {
                     btn.click();
-                    // Scroll ke bagian konten
                     document.querySelector('main').scrollIntoView({ behavior: 'smooth' });
                 }
             });
@@ -269,54 +332,111 @@
             if (activeCategory === 'Hasil Karya' || activeCategory === 'Game Interaktif') {
                 roomFilter.classList.remove('hidden');
                 renderGridView(search);
+            } else if (activeCategory === 'Profil') {
+                roomFilter.classList.add('hidden');
+                renderProfileView(search);
             } else {
                 roomFilter.classList.add('hidden');
                 renderSchoolView(search);
             }
         }
 
-        function renderSchoolView(search) {
+        function renderProfileView(search) {
             const container = document.getElementById('contentContainer');
-            const schoolItems = currentData.filter(item => 
-                (item.Kategori === "Tentang Sekolah" || item.Kategori === "Berita") && 
+            
+            const profileItems = currentData.filter(item => 
+                item.Kategori === "Tentang Sekolah" && 
                 (item.Judul_Karya || "").toLowerCase().includes(search)
             );
-            const mainNews = schoolItems[0];
-            const otherInfo = schoolItems.slice(1);
 
             container.innerHTML = `
-                <div class="school-layout">
-                    <div class="flex flex-col gap-6">
-                        <h2 class="text-indigo-400 font-black text-[10px] uppercase tracking-widest">Warta SDN 1.2 Kambitin</h2>
-                        ${mainNews ? `
-                            <div class="glass-card rounded-[2.5rem] overflow-hidden p-6 border-2 border-indigo-500/20 shadow-2xl">
-                                <img src="${mainNews.Link_Thumbnail}" class="w-full aspect-[4/5] md:aspect-video object-cover rounded-[1.5rem] mb-6">
-                                <h3 class="text-3xl font-black text-white mb-4">${mainNews.Judul_Karya}</h3>
-                                <p class="text-slate-300 leading-relaxed mb-8">${mainNews.Deskripsi}</p>
-                                <a href="${mainNews.Link_Media}" target="_blank" class="inline-block bg-indigo-600 text-white px-10 py-4 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-indigo-500 transition-all active:scale-95 shadow-lg shadow-indigo-500/20">Baca Selengkapnya</a>
-                            </div>
-                        ` : '<div class="glass-card p-10 text-center text-slate-500 rounded-3xl italic">Informasi terbaru sedang diproses.</div>'}
+                <div class="flex flex-col gap-12 max-w-4xl mx-auto">
+                    <div class="text-center mb-4">
+                        <h2 class="text-3xl font-black text-white mb-4">Biodata & Profil Sekolah</h2>
+                        <p class="text-slate-400">Informasi lengkap mengenai SD Negeri 1.2 Kambitin</p>
                     </div>
 
-                    <div class="flex flex-col gap-6">
-                        <h2 class="text-indigo-400 font-black text-[10px] uppercase tracking-widest">Informasi Penting</h2>
-                        <div class="grid grid-cols-1 gap-4">
-                            ${otherInfo.length > 0 ? otherInfo.map(item => `
-                                <div class="glass-card p-5 rounded-2xl flex gap-4 items-center group cursor-pointer border border-white/5 hover:border-indigo-500/30">
-                                    <div class="w-12 h-12 rounded-xl bg-indigo-500/10 flex items-center justify-center flex-shrink-0 text-indigo-400 group-hover:scale-110 transition-transform">
-                                        <i data-lucide="info" class="w-5 h-5"></i>
-                                    </div>
-                                    <div class="flex-1">
-                                        <h4 class="font-bold text-white text-sm group-hover:text-indigo-300 transition-colors">${item.Judul_Karya}</h4>
-                                        <p class="text-[10px] text-slate-500 line-clamp-1">${item.Deskripsi}</p>
-                                    </div>
-                                    <a href="${item.Link_Media}" target="_blank" class="p-2 rounded-lg bg-white/5 text-slate-400 hover:text-white hover:bg-indigo-600 transition-all">
-                                        <i data-lucide="external-link" class="w-4 h-4"></i>
-                                    </a>
+                    ${profileItems.length > 0 ? profileItems.map(info => `
+                        <div class="glass-card p-10 rounded-[2.5rem] border border-indigo-500/20 relative overflow-hidden group">
+                            <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-indigo-500/10 transition-all"></div>
+                            <div class="flex flex-col md:flex-row gap-8 items-start">
+                                <div class="bg-indigo-600/20 p-5 rounded-[1.5rem] shrink-0">
+                                    <i data-lucide="book-open" class="w-10 h-10 text-indigo-400"></i>
                                 </div>
-                            `).join('') : '<div class="text-slate-500 text-xs italic">Data profil belum tersedia.</div>'}
+                                <div>
+                                    <h4 class="text-2xl font-black text-white mb-4 tracking-tight">${info.Judul_Karya}</h4>
+                                    <div class="text-slate-300 leading-relaxed space-y-4">
+                                        ${info.Deskripsi.split('\n').map(p => `<p>${p}</p>`).join('')}
+                                    </div>
+                                    ${info.Link_Thumbnail ? `
+                                        <img src="${formatImageUrl(info.Link_Thumbnail)}" class="mt-8 rounded-2xl w-full max-h-80 object-cover border border-white/10" onclick="openLightbox('${formatImageUrl(info.Link_Thumbnail)}')">
+                                    ` : ''}
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    `).join('') : `
+                        <div class="glass-card p-20 text-center text-slate-500 rounded-3xl italic">Informasi profil sedang disusun.</div>
+                    `}
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function renderSchoolView(search) {
+            const container = document.getElementById('contentContainer');
+            
+            // Filter hanya Berita
+            const allNews = currentData.filter(item => 
+                item.Kategori === "Berita" && 
+                (item.Judul_Karya || "").toLowerCase().includes(search)
+            );
+
+            const mainNews = allNews[0];
+            const subNews = allNews.slice(1);
+
+            container.innerHTML = `
+                <div class="flex flex-col gap-16">
+                    <!-- Berita Utama (Headline) -->
+                    <section>
+                        <h2 class="text-indigo-400 font-black text-[10px] uppercase tracking-widest mb-6">Berita Utama</h2>
+                        ${mainNews ? `
+                            <div class="glass-card rounded-[2.5rem] overflow-hidden p-6 border-2 border-indigo-500/20 shadow-2xl">
+                                <div class="relative group cursor-zoom-in mb-8" onclick="openLightbox('${formatImageUrl(mainNews.Link_Thumbnail)}')">
+                                    <img src="${formatImageUrl(mainNews.Link_Thumbnail)}" 
+                                         class="w-full aspect-[21/9] object-cover rounded-[1.5rem] border border-white/10 transition-transform duration-500 group-hover:scale-[1.01]" 
+                                         onerror="this.src='https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2000'">
+                                    <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-[1.5rem]">
+                                        <div class="bg-black/60 backdrop-blur-md p-4 rounded-full">
+                                            <i data-lucide="maximize-2" class="text-white w-6 h-6"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h3 class="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">${mainNews.Judul_Karya}</h3>
+                                <p class="text-slate-300 text-lg leading-relaxed italic opacity-90 mb-2">${mainNews.Deskripsi}</p>
+                            </div>
+                        ` : '<div class="glass-card p-10 text-center text-slate-500 rounded-3xl italic">Berita sedang diperbarui.</div>'}
+                    </section>
+
+                    <!-- Berita Lainnya (Grid) -->
+                    <section>
+                        <h2 class="text-indigo-400 font-black text-[10px] uppercase tracking-widest mb-8 text-center">Berita Lainnya</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            ${subNews.length > 0 ? subNews.map(item => `
+                                <div class="glass-card rounded-3xl overflow-hidden p-4 border border-white/5 flex flex-col cursor-pointer group" onclick="openLightbox('${formatImageUrl(item.Link_Thumbnail)}')">
+                                    <div class="relative aspect-video rounded-2xl overflow-hidden mb-4">
+                                        <img src="${formatImageUrl(item.Link_Thumbnail)}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://via.placeholder.com/400x225'">
+                                        <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                            <i data-lucide="maximize-2" class="text-white w-5 h-5"></i>
+                                        </div>
+                                    </div>
+                                    <h4 class="font-bold text-white text-lg mb-2 line-clamp-2 group-hover:text-indigo-300 transition-colors">${item.Judul_Karya}</h4>
+                                    <p class="text-xs text-slate-400 line-clamp-3">${item.Deskripsi}</p>
+                                </div>
+                            `).join('') : `
+                                <div class="col-span-full text-center py-10 text-slate-500 italic">Belum ada berita tambahan.</div>
+                            `}
+                        </div>
+                    </section>
                 </div>
             `;
             lucide.createIcons();
@@ -336,7 +456,7 @@
             });
 
             if(filtered.length === 0) {
-                grid.innerHTML = `<div class="col-span-full py-20 text-center text-slate-500 italic">Tidak ada konten ditemukan.</div>`;
+                grid.innerHTML = `<div class="col-span-full py-20 text-center text-slate-500 italic">Tidak ada konten ditemukan di ruang ini.</div>`;
                 return;
             }
 
@@ -346,19 +466,25 @@
                 const card = document.createElement('div');
                 card.className = "glass-card rounded-[2rem] overflow-hidden flex flex-col p-4 border border-white/5";
                 card.innerHTML = `
-                    <div class="relative overflow-hidden aspect-video rounded-[1.2rem] mb-4 bg-slate-800">
-                        <img src="${item.Link_Thumbnail || 'https://images.unsplash.com/photo-1594608661623-aa0bd3a67d28?q=80&w=800'}" class="w-full h-full object-cover">
+                    <div class="relative overflow-hidden aspect-video rounded-[1.2rem] mb-4 bg-slate-800 cursor-zoom-in group" onclick="openLightbox('${formatImageUrl(item.Link_Thumbnail)}')">
+                        <img src="${formatImageUrl(item.Link_Thumbnail)}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" onerror="this.src='https://images.unsplash.com/photo-1594608661623-aa0bd3a67d28?q=80&w=800'">
                         <div class="absolute top-2 right-2 px-3 py-1 bg-black/60 backdrop-blur-md rounded-full text-[9px] font-black text-indigo-300 uppercase">${itemClass}</div>
+                        <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <div class="bg-black/60 backdrop-blur-md p-3 rounded-full">
+                                <i data-lucide="maximize-2" class="text-white w-5 h-5"></i>
+                            </div>
+                        </div>
                     </div>
                     <div class="px-2 flex-1 flex flex-col">
                         <h3 class="font-bold text-lg text-white mb-2 line-clamp-1">${item.Judul_Karya || 'Tanpa Judul'}</h3>
-                        <p class="text-xs text-slate-400 mb-6 line-clamp-2">${item.Deskripsi || '-'}</p>
+                        <p class="text-xs text-slate-400 ${isGame ? 'mb-6' : 'mb-2'} line-clamp-2">${item.Deskripsi || '-'}</p>
+                        ${isGame ? `
                         <div class="mt-auto">
-                            <a href="${item.Link_Media}" target="_blank" class="block w-full py-4 rounded-xl text-center text-[10px] font-black uppercase tracking-widest shadow-xl transition-all active:scale-95
-                                ${isGame ? 'bg-emerald-600 hover:bg-emerald-500' : 'bg-indigo-600 hover:bg-indigo-500'} text-white">
-                                ${isGame ? '🎮 Mainkan Game' : '👁️ Lihat Karya'}
+                            <a href="${item.Link_Media}" target="_blank" class="block w-full py-4 rounded-xl text-center text-[10px] font-black uppercase tracking-widest shadow-xl transition-all active:scale-95 bg-emerald-600 hover:bg-emerald-500 text-white">
+                                🎮 Mainkan Game
                             </a>
                         </div>
+                        ` : ''}
                     </div>
                 `;
                 grid.appendChild(card);
