@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ruang Kreatif SD Negeri 1.2 Kambitin</title>
+    <title>SD Negeri 1.2 Kambitin - Ruang Kreatif</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Sora:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -23,7 +23,7 @@
         
         .hero-container { 
             position: relative; 
-            min-height: 100vh; 
+            min-height: 65vh; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
@@ -75,12 +75,6 @@
             50% { opacity: 1; transform: scale(1.2); }
         }
 
-        .hero-title { 
-            font-family: 'Sora', sans-serif; 
-            color: white; 
-            text-shadow: 0 4px 30px rgba(0,0,0,0.9); 
-        }
-        
         .glass-card { 
             background: var(--glass); 
             backdrop-filter: blur(15px); 
@@ -88,210 +82,283 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.5); 
             transition: all 0.5s ease; 
         }
-        .glass-card:hover { transform: translateY(-10px); border-color: var(--primary); }
+        .glass-card:hover { transform: translateY(-5px); border-color: var(--primary); }
         
         .filter-pill { transition: all 0.3s ease; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; font-weight: 700; }
         .filter-pill.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 0 20px rgba(124, 58, 237, 0.4); }
         
-        .sub-filter-pill { transition: all 0.2s ease; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #64748b; font-size: 0.75rem; font-weight: 800; }
-        .sub-filter-pill.active { background: #4f46e5; color: white; border-color: #4f46e5; box-shadow: 0 5px 15px rgba(79, 70, 229, 0.3); }
+        .class-pill { transition: all 0.3s ease; background: rgba(124, 58, 237, 0.1); border: 1px solid rgba(124, 58, 237, 0.2); color: #a78bfa; font-weight: 600; font-size: 0.75rem; }
+        .class-pill.active { background: #a78bfa; color: #070b14; border-color: #a78bfa; }
 
         .loader { width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.1); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
         
-        .bento-grid { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+        .bento-grid { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
 
         .social-icon-btn {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             background: rgba(255,255,255,0.05);
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 10px 22px;
-            border-radius: 14px;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 12px;
             color: #cbd5e1;
             border: 1px solid rgba(255,255,255,0.1);
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             font-weight: 700;
-            white-space: nowrap;
         }
 
         .social-icon-btn:hover {
             background: var(--primary);
             color: white;
-            transform: translateY(-3px);
-            border-color: var(--primary);
-            box-shadow: 0 10px 20px rgba(124, 58, 237, 0.3);
+            transform: translateY(-2px);
         }
 
-        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .school-layout {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 1024px) {
+            .school-layout { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
     <div id="stars" class="stars-container"></div>
 
-    <!-- Navigasi -->
-    <nav class="fixed top-0 w-full z-50 px-6 py-6">
-        <div class="max-w-7xl mx-auto flex justify-between items-center bg-slate-900/60 backdrop-blur-xl rounded-3xl px-8 py-4 shadow-2xl border border-white/10">
+    <!-- Navigasi dengan menu yang diperbarui -->
+    <nav class="fixed top-0 w-full z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center bg-slate-900/60 backdrop-blur-xl rounded-2xl px-6 py-3 shadow-2xl border border-white/10">
             <div class="flex items-center gap-3">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/9/9c/Logo_of_Ministry_of_Education_and_Culture_of_Republic_of_Indonesia.svg" alt="Logo Sekolah" class="w-10 h-10 object-contain">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/9c/Logo_of_Ministry_of_Education_and_Culture_of_Republic_of_Indonesia.svg" alt="Logo" class="w-8 h-8 object-contain">
                 <div>
-                    <h1 class="font-extrabold text-lg leading-none text-white">Ruang Kreatif</h1>
-                    <span class="text-[9px] uppercase tracking-widest text-indigo-400 font-black">SDN 1.2 Kambitin</span>
+                    <h1 class="font-extrabold text-sm leading-none text-white">SDN 1.2 Kambitin</h1>
+                    <span class="text-[7px] uppercase tracking-widest text-indigo-400 font-black">Portal Resmi</span>
                 </div>
             </div>
-            
-            <div class="hidden md:flex gap-8 font-bold text-sm text-slate-300">
-                <a href="#" class="hover:text-white transition-colors">Beranda</a>
-                <a href="#" class="hover:text-white transition-colors text-indigo-400">Koleksi Digital</a>
+            <div class="flex items-center gap-4 sm:gap-8">
+                <div class="hidden sm:flex gap-6 font-bold text-[10px] uppercase tracking-widest text-slate-400">
+                    <a href="javascript:void(0)" onclick="setTab('all')" class="hover:text-white transition-colors">Beranda</a>
+                    <a href="javascript:void(0)" onclick="setTab('Hasil Karya')" class="hover:text-white transition-colors">Galeri</a>
+                </div>
+                <div class="pl-4 border-l border-white/10">
+                    <span class="text-xs font-black text-indigo-400 tracking-tighter">Ruang Kreatif</span>
+                </div>
             </div>
         </div>
     </nav>
 
     <header class="hero-container">
         <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2000')"></div>
-        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=2000')"></div>
         <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2000')"></div>
-        
         <div class="hero-overlay"></div>
 
-        <div class="relative z-10 max-w-5xl mx-auto px-6 text-center text-white mt-10">
-            <div class="flex flex-col md:flex-row items-center justify-center gap-6 mb-8">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/9/9c/Logo_of_Ministry_of_Education_and_Culture_of_Republic_of_Indonesia.svg" alt="Logo Kiri" class="w-16 h-16 md:w-20 md:h-20 object-contain opacity-90">
-                <h1 class="hero-title text-4xl md:text-6xl font-black leading-tight">
-                    Ruang Kreatif <br>SDN 1.2 Kambitin
-                </h1>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/9/9c/Logo_of_Ministry_of_Education_and_Culture_of_Republic_of_Indonesia.svg" alt="Logo Kanan" class="w-16 h-16 md:w-20 md:h-20 object-contain opacity-90">
-            </div>
-
-            <p class="text-lg md:text-xl mb-10 font-bold italic text-indigo-200 opacity-80">"Dari Ruang Kelas Menuju Kanvas Dunia, Inovasi Tanpa Batas"</p>
+        <div class="relative z-10 max-w-5xl mx-auto px-6 text-center text-white">
+            <p class="text-[10px] md:text-xs mb-4 font-bold text-indigo-300 opacity-90 uppercase tracking-[0.5em]">Selamat Datang di</p>
+            <h1 class="text-5xl md:text-7xl font-black mb-6 tracking-tighter">SD Negeri 1.2 Kambitin</h1>
+            <p class="text-sm md:text-lg mb-10 font-medium text-slate-300 italic max-w-2xl mx-auto leading-relaxed">
+                "Dari ruang kelas menuju kanvas dunia, inspirasi tanpa batas."
+            </p>
             
-            <!-- Pencarian -->
-            <div class="relative max-w-2xl mx-auto mb-8">
-                <input type="text" id="searchInput" placeholder="Cari karya atau game seru..." class="w-full pl-14 pr-8 py-5 rounded-2xl border border-white/20 shadow-2xl bg-black/40 backdrop-blur-md text-white text-lg font-bold focus:ring-2 focus:ring-indigo-500 outline-none placeholder:text-slate-500">
-                <i data-lucide="search" class="absolute left-5 top-1/2 -translate-y-1/2 text-indigo-400 w-6 h-6"></i>
+            <div class="flex flex-wrap items-center justify-center gap-3 mb-10">
+                <a href="#" class="social-icon-btn"><i data-lucide="youtube" class="w-4 h-4 text-red-500"></i><span>YouTube</span></a>
+                <a href="#" class="social-icon-btn">
+                    <svg class="w-4 h-4 fill-current text-white" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.03 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.98-.23-2.8.2-.67.33-1.14 1.02-1.24 1.76-.1.48-.09.97-.02 1.46.1.47.34.91.67 1.25.5.44 1.15.6 1.8.58 1.2-.01 2.26-1.01 2.26-2.21-.01-4.71-.01-9.41-.01-14.12z"/></svg>
+                    <span>TikTok</span>
+                </a>
+                <a href="#" class="social-icon-btn"><i data-lucide="instagram" class="w-4 h-4 text-pink-500"></i><span>Instagram</span></a>
+                <a href="#" class="social-icon-btn"><i data-lucide="facebook" class="w-4 h-4 text-blue-600"></i><span>Facebook</span></a>
             </div>
 
-            <!-- Sosmed Satu Baris - Bagian ini yang diedit -->
-            <div class="max-w-fit mx-auto flex items-center justify-center gap-3 bg-white/5 backdrop-blur-md p-3 rounded-2xl border border-white/10 shadow-xl overflow-x-auto no-scrollbar">
-                <a href="https://youtube.com/@sdnegeri1.2kambitin?si=LAarIoJkLAewmGkJ" target="_blank" class="social-icon-btn">
-                    <i data-lucide="youtube" class="w-5 h-5 text-red-500"></i>
-                    <span class="hidden sm:inline">YouTube</span>
-                </a>
-                <a href="https://www.tiktok.com/@sdn.1.2.kambitin?_r=1&_t=ZS-95sPz1f9Ryi" target="_blank" class="social-icon-btn">
-                    <svg class="w-5 h-5 fill-current text-white" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.03 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.98-.23-2.8.2-.67.33-1.14 1.02-1.24 1.76-.1.48-.09.97-.02 1.46.1.47.34.91.67 1.25.5.44 1.15.6 1.8.58 1.2-.01 2.26-1.01 2.26-2.21-.01-4.71-.01-9.41-.01-14.12z"/></svg>
-                    <span class="hidden sm:inline">TikTok</span>
-                </a>
-                <a href="https://www.instagram.com/sdn1.2kambitinn?igsh=dncweXoyMnFrY3hp" target="_blank" class="social-icon-btn">
-                    <i data-lucide="instagram" class="w-5 h-5 text-pink-500"></i>
-                    <span class="hidden sm:inline">Instagram</span>
-                </a>
-                <a href="https://www.facebook.com/sdn12kambitin" target="_blank" class="social-icon-btn">
-                    <i data-lucide="facebook" class="w-5 h-5 text-blue-500"></i>
-                    <span class="hidden sm:inline">Facebook</span>
-                </a>
+            <div class="relative max-w-xl mx-auto">
+                <input type="text" id="searchInput" placeholder="Cari karya atau info sekolah..." class="w-full pl-12 pr-6 py-4 rounded-xl border border-white/20 shadow-2xl bg-black/40 backdrop-blur-md text-white font-bold outline-none placeholder:text-slate-500">
+                <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 text-indigo-400 w-5 h-5"></i>
             </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-6 py-24 relative z-10">
-        <!-- Filter Kategori -->
+    <main class="max-w-7xl mx-auto px-6 py-12 relative z-10">
+        <!-- TAB KATEGORI UTAMA -->
         <div class="flex flex-wrap justify-center gap-3 mb-10">
-            <button class="filter-pill active px-8 py-4 rounded-2xl text-xs uppercase" data-category="all">Semua Konten</button>
-            <button class="filter-pill px-8 py-4 rounded-2xl text-xs uppercase" data-category="Hasil Karya">🎨 Hasil Karya</button>
-            <button class="filter-pill px-8 py-4 rounded-2xl text-xs uppercase" data-category="Game Interaktif">🎮 Game Edukasi</button>
+            <button class="filter-pill active px-10 py-4 rounded-xl text-[10px] uppercase tracking-widest" data-category="all">Beranda</button>
+            <button class="filter-pill px-10 py-4 rounded-xl text-[10px] uppercase tracking-widest" data-category="Hasil Karya">🎨 Karya Siswa</button>
+            <button class="filter-pill px-10 py-4 rounded-xl text-[10px] uppercase tracking-widest" data-category="Game Interaktif">🎮 Game Edukasi</button>
         </div>
 
-        <!-- Filter Kelas -->
-        <div id="roomContainer" class="hidden animate-in fade-in slide-in-from-top-2 duration-500">
-            <div class="flex flex-wrap justify-center gap-2 mb-16">
-                <button class="sub-filter-pill active px-5 py-2 rounded-xl uppercase" data-kelas="all">Semua Kelas</button>
-                <button class="sub-filter-pill px-5 py-2 rounded-xl uppercase" data-kelas="Kelas 1">Kelas 1</button>
-                <button class="sub-filter-pill px-5 py-2 rounded-xl uppercase" data-kelas="Kelas 2">Kelas 2</button>
-                <button class="sub-filter-pill px-5 py-2 rounded-xl uppercase" data-kelas="Kelas 3">Kelas 3</button>
-                <button class="sub-filter-pill px-5 py-2 rounded-xl uppercase" data-kelas="Kelas 4">Kelas 4</button>
-                <button class="sub-filter-pill px-5 py-2 rounded-xl uppercase" data-kelas="Kelas 5">Kelas 5</button>
-                <button class="sub-filter-pill px-5 py-2 rounded-xl uppercase" data-kelas="Kelas 6">Kelas 6</button>
+        <!-- FILTER RUANG (HANYA MUNCUL UNTUK KARYA & GAME) -->
+        <div id="roomFilter" class="mb-12 hidden">
+            <p class="text-center text-slate-500 font-bold text-[9px] uppercase tracking-[0.2em] mb-4">Pilih Ruang Kelas</p>
+            <div class="flex flex-wrap justify-center gap-2">
+                <button class="class-pill active px-5 py-2 rounded-lg" data-class="all">Semua Ruang</button>
+                <button class="class-pill px-5 py-2 rounded-lg" data-class="Kelas 1">Ruang 1</button>
+                <button class="class-pill px-5 py-2 rounded-lg" data-class="Kelas 2">Ruang 2</button>
+                <button class="class-pill px-5 py-2 rounded-lg" data-class="Kelas 3">Ruang 3</button>
+                <button class="class-pill px-5 py-2 rounded-lg" data-class="Kelas 4">Ruang 4</button>
+                <button class="class-pill px-5 py-2 rounded-lg" data-class="Kelas 5">Ruang 5</button>
+                <button class="class-pill px-5 py-2 rounded-lg" data-class="Kelas 6">Ruang 6</button>
             </div>
         </div>
 
-        <!-- Loading -->
         <div id="loadingState" class="flex flex-col items-center py-20">
             <div class="loader mb-4"></div>
-            <p class="text-indigo-300 font-bold tracking-widest uppercase text-xs">Sinkronisasi Data...</p>
         </div>
 
-        <!-- Grid Karya -->
-        <div id="karyaGrid" class="bento-grid"></div>
+        <div id="contentContainer"></div>
     </main>
 
-    <footer class="relative z-10 py-20 px-6 bg-slate-950/50">
-        <div class="max-w-7xl mx-auto text-center">
-            <p class="text-slate-500 text-[10px] uppercase tracking-[0.2em]">
-                &copy; 2024 SDN 1.2 Kambitin. Inovasi Tanpa Batas.
-            </p>
-        </div>
-    </footer>
-
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbx_AcKgcJUqPqbGDuMEV2cxlAniW-OniVL-a0A__9wmsXR98RKDaiX_9Dwk1u8mg3iw/exec"; 
+        const API_URL = "https://script.google.com/macros/s/AKfycbzuUrihM0YQeMfrVVH34bTa45Y82y4_IK8is0x-NFbOZiEM2Sa4maJbh05TjfgtwH0t/exec"; 
         const API_TOKEN = "RUANG_KREATIF_12_TOKEN";
         
         let currentData = [];
-        let filterCat = 'all';
-        let filterKelas = 'all';
+        let activeCategory = 'all';
+        let activeClass = 'all';
 
-        function fetchData() {
-            const script = document.createElement('script');
-            script.src = `${API_URL}?token=${API_TOKEN}&callback=handleResponse&v=${new Date().getTime()}`;
-            document.body.appendChild(script);
+        function createStars() {
+            const container = document.getElementById('stars');
+            for (let i = 0; i < 60; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = star.style.height = `${Math.random() * 2}px`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.setProperty('--duration', `${Math.random() * 3 + 2}s`);
+                container.appendChild(star);
+            }
+        }
+
+        function detectClass(item) {
+            if(item.Kelas) return item.Kelas;
+            const text = `${item.Judul_Karya} ${item.Deskripsi}`.toLowerCase();
+            for(let i=1; i<=6; i++) { if(text.includes(`kelas ${i}`)) return `Kelas ${i}`; }
+            return 'Umum';
         }
 
         window.handleResponse = function(data) {
-            const loading = document.getElementById('loadingState');
-            if(loading) loading.classList.add('hidden');
+            document.getElementById('loadingState').classList.add('hidden');
             currentData = Array.isArray(data) ? data : [];
-            render();
+            renderContent();
         };
 
-        function render() {
-            const grid = document.getElementById('karyaGrid');
+        function fetchData() {
+            const script = document.createElement('script');
+            script.src = `${API_URL}?token=${API_TOKEN}&callback=handleResponse&v=${Date.now()}`;
+            document.body.appendChild(script);
+        }
+
+        // Fungsi pembantu untuk mengganti tab lewat navigasi
+        window.setTab = function(category) {
+            const buttons = document.querySelectorAll('.filter-pill');
+            buttons.forEach(btn => {
+                if (btn.dataset.category === category) {
+                    btn.click();
+                    // Scroll ke bagian konten
+                    document.querySelector('main').scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        };
+
+        function renderContent() {
             const search = document.getElementById('searchInput').value.toLowerCase();
-            grid.innerHTML = '';
+            const roomFilter = document.getElementById('roomFilter');
+            
+            if (activeCategory === 'Hasil Karya' || activeCategory === 'Game Interaktif') {
+                roomFilter.classList.remove('hidden');
+                renderGridView(search);
+            } else {
+                roomFilter.classList.add('hidden');
+                renderSchoolView(search);
+            }
+        }
+
+        function renderSchoolView(search) {
+            const container = document.getElementById('contentContainer');
+            const schoolItems = currentData.filter(item => 
+                (item.Kategori === "Tentang Sekolah" || item.Kategori === "Berita") && 
+                (item.Judul_Karya || "").toLowerCase().includes(search)
+            );
+            const mainNews = schoolItems[0];
+            const otherInfo = schoolItems.slice(1);
+
+            container.innerHTML = `
+                <div class="school-layout">
+                    <div class="flex flex-col gap-6">
+                        <h2 class="text-indigo-400 font-black text-[10px] uppercase tracking-widest">Warta SDN 1.2 Kambitin</h2>
+                        ${mainNews ? `
+                            <div class="glass-card rounded-[2.5rem] overflow-hidden p-6 border-2 border-indigo-500/20 shadow-2xl">
+                                <img src="${mainNews.Link_Thumbnail}" class="w-full aspect-[4/5] md:aspect-video object-cover rounded-[1.5rem] mb-6">
+                                <h3 class="text-3xl font-black text-white mb-4">${mainNews.Judul_Karya}</h3>
+                                <p class="text-slate-300 leading-relaxed mb-8">${mainNews.Deskripsi}</p>
+                                <a href="${mainNews.Link_Media}" target="_blank" class="inline-block bg-indigo-600 text-white px-10 py-4 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-indigo-500 transition-all active:scale-95 shadow-lg shadow-indigo-500/20">Baca Selengkapnya</a>
+                            </div>
+                        ` : '<div class="glass-card p-10 text-center text-slate-500 rounded-3xl italic">Informasi terbaru sedang diproses.</div>'}
+                    </div>
+
+                    <div class="flex flex-col gap-6">
+                        <h2 class="text-indigo-400 font-black text-[10px] uppercase tracking-widest">Informasi Penting</h2>
+                        <div class="grid grid-cols-1 gap-4">
+                            ${otherInfo.length > 0 ? otherInfo.map(item => `
+                                <div class="glass-card p-5 rounded-2xl flex gap-4 items-center group cursor-pointer border border-white/5 hover:border-indigo-500/30">
+                                    <div class="w-12 h-12 rounded-xl bg-indigo-500/10 flex items-center justify-center flex-shrink-0 text-indigo-400 group-hover:scale-110 transition-transform">
+                                        <i data-lucide="info" class="w-5 h-5"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-bold text-white text-sm group-hover:text-indigo-300 transition-colors">${item.Judul_Karya}</h4>
+                                        <p class="text-[10px] text-slate-500 line-clamp-1">${item.Deskripsi}</p>
+                                    </div>
+                                    <a href="${item.Link_Media}" target="_blank" class="p-2 rounded-lg bg-white/5 text-slate-400 hover:text-white hover:bg-indigo-600 transition-all">
+                                        <i data-lucide="external-link" class="w-4 h-4"></i>
+                                    </a>
+                                </div>
+                            `).join('') : '<div class="text-slate-500 text-xs italic">Data profil belum tersedia.</div>'}
+                        </div>
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function renderGridView(search) {
+            const container = document.getElementById('contentContainer');
+            container.innerHTML = `<div id="karyaGrid" class="bento-grid"></div>`;
+            const grid = document.getElementById('karyaGrid');
             
             const filtered = currentData.filter(item => {
+                const itemClass = detectClass(item);
                 const matchSearch = (item.Judul_Karya || "").toLowerCase().includes(search);
-                const matchCat = filterCat === 'all' || item.Kategori === filterCat;
-                const matchKelas = filterKelas === 'all' || item.Kelas === filterKelas;
-                return matchSearch && matchCat && matchKelas;
+                const matchCategory = activeCategory === 'all' || item.Kategori === activeCategory;
+                const matchClass = activeClass === 'all' || itemClass === activeClass;
+                return (item.Kategori === "Hasil Karya" || item.Kategori === "Game Interaktif") && matchSearch && matchCategory && matchClass;
             });
 
-            if (filtered.length === 0) {
-                grid.innerHTML = `<div class="col-span-full py-20 text-center opacity-40 italic text-slate-500">Data belum ditemukan...</div>`;
+            if(filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full py-20 text-center text-slate-500 italic">Tidak ada konten ditemukan.</div>`;
+                return;
             }
 
             filtered.forEach(item => {
+                const isGame = item.Kategori === "Game Interaktif";
+                const itemClass = detectClass(item);
                 const card = document.createElement('div');
-                card.className = "glass-card rounded-[2.5rem] overflow-hidden flex flex-col p-4 animate-in zoom-in duration-300";
-                const isGame = item.Kategori === 'Game Interaktif';
-                
+                card.className = "glass-card rounded-[2rem] overflow-hidden flex flex-col p-4 border border-white/5";
                 card.innerHTML = `
-                    <div class="relative overflow-hidden aspect-video rounded-[1.5rem] mb-6">
-                        <img src="${item.Link_Thumbnail || 'https://images.unsplash.com/photo-1594608661623-aa0bd3a67d28?q=80&w=800'}" 
-                             class="w-full h-full object-cover">
+                    <div class="relative overflow-hidden aspect-video rounded-[1.2rem] mb-4 bg-slate-800">
+                        <img src="${item.Link_Thumbnail || 'https://images.unsplash.com/photo-1594608661623-aa0bd3a67d28?q=80&w=800'}" class="w-full h-full object-cover">
+                        <div class="absolute top-2 right-2 px-3 py-1 bg-black/60 backdrop-blur-md rounded-full text-[9px] font-black text-indigo-300 uppercase">${itemClass}</div>
                     </div>
-                    <div class="px-4 pb-4 flex-grow flex flex-col">
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="text-[9px] bg-white/10 px-2 py-1 rounded text-slate-300 font-bold uppercase">${item.Kelas || 'Umum'}</span>
-                            <span class="text-[9px] text-indigo-400 font-black uppercase tracking-widest">${item.Kategori}</span>
+                    <div class="px-2 flex-1 flex flex-col">
+                        <h3 class="font-bold text-lg text-white mb-2 line-clamp-1">${item.Judul_Karya || 'Tanpa Judul'}</h3>
+                        <p class="text-xs text-slate-400 mb-6 line-clamp-2">${item.Deskripsi || '-'}</p>
+                        <div class="mt-auto">
+                            <a href="${item.Link_Media}" target="_blank" class="block w-full py-4 rounded-xl text-center text-[10px] font-black uppercase tracking-widest shadow-xl transition-all active:scale-95
+                                ${isGame ? 'bg-emerald-600 hover:bg-emerald-500' : 'bg-indigo-600 hover:bg-indigo-500'} text-white">
+                                ${isGame ? '🎮 Mainkan Game' : '👁️ Lihat Karya'}
+                            </a>
                         </div>
-                        <h3 class="font-bold text-lg text-white mb-2 leading-tight">${item.Judul_Karya}</h3>
-                        <p class="text-xs text-slate-400 mb-6 line-clamp-2">${item.Deskripsi || ''}</p>
-                        <a href="${item.Link_Media}" target="_blank" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-black py-4 rounded-xl text-center transition-all active:scale-95 text-xs tracking-widest flex items-center justify-center gap-2">
-                            <i data-lucide="${isGame ? 'play' : 'eye'}" class="w-4 h-4"></i>
-                            ${isGame ? 'MAINKAN' : 'LIHAT KARYA'}
-                        </a>
                     </div>
                 `;
                 grid.appendChild(card);
@@ -300,57 +367,35 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            createStars();
             fetchData();
-            lucide.createIcons();
+            document.getElementById('searchInput').addEventListener('input', renderContent);
             
-            document.getElementById('searchInput').addEventListener('input', render);
-
             document.querySelectorAll('.filter-pill').forEach(btn => {
                 btn.addEventListener('click', function() {
                     document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
-                    filterCat = this.dataset.category;
-                    filterKelas = 'all';
-                    document.querySelectorAll('.sub-filter-pill').forEach(b => {
-                        b.classList.remove('active');
-                        if(b.dataset.kelas === 'all') b.classList.add('active');
-                    });
-                    const roomContainer = document.getElementById('roomContainer');
-                    if (filterCat !== 'all') roomContainer.classList.remove('hidden');
-                    else roomContainer.classList.add('hidden');
-                    render();
+                    activeCategory = this.dataset.category;
+                    renderContent();
                 });
             });
 
-            document.querySelectorAll('.sub-filter-pill').forEach(btn => {
+            document.querySelectorAll('.class-pill').forEach(btn => {
                 btn.addEventListener('click', function() {
-                    document.querySelectorAll('.sub-filter-pill').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.class-pill').forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
-                    filterKelas = this.dataset.kelas;
-                    render();
+                    activeClass = this.dataset.class;
+                    renderContent();
                 });
             });
-            
-            const starsContainer = document.getElementById('stars');
-            for (let i = 0; i < 150; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                const size = Math.random() * 2 + 1;
-                star.style.width = size+'px'; star.style.height = size+'px';
-                star.style.left = Math.random()*100+'%'; star.style.top = Math.random()*100+'%';
-                star.style.setProperty('--duration', (Math.random()*3+2)+'s');
-                starsContainer.appendChild(star);
-            }
 
+            const slides = document.querySelectorAll('.slide');
             let idx = 0;
             setInterval(() => {
-                const slides = document.querySelectorAll('.slide');
-                if(slides.length > 0) {
-                    slides[idx].classList.remove('active');
-                    idx = (idx + 1) % slides.length;
-                    slides[idx].classList.add('active');
-                }
-            }, 6000);
+                slides[idx].classList.remove('active');
+                idx = (idx + 1) % slides.length;
+                slides[idx].classList.add('active');
+            }, 5000);
         });
     </script>
 </body>
