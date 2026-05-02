@@ -97,11 +97,11 @@
             
             <div class="flex items-center gap-3 cursor-pointer" onclick="setActiveTab('all')">
                 
-                <!-- [LOGO SEKOLAH DI SINI] -->
-                <!-- Ibu cukup ganti link di dalam src="..." di bawah ini dengan link logo Ibu -->
+                <!-- LOGO SEKOLAH -->
+                <!-- ID Gambar dari Drive Ibu sudah dimasukkan otomatis oleh script di bawah -->
                 <img id="school-logo" 
-                     src="https://drive.google.com/file/d/1V2UwCJtj-ZcvXPXRZm7Fw0_hzTaLpmT4/view?usp=sharing" 
-                     class="w-10 h-10 object-contain" 
+                     src="" 
+                     class="w-10 h-10 object-contain bg-white/10 rounded-lg p-1" 
                      alt="Logo Sekolah">
                 
                 <div>
@@ -139,7 +139,7 @@
         <div class="absolute inset-0 bg-cover bg-center opacity-40" style="background-image: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2000')"></div>
         <div class="hero-overlay"></div>
         <div class="relative z-10 text-center px-6">
-            <h1 class="text-4xl md:text-7xl font-black mb-4 tracking-tighter text-white">SD Negeri 1.2 Kambitin</h1>
+            <h1 class="text-4xl md:text-7xl font-black mb-4 tracking-tighter text-white uppercase">SD Negeri 1.2 Kambitin</h1>
             <p class="text-indigo-300 font-bold text-xs uppercase tracking-[0.4em] mb-4">Ruang Kreatif & Literasi Digital</p>
         </div>
     </header>
@@ -184,17 +184,29 @@
         let allData = [];
         let activeTab = 'all';
 
+        // Link Logo Sekolah Ibu
+        const LOGO_DRIVE_LINK = "https://drive.google.com/file/d/1V2UwCJtj-ZcvXPXRZm7Fw0_hzTaLpmT4/view?usp=sharing";
+
         function formatImageUrl(url) {
             if (!url) return 'https://images.unsplash.com/photo-1594608661623-aa0bd3a67d28?q=80&w=800';
+            // Deteksi link Google Drive
             if (url.includes('drive.google.com')) {
-                const idMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-                return idMatch ? `https://lh3.googleusercontent.com/d/${idMatch[1]}` : url;
+                // Ekstrak ID File
+                const idMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
+                if (idMatch && idMatch[1]) {
+                    // Gunakan thumbnail link dengan resolusi tinggi (s1000) agar tajam
+                    return `https://lh3.googleusercontent.com/d/${idMatch[1]}=s1000`;
+                }
             }
             return url;
         }
 
         async function loadData() {
             try {
+                // Pasang Logo di Header
+                const logoEl = document.getElementById('school-logo');
+                if(logoEl) logoEl.src = formatImageUrl(LOGO_DRIVE_LINK);
+
                 const response = await fetch(`${API_URL}?token=${API_TOKEN}`);
                 allData = await response.json();
                 document.getElementById('loadingState').classList.add('hidden');
@@ -235,7 +247,7 @@
                         <div class="flex flex-col gap-6">
                             ${news.slice(1, 4).map((item, idx) => `
                                 <div class="newspaper-item border-b border-white/10 pb-4" onclick="openNewsDetail(${idx + 1})">
-                                    <h4 class="font-serif text-xl text-white mb-2 leading-tight">${item.Judul_Karya}</h4>
+                                    <h4 class="font-serif text-xl text-white mb-2 leading-tight uppercase tracking-tighter">${item.Judul_Karya}</h4>
                                     <p class="text-xs text-slate-500 line-clamp-2">${item.Deskripsi}</p>
                                 </div>
                             `).join('')}
@@ -247,7 +259,7 @@
         function renderProfil(container) {
             const items = allData.filter(item => item.Kategori === "Tentang Sekolah");
             container.innerHTML = `<div class="max-w-2xl mx-auto flex flex-col gap-6">
-                ${items.map(p => `<div class="glass-card p-8 rounded-3xl"><h3 class="text-xl font-bold text-indigo-400 mb-4">${p.Judul_Karya}</h3><div class="text-slate-300 font-newspaper text-lg whitespace-pre-wrap">${p.Deskripsi}</div></div>`).join('')}
+                ${items.map(p => `<div class="glass-card p-8 rounded-3xl"><h3 class="text-xl font-bold text-indigo-400 mb-4 uppercase tracking-widest text-xs">${p.Judul_Karya}</h3><div class="text-slate-300 font-newspaper text-lg whitespace-pre-wrap">${p.Deskripsi}</div></div>`).join('')}
             </div>`;
         }
 
@@ -257,8 +269,8 @@
                 ${items.map(item => `
                     <div class="glass-card rounded-3xl overflow-hidden p-4 flex flex-col">
                         <img src="${formatImageUrl(item.Link_Thumbnail)}" class="aspect-video object-cover rounded-2xl mb-4">
-                        <h3 class="font-bold text-white mb-2 text-sm">${item.Judul_Karya}</h3>
-                        ${item.Link_Media ? `<a href="${item.Link_Media}" target="_blank" class="mt-auto block w-full py-2 bg-indigo-600 text-center rounded-xl text-[10px] font-black text-white uppercase">Buka</a>` : ''}
+                        <h3 class="font-bold text-white mb-2 text-sm uppercase tracking-tighter">${item.Judul_Karya}</h3>
+                        ${item.Link_Media ? `<a href="${item.Link_Media}" target="_blank" class="mt-auto block w-full py-2 bg-indigo-600 text-center rounded-xl text-[10px] font-black text-white uppercase tracking-widest">Buka</a>` : ''}
                     </div>`).join('')}
             </div>`;
         }
