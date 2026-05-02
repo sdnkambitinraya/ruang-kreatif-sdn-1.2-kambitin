@@ -128,15 +128,16 @@
     <nav class="fixed top-0 w-full z-50 px-6 py-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center bg-slate-900/60 backdrop-blur-xl rounded-2xl px-6 py-3 border border-white/10 shadow-2xl">
             <div class="flex items-center gap-3 cursor-pointer" onclick="setActiveTab('all')">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/9/9c/Logo_of_Ministry_of_Education_and_Culture_of_Republic_of_Indonesia.svg" class="w-8 h-8">
+                <!-- GANTI LINK DI BAWAH INI DENGAN LOGO SEKOLAH IBU -->
+                <img id="school-logo" src="https://upload.wikimedia.org/wikipedia/commons/9/9c/Logo_of_Ministry_of_Education_and_Culture_of_Republic_of_Indonesia.svg" class="w-10 h-10 object-contain" alt="Logo Sekolah">
                 <div>
                     <h1 class="font-extrabold text-sm text-white leading-tight">SD Negeri 1.2 Kambitin</h1>
                     <span class="text-[7px] uppercase tracking-widest text-indigo-400 font-black">Portal Resmi</span>
                 </div>
             </div>
             
+            <!-- Sosmed Row (Header) -->
             <div class="hidden lg:flex gap-2">
-                <!-- Sosmed Header -->
                 <a href="https://facebook.com" target="_blank" title="Facebook" class="sosmed-link p-2 rounded-lg text-slate-400">
                     <i data-lucide="facebook" class="w-4 h-4"></i>
                 </a>
@@ -201,13 +202,21 @@
 
     <footer class="border-t border-white/5 py-12 text-center">
         <div class="flex justify-center gap-4 mb-6">
-            <a href="https://facebook.com" target="_blank" class="sosmed-link p-3 rounded-xl text-slate-400"><i data-lucide="facebook" class="w-5 h-5"></i></a>
-            <a href="https://instagram.com" target="_blank" class="sosmed-link p-3 rounded-xl text-slate-400"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+            <a href="https://facebook.com" target="_blank" class="sosmed-link p-3 rounded-xl text-slate-400">
+                <i data-lucide="facebook" class="w-5 h-5"></i>
+            </a>
+            <a href="https://www.instagram.com/sdn1.2kambitinn?igsh=dncweXoyMnFrY3hp" target="_blank" class="sosmed-link p-3 rounded-xl text-slate-400">
+                <i data-lucide="instagram" class="w-5 h-5"></i>
+            </a>
             <a href="https://www.tiktok.com/@sdn.1.2.kambitin?_r=1&_t=ZS-95sPz1f9Ryi" target="_blank" class="sosmed-link p-3 rounded-xl text-slate-400">
                 <svg viewBox="0 0 24 24" class="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.98-.23-2.81.33-.85.51-1.44 1.43-1.58 2.43-.09.76.1 1.53.52 2.17.47.73 1.24 1.25 2.1 1.46.74.15 1.55.04 2.18-.38.74-.49 1.21-1.29 1.32-2.17.06-2.31.02-4.62.03-6.93 0-4.53 0-9.06 0-13.59z"/></svg>
             </a>
-            <a href="https://youtube.com" target="_blank" class="sosmed-link p-3 rounded-xl text-slate-400"><i data-lucide="youtube" class="w-5 h-5"></i></a>
-            <a href="mailto:sdn1.2kambitin@gmail.com" class="sosmed-link p-3 rounded-xl text-slate-400"><i data-lucide="mail" class="w-5 h-5"></i></a>
+            <a href="https://youtube.com/@sdnegeri1.2kambitin?si=LAarIoJkLAewmGkJ" target="_blank" class="sosmed-link p-3 rounded-xl text-slate-400">
+                <i data-lucide="youtube" class="w-5 h-5"></i>
+            </a>
+            <a href="mailto:sdn1.2kambitin@gmail.com" class="sosmed-link p-3 rounded-xl text-slate-400">
+                <i data-lucide="mail" class="w-5 h-5"></i>
+            </a>
         </div>
         <p class="text-slate-600 text-[10px] uppercase tracking-widest">
             &copy; 2024 SD Negeri 1.2 Kambitin • Tabalong, Kalimantan Selatan
@@ -227,6 +236,7 @@
         let allData = [];
         let activeTab = 'all';
 
+        // Fungsi pembantu untuk mengubah link Google Drive menjadi link gambar langsung
         function formatImageUrl(url) {
             if (!url) return 'https://images.unsplash.com/photo-1594608661623-aa0bd3a67d28?q=80&w=800';
             if (url.includes('drive.google.com')) {
@@ -234,6 +244,17 @@
                 return idMatch ? `https://lh3.googleusercontent.com/d/${idMatch[1]}` : url;
             }
             return url;
+        }
+
+        // Jalankan penggantian logo saat halaman dimuat
+        function setupLogos() {
+            const logoImg = document.getElementById('school-logo');
+            // Jika Ibu punya URL logo sekolah, ganti string di bawah ini
+            // Contoh: const myLogo = "https://lh3.googleusercontent.com/d/ID_FILE_LOGO_IBU";
+            const myLogo = ""; 
+            if (myLogo) {
+                logoImg.src = formatImageUrl(myLogo);
+            }
         }
 
         function getDownloadUrl(url) {
@@ -256,6 +277,7 @@
                 const response = await fetch(`${API_URL}?token=${API_TOKEN}`);
                 allData = await response.json();
                 document.getElementById('loadingState').classList.add('hidden');
+                setupLogos(); // Atur logo sekolah
                 renderView();
             } catch (e) {
                 console.error("Gagal memuat data", e);
