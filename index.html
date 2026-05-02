@@ -99,6 +99,18 @@
 
         #lightbox { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.95); align-items: center; justify-content: center; padding: 20px; }
         #lightbox.active { display: flex; animation: fadeIn 0.3s ease; }
+
+        .sosmed-link {
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .sosmed-link:hover {
+            transform: translateY(-3px);
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -119,6 +131,14 @@
                     <span class="text-[7px] uppercase tracking-widest text-indigo-400 font-black">Portal Resmi</span>
                 </div>
             </div>
+            
+            <div class="hidden lg:flex gap-4">
+                <!-- Sosmed Header -->
+                <a href="https://facebook.com" target="_blank" class="sosmed-link p-2 rounded-lg text-slate-400"><i data-lucide="facebook" class="w-4 h-4"></i></a>
+                <a href="https://instagram.com" target="_blank" class="sosmed-link p-2 rounded-lg text-slate-400"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+                <a href="https://youtube.com" target="_blank" class="sosmed-link p-2 rounded-lg text-slate-400"><i data-lucide="youtube" class="w-4 h-4"></i></a>
+            </div>
+
             <div class="hidden md:flex gap-6 text-[10px] font-black uppercase tracking-widest">
                 <button onclick="setActiveTab('all')" class="hover:text-indigo-400 transition">Beranda</button>
                 <button onclick="setActiveTab('Profil')" class="hover:text-indigo-400 transition">Profil</button>
@@ -167,8 +187,19 @@
 
     </main>
 
-    <footer class="border-t border-white/5 py-10 text-center text-slate-600 text-[10px] uppercase tracking-widest">
-        &copy; 2024 SD Negeri 1.2 Kambitin • Tabalong, Kalimantan Selatan
+    <footer class="border-t border-white/5 py-12 text-center">
+        <div class="flex justify-center gap-4 mb-6">
+            <a href="https://facebook.com" target="_blank" class="sosmed-link p-3 rounded-xl text-slate-400"><i data-lucide="facebook" class="w-5 h-5"></i></a>
+            <a href="https://instagram.com" target="_blank" class="sosmed-link p-3 rounded-xl text-slate-400"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+            <a href="https://youtube.com" target="_blank" class="sosmed-link p-3 rounded-xl text-slate-400"><i data-lucide="youtube" class="w-5 h-5"></i></a>
+            <a href="mailto:sdn1.2kambitin@gmail.com" class="sosmed-link p-3 rounded-xl text-slate-400"><i data-lucide="mail" class="w-5 h-5"></i></a>
+        </div>
+        <p class="text-slate-600 text-[10px] uppercase tracking-widest">
+            &copy; 2024 SD Negeri 1.2 Kambitin • Tabalong, Kalimantan Selatan
+        </p>
+        <p class="text-slate-700 text-[8px] mt-2 uppercase tracking-widest italic">
+            Developed by Mrs. Novi Rosita, S.Pd
+        </p>
     </footer>
 
     <script>
@@ -390,7 +421,6 @@
             document.getElementById('tab-menu').classList.remove('hidden');
         }
 
-        // Jalankan saat dokumen siap
         window.onload = loadData;
     </script>
 </body>
