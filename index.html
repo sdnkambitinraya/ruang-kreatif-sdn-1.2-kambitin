@@ -51,40 +51,42 @@
         .filter-pill { transition: all 0.3s ease; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; font-weight: 700; cursor: pointer; }
         .filter-pill.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 0 20px rgba(124, 58, 237, 0.4); }
         
-        /* GAYA TAMPILAN KORAN */
+        /* GAYA TAMPILAN KORAN (ARTIKEL) */
+        .newspaper-header {
+            text-align: center;
+            border-bottom: 4px double rgba(255,255,255,0.2);
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+
         .newspaper-container {
-            border-top: 2px solid rgba(255,255,255,0.1);
-            border-bottom: 2px solid rgba(255,255,255,0.1);
-            padding: 2rem 0;
-            margin-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding: 2.5rem 0;
         }
 
         .newspaper-grid {
             display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 2.5rem;
+            grid-template-columns: 1.8fr 1.2fr;
+            gap: 3rem;
         }
 
-        @media (max-width: 768px) {
-            .newspaper-grid { grid-template-columns: 1fr; }
+        @media (max-width: 1024px) {
+            .newspaper-grid { grid-template-columns: 1fr; gap: 2rem; }
         }
 
         .col-divider {
             border-right: 1px solid rgba(255,255,255,0.1);
-            padding-right: 2rem;
-        }
-
-        @media (max-width: 768px) {
-            .col-divider { border-right: none; padding-right: 0; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 2rem; }
+            padding-right: 2.5rem;
         }
 
         .newspaper-item {
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        .newspaper-item:hover h3, .newspaper-item:hover h4 { color: var(--primary); }
+        .newspaper-item:hover h3, .newspaper-item:hover h4 { color: var(--primary); text-decoration: underline; }
 
-        /* SOSMED - Perbaikan Ikon agar seragam */
+        /* SOSMED */
         .sosmed-link {
             transition: all 0.3s ease;
             background: rgba(255,255,255,0.05);
@@ -105,7 +107,7 @@
             width: 20px;
             height: 20px;
             object-fit: contain;
-            filter: brightness(0) invert(1); /* Membuat ikon berwarna putih */
+            filter: brightness(0) invert(1); 
         }
 
         .loader { width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.1); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
@@ -132,15 +134,15 @@
             <div class="flex items-center gap-4 cursor-pointer" onclick="setActiveTab('all')">
                 <img id="school-logo" 
                      src="" 
-                     class="w-14 h-14 object-contain bg-white/5 rounded-xl p-1" 
+                     class="w-12 h-12 object-contain bg-white/5 rounded-xl p-1" 
                      alt="Logo Sekolah">
                 <div>
-                    <h1 class="font-extrabold text-base text-white leading-tight">SD Negeri 1.2 Kambitin</h1>
-                    <span class="text-[8px] uppercase tracking-widest text-indigo-400 font-black">Portal Resmi</span>
+                    <h1 class="font-extrabold text-sm text-white leading-tight">SD Negeri 1.2 Kambitin</h1>
+                    <span class="text-[7px] uppercase tracking-widest text-indigo-400 font-black">Portal Kreativitas Digital</span>
                 </div>
             </div>
             
-            <!-- IKON SOSIAL MEDIA (HEADER) - DIPERBAIKI -->
+            <!-- SOSIAL MEDIA -->
             <div class="hidden lg:flex gap-2">
                 <a href="https://facebook.com/sdn12kambitin" target="_blank" class="sosmed-link" title="Facebook">
                     <img src="https://img.icons8.com/ios-filled/50/ffffff/facebook-new.png" class="sosmed-icon-img" alt="Facebook">
@@ -156,10 +158,10 @@
                 </a>
             </div>
 
-            <div class="hidden md:flex gap-6 text-[10px] font-black uppercase tracking-widest">
+            <div class="flex gap-4 text-[9px] font-black uppercase tracking-widest">
                 <button onclick="setActiveTab('all')" class="hover:text-indigo-400 transition">Beranda</button>
-                <button onclick="setActiveTab('Profil')" class="hover:text-indigo-400 transition">Profil</button>
-                <button onclick="setActiveTab('Hasil Karya')" class="hover:text-indigo-400 transition">Karya</button>
+                <button onclick="setActiveTab('Berita')" class="hover:text-indigo-400 transition">Artikel</button>
+                <button onclick="setActiveTab('Hasil Karya')" class="hover:text-indigo-400 transition hidden md:block">Karya</button>
             </div>
         </div>
     </nav>
@@ -168,22 +170,26 @@
         <div class="absolute inset-0 bg-cover bg-center opacity-40" style="background-image: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2000')"></div>
         <div class="hero-overlay"></div>
         <div class="relative z-10 text-center px-6">
-            <h1 class="text-4xl md:text-7xl font-black mb-4 tracking-tighter text-white uppercase">SD Negeri 1.2 Kambitin</h1>
-            <p class="text-indigo-300 font-bold text-xs uppercase tracking-[0.4em] mb-4">Ruang Kreatif & Literasi Digital</p>
+            <h1 class="text-5xl md:text-8xl font-black mb-4 tracking-tighter text-white uppercase">RUANG KREATIF</h1>
+            <p class="text-indigo-300 font-bold text-[10px] md:text-sm uppercase tracking-[0.5em] mb-4 text-shadow-xl">
+                Dari Ruang Kelas ke Cakrawala Dunia
+            </p>
+            <div class="h-px w-24 bg-indigo-500 mx-auto mt-6 opacity-50"></div>
         </div>
     </header>
 
     <main class="max-w-7xl mx-auto px-6 py-12 relative z-10">
         <div id="tab-menu" class="flex flex-wrap justify-center gap-3 mb-10">
-            <button class="filter-pill active px-8 py-3 rounded-xl text-[10px] uppercase tracking-widest" data-category="all" onclick="setActiveTab('all')">Beranda</button>
-            <button class="filter-pill px-8 py-3 rounded-xl text-[10px] uppercase tracking-widest" data-category="Profil" onclick="setActiveTab('Profil')">🏫 Profil</button>
-            <button class="filter-pill px-8 py-3 rounded-xl text-[10px] uppercase tracking-widest" data-category="Hasil Karya" onclick="setActiveTab('Hasil Karya')">🎨 Karya</button>
+            <button class="filter-pill active px-8 py-3 rounded-xl text-[10px] uppercase tracking-widest" data-category="all" onclick="setActiveTab('all')">🏠 Beranda</button>
+            <button class="filter-pill px-8 py-3 rounded-xl text-[10px] uppercase tracking-widest" data-category="Berita" onclick="setActiveTab('Berita')">📰 Artikel</button>
+            <button class="filter-pill px-8 py-3 rounded-xl text-[10px] uppercase tracking-widest" data-category="Hasil Karya" onclick="setActiveTab('Hasil Karya')">🎨 Karya Siswa</button>
             <button class="filter-pill px-8 py-3 rounded-xl text-[10px] uppercase tracking-widest" data-category="Game Interaktif" onclick="setActiveTab('Game Interaktif')">🎮 Game</button>
+            <button class="filter-pill px-8 py-3 rounded-xl text-[10px] uppercase tracking-widest" data-category="Profil" onclick="setActiveTab('Profil')">🏫 Profil</button>
         </div>
 
         <div id="news-detail-view" class="hidden fade-in max-w-4xl mx-auto mb-20">
             <button onclick="closeNewsDetail()" class="mb-8 flex items-center gap-2 text-slate-400 hover:text-indigo-400 transition font-bold text-sm">
-                Kembali ke Beranda
+                ← Kembali
             </button>
             <div id="news-content-full"></div>
         </div>
@@ -198,7 +204,6 @@
 
     <footer class="border-t border-white/5 py-12 text-center mt-20">
         <div class="flex justify-center gap-4 mb-6">
-             <!-- IKON SOSIAL MEDIA (FOOTER) - DIPERBAIKI -->
              <a href="https://facebook.com/sdn12kambitin" target="_blank" class="sosmed-link">
                  <img src="https://img.icons8.com/ios-filled/50/ffffff/facebook-new.png" class="sosmed-icon-img" alt="Facebook">
              </a>
@@ -223,6 +228,11 @@
         let activeTab = 'all';
 
         const LOGO_DRIVE_LINK = "https://drive.google.com/file/d/1V2UwCJtj-ZcvXPXRZm7Fw0_hzTaLpmT4/view?usp=sharing";
+
+        function getTodayDate() {
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date().toLocaleDateString('id-ID', options);
+        }
 
         function formatImageUrl(url) {
             if (!url) return 'https://images.unsplash.com/photo-1594608661623-aa0bd3a67d28?q=80&w=800';
@@ -260,29 +270,93 @@
             const container = document.getElementById('main-content-area');
             if (!container) return;
             container.innerHTML = '';
-            if (activeTab === 'all') renderNewspaperView(container);
+            if (activeTab === 'all') renderHome(container);
+            else if (activeTab === 'Berita') renderNewspaperView(container);
             else if (activeTab === 'Profil') renderProfil(container);
             else renderGrid(container, activeTab);
+        }
+
+        function renderHome(container) {
+            // Bagian Profil (Sambutan)
+            const profil = allData.find(item => item.Kategori === "Tentang Sekolah") || {Judul_Karya: "Selamat Datang", Deskripsi: "SD Negeri 1.2 Kambitin adalah wadah literasi digital bagi siswa."};
+            const karyaTerbaru = allData.filter(item => item.Kategori === "Hasil Karya").slice(0, 3);
+
+            container.innerHTML = `
+                <div class="flex flex-col gap-16">
+                    <!-- SAMBUTAN / PROFIL SINGKAT -->
+                    <section class="glass-card p-10 rounded-[3rem] border-indigo-500/20 relative overflow-hidden">
+                        <div class="absolute -top-24 -right-24 w-64 h-64 bg-indigo-600/10 blur-[100px] rounded-full"></div>
+                        <div class="relative z-10">
+                            <span class="text-indigo-400 font-black text-[10px] uppercase tracking-widest mb-4 block">Tentang Kami</span>
+                            <h2 class="font-serif text-4xl md:text-5xl text-white mb-6 uppercase tracking-tighter">${profil.Judul_Karya}</h2>
+                            <div class="font-newspaper text-slate-300 text-xl md:text-2xl leading-relaxed italic whitespace-pre-wrap">${profil.Deskripsi}</div>
+                        </div>
+                    </section>
+
+                    <!-- PREVIEW KARYA TERBARU -->
+                    <section>
+                        <div class="flex justify-between items-end mb-8 border-b border-white/10 pb-4">
+                            <div>
+                                <h3 class="text-white font-black text-2xl uppercase tracking-tighter">Karya Siswa Terbaru</h3>
+                                <p class="text-slate-500 text-xs uppercase tracking-widest mt-1">Kreativitas tanpa batas di ruang digital</p>
+                            </div>
+                            <button onclick="setActiveTab('Hasil Karya')" class="text-indigo-400 font-bold text-[10px] uppercase tracking-widest hover:underline">Lihat Semua →</button>
+                        </div>
+                        <div class="bento-grid">
+                            ${karyaTerbaru.map(item => `
+                                <div class="glass-card rounded-3xl overflow-hidden p-4">
+                                    <img src="${formatImageUrl(item.Link_Thumbnail)}" class="aspect-square object-cover rounded-2xl mb-4 grayscale hover:grayscale-0 transition-all duration-500">
+                                    <h3 class="font-bold text-white text-sm uppercase tracking-tighter">${item.Judul_Karya}</h3>
+                                </div>`).join('')}
+                        </div>
+                    </section>
+                </div>`;
         }
 
         function renderNewspaperView(container) {
             const news = allData.filter(item => item.Kategori === "Berita");
             if (news.length === 0) return;
+            
             const utama = news[0];
+            const highlights = news.slice(1, 6);
+
             container.innerHTML = `
+                <div class="newspaper-header">
+                    <h2 class="font-serif text-6xl md:text-8xl text-white tracking-tighter uppercase font-black">WARTA SEKOLAH</h2>
+                    <div class="flex justify-between items-center mt-2 px-1 border-t border-white/20 pt-2">
+                        <span class="text-[10px] font-black uppercase text-indigo-400 tracking-widest">Edisi Digital No. 1.2</span>
+                        <span class="text-[10px] font-black uppercase text-slate-400 tracking-widest">${getTodayDate()}</span>
+                    </div>
+                </div>
+
                 <div class="newspaper-container">
                     <div class="newspaper-grid">
+                        <!-- KOLOM UTAMA (KIRI) -->
                         <div class="col-divider newspaper-item" onclick="openNewsDetail(0)">
-                            <h3 class="font-serif text-4xl text-white mb-4 uppercase tracking-tighter leading-tight">${utama.Judul_Karya}</h3>
-                            <img src="${formatImageUrl(utama.Link_Thumbnail)}" class="w-full aspect-video object-cover rounded-xl mb-6 shadow-2xl">
-                            <p class="font-newspaper text-slate-300 text-xl leading-relaxed line-clamp-6 italic">${utama.Deskripsi}</p>
+                            <div class="mb-4">
+                                <span class="bg-indigo-600 text-white text-[10px] font-black px-3 py-1 uppercase tracking-widest rounded">Artikel Utama</span>
+                            </div>
+                            <h3 class="font-serif text-5xl text-white mb-6 uppercase tracking-tighter leading-[0.95]">${utama.Judul_Karya}</h3>
+                            <img src="${formatImageUrl(utama.Link_Thumbnail)}" class="w-full aspect-video object-cover rounded-xl mb-6 shadow-2xl grayscale-[20%] hover:grayscale-0 transition-all duration-500">
+                            <p class="font-newspaper text-slate-300 text-2xl leading-relaxed italic mb-4 line-clamp-6 underline decoration-white/10 underline-offset-8">
+                                ${utama.Deskripsi}
+                            </p>
                         </div>
+
+                        <!-- KOLOM HIGHLIGHT (KANAN) -->
                         <div class="flex flex-col gap-8">
-                            ${news.slice(1, 4).map((item, idx) => `
-                                <div class="newspaper-item border-b border-white/10 pb-6 last:border-0" onclick="openNewsDetail(${idx + 1})">
-                                    <h4 class="font-serif text-2xl text-white mb-3 leading-snug uppercase tracking-tighter">${item.Judul_Karya}</h4>
-                                    <p class="text-sm text-slate-500 line-clamp-3 font-newspaper italic">${item.Deskripsi}</p>
+                            <h5 class="text-indigo-400 font-black text-[11px] uppercase tracking-[0.3em] border-b border-white/20 pb-2 mb-2">Highlight Terbaru</h5>
+                            ${highlights.map((item, idx) => `
+                                <div class="newspaper-item flex gap-5 group" onclick="openNewsDetail(${idx + 1})">
+                                    <div class="w-24 h-24 flex-shrink-0">
+                                        <img src="${formatImageUrl(item.Link_Thumbnail)}" class="w-full h-full object-cover rounded-lg shadow-lg group-hover:scale-105 transition-transform">
+                                    </div>
+                                    <div class="flex flex-col justify-center">
+                                        <h4 class="font-serif text-xl text-white mb-2 leading-tight uppercase tracking-tighter line-clamp-2">${item.Judul_Karya}</h4>
+                                        <p class="text-xs text-slate-500 font-newspaper line-clamp-2 italic">${item.Deskripsi}</p>
+                                    </div>
                                 </div>
+                                <div class="h-px bg-white/10 w-full last:hidden"></div>
                             `).join('')}
                         </div>
                     </div>
