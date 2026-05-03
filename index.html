@@ -51,6 +51,40 @@
         .filter-pill { transition: all 0.3s ease; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; font-weight: 700; cursor: pointer; }
         .filter-pill.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 0 20px rgba(124, 58, 237, 0.4); }
         
+        /* GAYA TAMPILAN KORAN */
+        .newspaper-container {
+            border-top: 2px solid rgba(255,255,255,0.1);
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+
+        .newspaper-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .newspaper-grid { grid-template-columns: 1fr; }
+        }
+
+        .col-divider {
+            border-right: 1px solid rgba(255,255,255,0.1);
+            padding-right: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .col-divider { border-right: none; padding-right: 0; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 2rem; }
+        }
+
+        .newspaper-item {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .newspaper-item:hover h3, .newspaper-item:hover h4 { color: var(--primary); }
+
+        /* SOSMED - Perbaikan Ikon agar seragam */
         .sosmed-link {
             transition: all 0.3s ease;
             background: rgba(255,255,255,0.05);
@@ -58,8 +92,8 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 36px;
-            height: 36px;
+            width: 38px;
+            height: 38px;
             border-radius: 10px;
         }
         .sosmed-link:hover {
@@ -68,10 +102,10 @@
             border-color: var(--primary);
         }
         .sosmed-icon-img {
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             object-fit: contain;
-            filter: brightness(0) invert(1); 
+            filter: brightness(0) invert(1); /* Membuat ikon berwarna putih */
         }
 
         .loader { width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.1); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
@@ -106,20 +140,19 @@
                 </div>
             </div>
             
-            <!-- IKON SOSIAL MEDIA (HEADER) -->
-            <!-- Ibu bisa ganti link href="..." dengan link akun sekolah Ibu -->
+            <!-- IKON SOSIAL MEDIA (HEADER) - DIPERBAIKI -->
             <div class="hidden lg:flex gap-2">
-                <a href="https://facebook.com/sdn12kambitin" target="_blank" class="sosmed-link">
-                    <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" class="sosmed-icon-img" alt="Facebook">
+                <a href="https://facebook.com/sdn12kambitin" target="_blank" class="sosmed-link" title="Facebook">
+                    <img src="https://img.icons8.com/ios-filled/50/ffffff/facebook-new.png" class="sosmed-icon-img" alt="Facebook">
                 </a>
-                <a href="https://www.instagram.com/sdn1.2kambitinn?igsh=dncweXoyMnFrY3hp" target="_blank" class="sosmed-link">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" class="sosmed-icon-img" alt="Instagram">
+                <a href="https://www.instagram.com/sdn1.2kambitinn?igsh=dncweXoyMnFrY3hp" target="_blank" class="sosmed-link" title="Instagram">
+                    <img src="https://img.icons8.com/ios-filled/50/ffffff/instagram-new.png" class="sosmed-icon-img" alt="Instagram">
                 </a>
-                <a href="https://www.tiktok.com/@sdn.1.2.kambitin?_r=1&_t=ZS-95sPz1f9Ryi" target="_blank" class="sosmed-link">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" class="sosmed-icon-img" alt="TikTok">
+                <a href="https://www.tiktok.com/@sdn.1.2.kambitin?_r=1&_t=ZS-95sPz1f9Ryi" target="_blank" class="sosmed-link" title="TikTok">
+                    <img src="https://img.icons8.com/ios-filled/50/ffffff/tiktok.png" class="sosmed-icon-img" alt="TikTok">
                 </a>
-                <a href="https://youtube.com/@sdnegeri1.2kambitin?si=LAarIoJkLAewmGkJ" target="_blank" class="sosmed-link">
-                    <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" class="sosmed-icon-img" alt="YouTube">
+                <a href="https://youtube.com/@sdnegeri1.2kambitin?si=LAarIoJkLAewmGkJ" target="_blank" class="sosmed-link" title="YouTube">
+                    <img src="https://img.icons8.com/ios-filled/50/ffffff/youtube-play.png" class="sosmed-icon-img" alt="YouTube">
                 </a>
             </div>
 
@@ -163,21 +196,20 @@
         <div id="main-content-area" class="fade-in"></div>
     </main>
 
-    <!-- FOOTER SOSIAL MEDIA -->
     <footer class="border-t border-white/5 py-12 text-center mt-20">
         <div class="flex justify-center gap-4 mb-6">
-             <!-- IKON SOSIAL MEDIA (FOOTER) -->
-             <a href="https://drive.google.com/file/d/1YiD9BcSlkT0lgC7da9YoStSaGj_rmY-X/view?usp=sharing" target="_blank" class="sosmed-link">
-                 <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" class="sosmed-icon-img" alt="Facebook">
+             <!-- IKON SOSIAL MEDIA (FOOTER) - DIPERBAIKI -->
+             <a href="https://facebook.com/sdn12kambitin" target="_blank" class="sosmed-link">
+                 <img src="https://img.icons8.com/ios-filled/50/ffffff/facebook-new.png" class="sosmed-icon-img" alt="Facebook">
              </a>
              <a href="https://www.instagram.com/sdn1.2kambitinn?igsh=dncweXoyMnFrY3hp" target="_blank" class="sosmed-link">
-                 <img src="https://drive.google.com/file/d/1NiWduSlmRKCllyJMxcnwDjaNWM13izZh/view?usp=sharing" class="sosmed-icon-img" alt="Instagram">
+                 <img src="https://img.icons8.com/ios-filled/50/ffffff/instagram-new.png" class="sosmed-icon-img" alt="Instagram">
              </a>
              <a href="https://www.tiktok.com/@sdn.1.2.kambitin?_r=1&_t=ZS-95sPz1f9Ryi" target="_blank" class="sosmed-link">
-                 <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" class="sosmed-icon-img" alt="TikTok">
+                 <img src="https://img.icons8.com/ios-filled/50/ffffff/tiktok.png" class="sosmed-icon-img" alt="TikTok">
              </a>
-             <a href="https://https://drive.google.com/file/d/1PAArG8fTxfxYbwuYXTHJ-goKmzbfE-zq/view?usp=sharing" target="_blank" class="sosmed-link">
-                 <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" class="sosmed-icon-img" alt="YouTube">
+             <a href="https://youtube.com/@sdnegeri1.2kambitin?si=LAarIoJkLAewmGkJ" target="_blank" class="sosmed-link">
+                 <img src="https://img.icons8.com/ios-filled/50/ffffff/youtube-play.png" class="sosmed-icon-img" alt="YouTube">
              </a>
         </div>
         <p class="text-slate-600 text-[10px] uppercase tracking-widest italic">&copy; 2024 SD Negeri 1.2 Kambitin • Tabalong, Kalsel</p>
@@ -241,15 +273,15 @@
                 <div class="newspaper-container">
                     <div class="newspaper-grid">
                         <div class="col-divider newspaper-item" onclick="openNewsDetail(0)">
-                            <h3 class="font-serif text-3xl text-white mb-4 uppercase tracking-tighter">${utama.Judul_Karya}</h3>
-                            <img src="${formatImageUrl(utama.Link_Thumbnail)}" class="w-full aspect-video object-cover rounded-xl mb-4">
-                            <p class="font-newspaper text-slate-300 text-lg line-clamp-6">${utama.Deskripsi}</p>
+                            <h3 class="font-serif text-4xl text-white mb-4 uppercase tracking-tighter leading-tight">${utama.Judul_Karya}</h3>
+                            <img src="${formatImageUrl(utama.Link_Thumbnail)}" class="w-full aspect-video object-cover rounded-xl mb-6 shadow-2xl">
+                            <p class="font-newspaper text-slate-300 text-xl leading-relaxed line-clamp-6 italic">${utama.Deskripsi}</p>
                         </div>
-                        <div class="flex flex-col gap-6">
+                        <div class="flex flex-col gap-8">
                             ${news.slice(1, 4).map((item, idx) => `
-                                <div class="newspaper-item border-b border-white/10 pb-4" onclick="openNewsDetail(${idx + 1})">
-                                    <h4 class="font-serif text-xl text-white mb-2 leading-tight uppercase tracking-tighter">${item.Judul_Karya}</h4>
-                                    <p class="text-xs text-slate-500 line-clamp-2">${item.Deskripsi}</p>
+                                <div class="newspaper-item border-b border-white/10 pb-6 last:border-0" onclick="openNewsDetail(${idx + 1})">
+                                    <h4 class="font-serif text-2xl text-white mb-3 leading-snug uppercase tracking-tighter">${item.Judul_Karya}</h4>
+                                    <p class="text-sm text-slate-500 line-clamp-3 font-newspaper italic">${item.Deskripsi}</p>
                                 </div>
                             `).join('')}
                         </div>
@@ -280,9 +312,9 @@
             const newsList = allData.filter(item => item.Kategori === "Berita");
             const item = newsList[index];
             document.getElementById('news-content-full').innerHTML = `
-                <img src="${formatImageUrl(item.Link_Thumbnail)}" class="w-full rounded-3xl mb-8">
-                <h1 class="font-serif text-4xl text-white mb-6 uppercase tracking-tighter">${item.Judul_Karya}</h1>
-                <div class="font-newspaper text-slate-200 text-xl leading-relaxed whitespace-pre-wrap">${item.Deskripsi}</div>`;
+                <img src="${formatImageUrl(item.Link_Thumbnail)}" class="w-full rounded-3xl mb-8 shadow-2xl border border-white/10">
+                <h1 class="font-serif text-5xl text-white mb-6 uppercase tracking-tighter leading-tight">${item.Judul_Karya}</h1>
+                <div class="font-newspaper text-slate-200 text-2xl leading-relaxed whitespace-pre-wrap italic">${item.Deskripsi}</div>`;
             document.getElementById('main-content-area').classList.add('hidden');
             document.getElementById('tab-menu').classList.add('hidden');
             document.getElementById('news-detail-view').classList.remove('hidden');
