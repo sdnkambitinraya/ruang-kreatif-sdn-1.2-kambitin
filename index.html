@@ -6,6 +6,7 @@
     <title>SD Negeri 1.2 Kambitin</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Playfair+Display:wght@700;900&family=Crimson+Pro:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root { 
@@ -72,19 +73,11 @@
         .filter-pill { transition: all 0.3s ease; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; font-weight: 700; cursor: pointer; }
         .filter-pill.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 0 20px rgba(124, 58, 237, 0.4); }
         
-        .newspaper-header {
-            text-align: center;
-            border-bottom: 4px double rgba(255,255,255,0.2);
-            padding-bottom: 1rem;
-            margin-bottom: 2rem;
-        }
-
         .loader { width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.1); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
         
         .bento-grid { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
         .fade-in { animation: fadeIn 0.5s ease forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .map-container {
             width: 100%;
@@ -93,17 +86,54 @@
             overflow: hidden;
             border: 1px solid rgba(255,255,255,0.1);
         }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+            color: white !important;
+            text-decoration: none;
+        }
+        .social-icon:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(124, 58, 237, 0.3);
+        }
+
+        .school-logo-container {
+            width: 42px;
+            height: 42px;
+            background: white; /* Latar belakang putih agar logo sekolah terlihat jelas */
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 2px solid var(--primary);
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+        }
     </style>
 </head>
 <body>
 
     <div class="stars-container" id="starsBox"></div>
 
-    <!-- Navigasi -->
+    <!-- Navigasi Utama -->
     <nav class="fixed top-0 w-full z-50 px-6 py-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center bg-slate-900/60 backdrop-blur-xl rounded-2xl px-6 py-3 border border-white/10 shadow-2xl">
             <div class="flex items-center gap-4 cursor-pointer" onclick="setActiveTab('all')">
-                <img src="https://img.icons8.com/fluency/96/school.png" class="w-10 h-10 object-contain bg-white/5 rounded-xl p-1">
+                
+                <!-- [ZONA LOGO SEKOLAH] - SILAKAN GANTI URL DI BAWAH INI -->
+                <div class="school-logo-container">
+                    <img id="mainLogo" src="https://upload.wikimedia.org/wikipedia/commons/9/9c/Logo_of_Ministry_of_Education_and_Culture_of_Republic_of_Indonesia.svg" class="w-9 h-9 object-contain" alt="Logo Sekolah">
+                </div>
+
                 <div>
                     <h1 class="font-extrabold text-xs text-white leading-tight uppercase">SD Negeri 1.2 Kambitin</h1>
                     <span class="text-[6px] uppercase tracking-widest text-indigo-400 font-black">Portal Resmi Sekolah</span>
@@ -124,6 +154,14 @@
         <div class="relative z-10 text-center px-6">
             <h1 class="text-4xl md:text-6xl font-black mb-4 tracking-tighter text-white uppercase">SD NEGERI 1.2 KAMBITIN</h1>
             <p class="text-indigo-300 font-bold text-[10px] uppercase tracking-[0.4em]">Kabupaten Tabalong, Kalimantan Selatan</p>
+            
+            <!-- [ZONA SOSIAL MEDIA] - SILAKAN GANTI TANDA # DENGAN LINK IBU -->
+            <div class="flex justify-center gap-4 mt-8">
+                <a href="#" class="social-icon" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon" title="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="social-icon" title="TikTok"><i class="fab fa-tiktok"></i></a>
+            </div>
         </div>
     </header>
 
@@ -150,8 +188,22 @@
         <div id="main-content-area" class="fade-in"></div>
     </main>
 
-    <footer class="border-t border-white/5 py-12 text-center mt-20 opacity-40">
-        <p class="text-slate-600 text-[9px] uppercase tracking-widest italic">&copy; 2024 SD Negeri 1.2 Kambitin • Tabalong</p>
+    <footer class="border-t border-white/5 py-12 mt-20 bg-slate-950/50">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="text-center md:text-left">
+                <h3 class="font-bold text-white text-sm uppercase">SD Negeri 1.2 Kambitin</h3>
+                <p class="text-slate-500 text-[10px] uppercase tracking-widest mt-1">Kabupaten Tabalong, Kalimantan Selatan</p>
+            </div>
+            
+            <div class="flex gap-4">
+                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-tiktok"></i></a>
+            </div>
+
+            <p class="text-slate-600 text-[9px] uppercase tracking-widest italic">&copy; 2024 SD Negeri 1.2 Kambitin</p>
+        </div>
     </footer>
 
     <script>
@@ -164,6 +216,7 @@
 
         function initStars() {
             const container = document.getElementById('starsBox');
+            if(!container) return;
             for (let i = 0; i < 100; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
@@ -230,6 +283,7 @@
 
         function renderView() {
             const container = document.getElementById('main-content-area');
+            if(!container) return;
             container.innerHTML = '';
             if (activeTab === 'all') renderHome(container);
             else if (activeTab === 'Berita') renderNewspaperView(container);
@@ -248,40 +302,9 @@
                         <div class="relative z-10 flex flex-col md:flex-row gap-10 items-center text-left">
                             <img src="${formatImageUrl(identitas.Link_Thumbnail)}" class="w-48 h-48 object-cover rounded-3xl shadow-xl border border-white/10">
                             <div class="flex-1">
-                                <span class="text-indigo-400 font-black text-[9px] uppercase tracking-widest mb-2 block">Profil Utama</span>
+                                <span class="text-indigo-400 font-black text-[9px] uppercase tracking-widest mb-2 block">Informasi Utama</span>
                                 <h2 class="font-serif text-4xl text-white mb-4 uppercase tracking-tighter">${identitas.Judul_Karya}</h2>
                                 <div class="text-slate-300 font-newspaper text-lg leading-relaxed whitespace-pre-wrap">${identitas.Deskripsi}</div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section class="grid md:grid-cols-2 gap-10 items-start">
-                        <div>
-                            <h3 class="font-serif text-2xl text-white mb-6 flex items-center gap-3">
-                                <span class="w-6 h-px bg-indigo-500"></span> Artikel Terbaru
-                            </h3>
-                            <div class="space-y-6">
-                                ${news.map(n => `
-                                    <div onclick="showNewsDetail(${allData.indexOf(n)})" class="glass-card p-5 rounded-3xl cursor-pointer group hover:bg-white/5 transition-all">
-                                        <div class="flex gap-4">
-                                            <img src="${formatImageUrl(n.Link_Thumbnail)}" class="w-24 h-24 object-cover rounded-2xl">
-                                            <div class="flex-1">
-                                                <h4 class="text-white font-bold text-sm mb-1 group-hover:text-indigo-400">${n.Judul_Karya}</h4>
-                                                <p class="text-slate-400 text-[11px] line-clamp-2">${n.Deskripsi}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                `).join('')}
-                                <button onclick="setActiveTab('Berita')" class="w-full py-4 border border-white/5 rounded-2xl text-[9px] uppercase tracking-[0.3em] font-black hover:bg-white/5 transition">Lihat Semua Artikel</button>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h3 class="font-serif text-2xl text-white mb-6 flex items-center gap-3">
-                                <span class="w-6 h-px bg-indigo-500"></span> Peta Lokasi
-                            </h3>
-                            <div class="map-container shadow-2xl">
-                                ${DEFAULT_MAP}
                             </div>
                         </div>
                     </section>
@@ -292,13 +315,12 @@
         function renderProfil(container) {
             const items = allData.filter(i => i.Kategori === "Profil");
             const identitas = items.find(i => i.Judul_Karya.includes("Identitas")) || items[0];
-            const visiMisi = items.find(i => i.Judul_Karya.includes("Visi")) || items[1];
 
             container.innerHTML = `
                 <div class="space-y-12">
                     <div class="grid md:grid-cols-2 gap-10">
                         <div class="glass-card p-10 rounded-[2.5rem] border-white/5 text-left">
-                            <h3 class="text-indigo-400 font-black text-[9px] uppercase tracking-widest mb-4">Informasi Sekolah</h3>
+                            <h3 class="text-indigo-400 font-black text-[9px] uppercase tracking-widest mb-4">Profil Sekolah</h3>
                             <h2 class="font-serif text-4xl text-white mb-8">${identitas.Judul_Karya}</h2>
                             <div class="text-slate-300 font-newspaper text-xl leading-relaxed whitespace-pre-wrap">${identitas.Deskripsi}</div>
                         </div>
@@ -306,13 +328,6 @@
                             ${DEFAULT_MAP}
                         </div>
                     </div>
-                    
-                    ${visiMisi ? `
-                    <div class="glass-card p-10 rounded-[2.5rem] border-white/5 text-left max-w-2xl">
-                        <h3 class="text-indigo-400 font-black text-[9px] uppercase tracking-widest mb-4">Visi & Misi</h3>
-                        <h2 class="font-serif text-3xl text-white mb-6">${visiMisi.Judul_Karya}</h2>
-                        <div class="text-slate-300 font-newspaper text-xl leading-relaxed whitespace-pre-wrap">${visiMisi.Deskripsi}</div>
-                    </div>` : ''}
                 </div>
             `;
         }
