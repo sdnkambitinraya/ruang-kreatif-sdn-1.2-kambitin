@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SD Negeri 1.2 Kambitin - Portal Resmi</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Playfair+Display:wght@700;900&family=Crimson+Pro:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Playfair+Display:wght@700;900&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -49,17 +49,38 @@
         
         .hero-container { 
             position: relative; 
-            min-height: 55vh; 
+            min-height: 70vh; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
             overflow: hidden;
-            padding-top: 80px;
+            padding-top: 60px;
+        }
+
+        /* Slideshow Background */
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out, transform 8s ease-out;
+            z-index: 0;
+            transform: scale(1.1);
+        }
+
+        .hero-slide.active {
+            opacity: 0.35; /* Kecerahan foto guru */
+            z-index: 1;
+            transform: scale(1);
         }
         
         .hero-overlay { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            background: linear-gradient(to bottom, rgba(7, 11, 20, 0.2), var(--night-sky)); 
+            background: linear-gradient(to bottom, transparent, var(--night-sky)); 
             z-index: 2; 
         }
 
@@ -77,6 +98,7 @@
             color: #94a3b8; 
             font-weight: 700; 
             cursor: pointer; 
+            white-space: nowrap;
         }
 
         .filter-pill.active { 
@@ -99,8 +121,8 @@
         
         .bento-grid { 
             display: grid; 
-            gap: 1.5rem; 
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 1rem; 
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
         }
 
         .fade-in { animation: fadeIn 0.5s ease forwards; }
@@ -112,19 +134,19 @@
 
         .map-container {
             width: 100%;
-            height: 300px;
-            border-radius: 1.5rem;
+            height: 250px;
+            border-radius: 1.25rem;
             overflow: hidden;
             border: 1px solid rgba(255,255,255,0.1);
         }
 
         .social-icon {
-            width: 40px;
-            height: 40px;
+            width: 38px;
+            height: 38px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 12px;
+            border-radius: 10px;
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.1);
             transition: all 0.3s ease;
@@ -135,35 +157,33 @@
         .social-icon:hover {
             background: var(--primary);
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(124, 58, 237, 0.3);
         }
 
         .school-logo-container {
-            width: 42px;
-            height: 42px;
+            width: 36px;
+            height: 36px;
             background: white; 
-            border-radius: 12px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
             border: 2px solid var(--primary);
-            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
         }
 
-        /* Styling Tagline Megah */
         .tagline-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.5rem;
         }
 
         .tagline-main {
+            font-family: 'Crimson Pro', serif;
             font-size: 1rem;
-            font-weight: 800;
-            letter-spacing: 0.5em;
-            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            line-height: 1.4;
             color: transparent;
             background: linear-gradient(90deg, #a78bfa, #f472b6, #a78bfa);
             background-size: 200% auto;
@@ -172,15 +192,26 @@
             animation: shine 4s linear infinite;
         }
 
+        @media (min-width: 768px) {
+            .tagline-main {
+                font-size: 1.25rem;
+                letter-spacing: 0.2em;
+            }
+            .hero-container { min-height: 65vh; }
+        }
+
         @keyframes shine {
             to { background-position: 200% center; }
         }
 
         .tagline-line {
-            width: 150px;
+            width: 80px;
             height: 2px;
             background: linear-gradient(90deg, transparent, var(--primary), transparent);
         }
+
+        #tab-menu::-webkit-scrollbar { display: none; }
+        #tab-menu { -ms-overflow-style: none; scrollbar-width: none; }
 
     </style>
 </head>
@@ -189,18 +220,18 @@
     <div class="stars-container" id="starsBox"></div>
 
     <!-- Navigasi Utama -->
-    <nav class="fixed top-0 w-full z-50 px-6 py-4">
-        <div class="max-w-7xl mx-auto flex justify-between items-center bg-slate-900/60 backdrop-blur-xl rounded-2xl px-6 py-3 border border-white/10 shadow-2xl">
-            <div class="flex items-center gap-4 cursor-pointer" onclick="setActiveTab('all')">
+    <nav class="fixed top-0 w-full z-50 px-4 py-3 md:px-6 md:py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center bg-slate-900/80 backdrop-blur-xl rounded-xl md:rounded-2xl px-4 py-2 md:px-6 md:py-3 border border-white/10 shadow-2xl">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="setActiveTab('all')">
                 <div class="school-logo-container">
-                    <img id="mainLogo" src="https://upload.wikimedia.org/wikipedia/commons/9/9c/Logo_of_Ministry_of_Education_and_Culture_of_Republic_of_Indonesia.svg" class="w-9 h-9 object-contain" alt="Logo Sekolah">
+                    <img id="mainLogo" src="" class="w-7 h-7 object-contain" alt="Logo Sekolah">
                 </div>
-                <div>
-                    <h1 class="font-extrabold text-xs text-white leading-tight uppercase">SD Negeri 1.2 Kambitin</h1>
-                    <span class="text-[6px] uppercase tracking-widest text-indigo-400 font-black">Portal Resmi Sekolah</span>
+                <div class="hidden xs:block">
+                    <h1 class="font-extrabold text-[10px] md:text-xs text-white leading-tight uppercase">SDN 1.2 Kambitin</h1>
+                    <span class="text-[6px] uppercase tracking-widest text-indigo-400 font-black">Portal Resmi</span>
                 </div>
             </div>
-            <div class="flex gap-4 text-[9px] font-black uppercase tracking-widest">
+            <div class="flex gap-3 md:gap-4 text-[8px] md:text-[9px] font-black uppercase tracking-widest">
                 <button onclick="setActiveTab('all')" class="hover:text-indigo-400 transition text-white">Beranda</button>
                 <button onclick="setActiveTab('Berita')" class="hover:text-indigo-400 transition text-white">Artikel</button>
                 <button onclick="setActiveTab('Profil')" class="hover:text-indigo-400 transition text-white">Profil</button>
@@ -208,79 +239,95 @@
         </div>
     </nav>
 
-    <!-- Header Hero -->
+    <!-- Header Hero dengan Slideshow -->
     <header id="hero-section" class="hero-container">
-        <div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2000')"></div>
+        <!-- Slides akan diisi oleh JavaScript -->
+        <div id="slideshow-wrapper" class="absolute inset-0 w-full h-full"></div>
+        
         <div class="hero-overlay"></div>
         <div class="relative z-10 text-center px-6 max-w-5xl">
-            <h1 class="text-5xl md:text-7xl font-black mb-6 tracking-tighter text-white uppercase italic">SD NEGERI 1.2 KAMBITIN</h1>
+            <h1 class="text-3xl md:text-6xl lg:text-7xl font-black mb-4 md:mb-6 tracking-tighter text-white uppercase leading-none">
+                SD NEGERI 1.2 <br class="md:hidden"> KAMBITIN
+            </h1>
             
-            <!-- TAGLINE DIPERPANJANG & DIPERBAGUS -->
             <div class="tagline-container">
                 <div class="tagline-line"></div>
-                <p class="tagline-main px-4 text-center">
-                    Dari Ruang Kelas Menuju Cakrawala Dunia, Mengukir Prestasi Meraih Masa Depan Gemilang
+                <p class="tagline-main px-2 md:px-4 text-center italic">
+                    "Dari Ruang Kelas Menuju Cakrawala Dunia, Mengukir Prestasi Meraih Masa Depan Gemilang"
                 </p>
                 <div class="tagline-line"></div>
             </div>
             
-            <div class="flex justify-center gap-4 mt-12">
-                <a href="#" target="_blank" class="social-icon" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" target="_blank" class="social-icon" title="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" target="_blank" class="social-icon" title="YouTube"><i class="fab fa-youtube"></i></a>
-                <a href="#" target="_blank" class="social-icon" title="TikTok"><i class="fab fa-tiktok"></i></a>
+            <div class="flex justify-center gap-3 md:gap-4 mt-8 md:mt-12">
+                <a href="#" class="social-icon" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon" title="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="social-icon" title="TikTok"><i class="fab fa-tiktok"></i></a>
             </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-6 py-12 relative z-10">
-        <!-- Menu Tab -->
-        <div id="tab-menu" class="flex flex-wrap justify-center gap-3 mb-12">
-            <button class="filter-pill active px-6 py-2 rounded-lg text-[9px] uppercase tracking-widest" data-category="all" onclick="setActiveTab('all')">Beranda</button>
-            <button class="filter-pill px-6 py-2 rounded-lg text-[9px] uppercase tracking-widest" data-category="Berita" onclick="setActiveTab('Berita')">Artikel</button>
-            <button class="filter-pill px-6 py-2 rounded-lg text-[9px] uppercase tracking-widest" data-category="Hasil Karya" onclick="setActiveTab('Hasil Karya')">Karya Siswa</button>
-            <button class="filter-pill px-6 py-2 rounded-lg text-[9px] uppercase tracking-widest" data-category="Game Interaktif" onclick="setActiveTab('Game Interaktif')">Game Edukasi</button>
-            <button class="filter-pill px-6 py-2 rounded-lg text-[9px] uppercase tracking-widest" data-category="Profil" onclick="setActiveTab('Profil')">Profil</button>
+    <main class="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 relative z-10">
+        <div id="tab-menu" class="flex overflow-x-auto justify-start md:justify-center gap-2 mb-8 md:mb-12 pb-2">
+            <button class="filter-pill active px-5 py-2 rounded-lg text-[8px] md:text-[9px] uppercase tracking-widest" data-category="all" onclick="setActiveTab('all')">Beranda</button>
+            <button class="filter-pill px-5 py-2 rounded-lg text-[8px] md:text-[9px] uppercase tracking-widest" data-category="Berita" onclick="setActiveTab('Berita')">Artikel</button>
+            <button class="filter-pill px-5 py-2 rounded-lg text-[8px] md:text-[9px] uppercase tracking-widest" data-category="Hasil Karya" onclick="setActiveTab('Hasil Karya')">Karya</button>
+            <button class="filter-pill px-5 py-2 rounded-lg text-[8px] md:text-[9px] uppercase tracking-widest" data-category="Game Interaktif" onclick="setActiveTab('Game Interaktif')">Game</button>
+            <button class="filter-pill px-5 py-2 rounded-lg text-[8px] md:text-[9px] uppercase tracking-widest" data-category="Profil" onclick="setActiveTab('Profil')">Profil</button>
         </div>
 
-        <!-- Detail Berita -->
-        <div id="news-detail-view" class="hidden fade-in max-w-4xl mx-auto mb-20">
-            <button onclick="closeNewsDetail()" class="mb-8 text-slate-400 hover:text-indigo-400 transition font-bold text-sm">← Kembali</button>
+        <div id="news-detail-view" class="hidden fade-in max-w-4xl mx-auto mb-12 md:mb-20">
+            <button onclick="closeNewsDetail()" class="mb-6 text-slate-400 hover:text-indigo-400 transition font-bold text-xs">← Kembali</button>
             <div id="news-content-full"></div>
         </div>
 
-        <!-- Indikator Loading -->
-        <div id="loadingState" class="flex flex-col items-center py-20">
+        <div id="loadingState" class="flex flex-col items-center py-10 md:py-20">
             <div class="loader mb-4"></div>
-            <p class="text-slate-500 text-[10px] uppercase tracking-widest">Memuat Data Sekolah...</p>
+            <p class="text-slate-500 text-[8px] md:text-[10px] uppercase tracking-widest">Memuat Data...</p>
         </div>
 
-        <!-- Area Konten Dinamis -->
         <div id="main-content-area" class="fade-in"></div>
     </main>
 
-    <footer class="border-t border-white/5 py-12 mt-20 bg-slate-950/50">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
+    <footer class="border-t border-white/5 py-8 md:py-12 mt-10 md:mt-20 bg-slate-950/50">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
             <div>
-                <h3 class="font-bold text-white text-sm uppercase">SD Negeri 1.2 Kambitin</h3>
-                <p class="text-slate-500 text-[10px] uppercase tracking-widest mt-1">Kabupaten Tabalong, Kalimantan Selatan</p>
+                <h3 class="font-bold text-white text-xs md:text-sm uppercase">SD Negeri 1.2 Kambitin</h3>
+                <p class="text-slate-500 text-[8px] md:text-[10px] uppercase tracking-widest mt-1">Kabupaten Tabalong, Kalsel</p>
             </div>
-            <p class="text-slate-600 text-[9px] uppercase tracking-widest italic">&copy; 2024 SD Negeri 1.2 Kambitin</p>
+            <p class="text-slate-600 text-[8px] md:text-[9px] uppercase tracking-widest italic">&copy; 2024 SD Negeri 1.2 Kambitin</p>
         </div>
     </footer>
 
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbxq_QBlXPoFyxsyKHEkFg9JTxG1-OdVZvAWcRJwNgVjCumNQrpvMVC5KvhiI8rdIRc/exec"; 
         const API_TOKEN = "RUANG_KREATIF_12_TOKEN";
+        
+        /**
+         * LOGO SEKOLAH
+         */
+        const LOGO_SEKOLAH = "https://drive.google.com/file/d/1V2UwCJtj-ZcvXPXRZm7Fw0_hzTaLpmT4/view?usp=drive_link";
+
+        /**
+         * FOTO GURU UNTUK SLIDESHOW
+         * Masukkan link foto guru di sini.
+         */
+        const FOTO_GURU = [
+            "https://images.unsplash.com/photo-1544717297-fa95b3396467?q=80&w=2000", 
+            "https://images.unsplash.com/photo-1491843330757-37758135ca70?q=80&w=2000", 
+            "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2000" 
+        ];
+
         const DEFAULT_MAP = `<iframe class="w-full h-full" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15951.688267675765!2d115.39003316692225!3d-2.183492576082405!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dfaa4407077a28b%3A0x8797f70b793675f9!2sSDN%201.2%20Kambitin!5e0!3m2!1sid!2sid!4v1710000000000!5m2!1sid!2sid" allowfullscreen="" loading="lazy"></iframe>`;
 
         let allData = [];
         let activeTab = 'all';
+        let currentSlide = 0;
 
         function initStars() {
             const container = document.getElementById('starsBox');
             if(!container) return;
-            for (let i = 0; i < 100; i++) {
+            for (let i = 0; i < 60; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
                 const size = (Math.random() * 2 + 1) + 'px';
@@ -301,19 +348,45 @@
             return url;
         }
 
+        // Fungsi Memulai Slideshow
+        function initSlideshow() {
+            const wrapper = document.getElementById('slideshow-wrapper');
+            if (!wrapper) return;
+            wrapper.innerHTML = ''; // Bersihkan sebelum isi
+
+            FOTO_GURU.forEach((img, index) => {
+                const slide = document.createElement('div');
+                slide.className = `hero-slide ${index === 0 ? 'active' : ''}`;
+                slide.style.backgroundImage = `url('${formatImageUrl(img)}')`;
+                wrapper.appendChild(slide);
+            });
+
+            if(FOTO_GURU.length > 1) {
+                setInterval(() => {
+                    const slides = document.querySelectorAll('.hero-slide');
+                    if(slides.length === 0) return;
+                    slides[currentSlide].classList.remove('active');
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    slides[currentSlide].classList.add('active');
+                }, 6000); 
+            }
+        }
+
         async function loadData() {
+            document.getElementById('mainLogo').src = formatImageUrl(LOGO_SEKOLAH);
+            
             initStars();
+            initSlideshow();
+
             try {
                 const response = await fetch(`${API_URL}?token=${API_TOKEN}`);
                 allData = await response.json();
-            } catch (e) { 
-                console.warn("API Error. Memuat data cadangan."); 
-            }
+            } catch (e) { console.warn("API Error."); }
 
             if (!allData || allData.length === 0 || allData.status === "error") {
                 allData = [
-                    { Kategori: "Profil", Judul_Karya: "Selamat Datang", Deskripsi: "SD Negeri 1.2 Kambitin berkomitmen mendidik siswa dengan kasih sayang.", Link_Thumbnail: "" },
-                    { Kategori: "Berita", Judul_Karya: "Contoh Artikel", Deskripsi: "Ini adalah contoh tampilan artikel sekolah...", Link_Thumbnail: "" }
+                    { Kategori: "Profil", Judul_Karya: "Selamat Datang", Deskripsi: "SD Negeri 1.2 Kambitin berkomitmen mendidik siswa dengan kasih sayang dan inovasi.", Link_Thumbnail: "" },
+                    { Kategori: "Berita", Judul_Karya: "Contoh Berita", Deskripsi: "Ini adalah tampilan contoh ketika data belum terhubung dengan Google Sheets...", Link_Thumbnail: "" }
                 ];
             }
             document.getElementById('loadingState').classList.add('hidden');
@@ -327,6 +400,7 @@
             const hero = document.getElementById('hero-section');
             if (hero) hero.style.display = (category === 'all') ? 'flex' : 'none';
             renderView();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         window.showNewsDetail = function(index) {
@@ -334,9 +408,9 @@
             document.getElementById('main-content-area').classList.add('hidden');
             document.getElementById('news-detail-view').classList.remove('hidden');
             document.getElementById('news-content-full').innerHTML = `
-                <img src="${formatImageUrl(item.Link_Thumbnail)}" class="w-full h-[350px] object-cover rounded-[2.5rem] mb-8 shadow-2xl border border-white/10">
-                <h2 class="font-serif text-4xl text-white mb-6">${item.Judul_Karya}</h2>
-                <div class="font-newspaper text-xl text-slate-300 leading-relaxed whitespace-pre-wrap">${item.Deskripsi}</div>
+                <img src="${formatImageUrl(item.Link_Thumbnail)}" class="w-full h-[200px] md:h-[350px] object-cover rounded-2xl md:rounded-[2.5rem] mb-6 md:mb-8 shadow-2xl border border-white/10">
+                <h2 class="font-serif text-2xl md:text-4xl text-white mb-4 md:mb-6">${item.Judul_Karya}</h2>
+                <div class="font-newspaper text-base md:text-xl text-slate-300 leading-relaxed whitespace-pre-wrap">${item.Deskripsi}</div>
             `;
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -359,95 +433,67 @@
         function renderHome(container) {
             const profilItems = allData.filter(i => i.Kategori === "Profil");
             const karyaItems = allData.filter(i => i.Kategori === "Hasil Karya").slice(0, 4);
-            const gameItems = allData.filter(i => i.Kategori === "Game Interaktif").slice(0, 4);
-            const newsItems = allData.filter(i => i.Kategori === "Berita").slice(0, 8);
+            const newsItems = allData.filter(i => i.Kategori === "Berita").slice(0, 6);
 
             container.innerHTML = `
-                <div class="flex flex-col lg:flex-row gap-10">
-                    
-                    <!-- KOLOM KIRI (Besar - Profil, Map, Karya, Game) -->
-                    <div class="lg:w-2/3 space-y-16">
-                        
-                        <!-- Bagian Profil -->
-                        <section class="space-y-6">
+                <div class="flex flex-col lg:flex-row gap-8 md:gap-10">
+                    <div class="lg:w-2/3 space-y-10 md:space-y-16">
+                        <section class="space-y-4 md:space-y-6">
                             ${profilItems.map(item => `
-                                <div class="glass-card p-10 rounded-[2.5rem] border-l-4 border-indigo-600 shadow-2xl">
-                                    <h2 class="font-serif text-4xl text-white mb-6">${item.Judul_Karya}</h2>
-                                    <div class="text-slate-300 font-newspaper text-xl leading-relaxed whitespace-pre-wrap">${item.Deskripsi}</div>
+                                <div class="glass-card p-6 md:p-10 rounded-2xl md:rounded-[2.5rem] border-l-4 border-indigo-600 shadow-2xl">
+                                    <h2 class="font-serif text-2xl md:text-4xl text-white mb-4 md:mb-6">${item.Judul_Karya}</h2>
+                                    <div class="text-slate-300 font-newspaper text-base md:text-xl leading-relaxed whitespace-pre-wrap">${item.Deskripsi}</div>
                                 </div>
                             `).join('')}
                         </section>
 
-                        <!-- Lokasi Sekolah di Kolom Kiri -->
                         <section>
-                            <h3 class="font-serif text-2xl text-white mb-6 flex items-center gap-3">
-                                <span class="w-8 h-[2px] bg-indigo-500"></span> Lokasi Sekolah
+                            <h3 class="font-serif text-xl md:text-2xl text-white mb-4 flex items-center gap-3">
+                                <span class="w-6 md:w-8 h-[2px] bg-indigo-500"></span> Lokasi Sekolah
                             </h3>
                             <div class="map-container shadow-2xl">${DEFAULT_MAP}</div>
                         </section>
 
-                        <!-- Bagian Karya -->
                         <section>
-                            <div class="flex justify-between items-center mb-8">
-                                <h3 class="font-serif text-3xl text-white tracking-tighter uppercase">Karya Kreatif</h3>
-                                <button onclick="setActiveTab('Hasil Karya')" class="text-indigo-400 text-[9px] font-black uppercase tracking-widest hover:underline">Semua Karya →</button>
+                            <div class="flex justify-between items-center mb-6 md:mb-8">
+                                <h3 class="font-serif text-xl md:text-3xl text-white tracking-tighter uppercase">Karya Kreatif</h3>
+                                <button onclick="setActiveTab('Hasil Karya')" class="text-indigo-400 text-[8px] font-black uppercase tracking-widest hover:underline">Semua →</button>
                             </div>
-                            <div class="grid grid-cols-2 gap-6">
+                            <div class="grid grid-cols-1 xs:grid-cols-2 gap-4 md:gap-6">
                                 ${karyaItems.map(item => `
-                                    <div class="glass-card rounded-[1.5rem] overflow-hidden p-4 group">
-                                        <img src="${formatImageUrl(item.Link_Thumbnail)}" class="aspect-video w-full object-cover rounded-xl mb-4 group-hover:scale-105 transition-transform duration-500">
-                                        <h4 class="font-bold text-white text-[11px] uppercase tracking-wider line-clamp-1">${item.Judul_Karya}</h4>
+                                    <div class="glass-card rounded-xl md:rounded-[1.5rem] overflow-hidden p-3 md:p-4 group">
+                                        <img src="${formatImageUrl(item.Link_Thumbnail)}" class="aspect-video w-full object-cover rounded-lg md:rounded-xl mb-3 md:mb-4 group-hover:scale-105 transition-all">
+                                        <h4 class="font-bold text-white text-[10px] md:text-[11px] uppercase tracking-wider line-clamp-1">${item.Judul_Karya}</h4>
                                     </div>
                                 `).join('')}
                             </div>
                         </section>
-
-                        <!-- Bagian Game -->
-                        <section>
-                            <div class="flex justify-between items-center mb-8">
-                                <h3 class="font-serif text-3xl text-white tracking-tighter uppercase">Game Interaktif</h3>
-                                <button onclick="setActiveTab('Game Interaktif')" class="text-indigo-400 text-[9px] font-black uppercase tracking-widest hover:underline">Lihat Game →</button>
-                            </div>
-                            <div class="grid grid-cols-2 gap-6">
-                                ${gameItems.map(item => `
-                                    <div class="glass-card rounded-[1.5rem] overflow-hidden p-4 group border-b-2 border-transparent hover:border-indigo-500 transition-all">
-                                        <img src="${formatImageUrl(item.Link_Thumbnail)}" class="aspect-video w-full object-cover rounded-xl mb-4">
-                                        <h4 class="font-bold text-white text-[11px] uppercase tracking-wider">${item.Judul_Karya}</h4>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        </section>
-
                     </div>
 
-                    <!-- KOLOM KANAN (Kecil - Fokus Berita) -->
-                    <aside class="lg:w-1/3 space-y-8">
-                        <div class="sticky top-28">
-                            <div class="flex justify-between items-end mb-6">
-                                <h3 class="font-serif text-2xl text-white flex items-center gap-3">
-                                    <span class="w-8 h-[2px] bg-indigo-500"></span> Warta Terkini
+                    <aside class="lg:w-1/3 space-y-6 md:space-y-8">
+                        <div class="sticky top-24">
+                            <div class="flex justify-between items-end mb-4 md:mb-6">
+                                <h3 class="font-serif text-xl md:text-2xl text-white flex items-center gap-3">
+                                    <span class="w-6 md:w-8 h-[2px] bg-indigo-500"></span> Berita Terkini
                                 </h3>
-                                <button onclick="setActiveTab('Berita')" class="text-indigo-400 text-[8px] font-black uppercase tracking-widest hover:underline mb-1">Semua Artikel →</button>
                             </div>
-                            <div class="space-y-4">
+                            <div class="space-y-3 md:space-y-4">
                                 ${newsItems.map(n => `
-                                    <div onclick="showNewsDetail(${allData.indexOf(n)})" class="glass-card p-4 rounded-2xl cursor-pointer group hover:bg-white/5 transition-all">
-                                        <div class="flex gap-4">
-                                            <div class="w-16 h-16 flex-shrink-0">
-                                                <img src="${formatImageUrl(n.Link_Thumbnail)}" class="w-full h-full object-cover rounded-xl grayscale group-hover:grayscale-0 transition-all">
+                                    <div onclick="showNewsDetail(${allData.indexOf(n)})" class="glass-card p-3 md:p-4 rounded-xl md:rounded-2xl cursor-pointer group hover:bg-white/5">
+                                        <div class="flex gap-3 md:gap-4">
+                                            <div class="w-12 h-12 md:w-16 md:h-16 flex-shrink-0">
+                                                <img src="${formatImageUrl(n.Link_Thumbnail)}" class="w-full h-full object-cover rounded-lg md:rounded-xl grayscale group-hover:grayscale-0">
                                             </div>
                                             <div class="overflow-hidden">
-                                                <h4 class="text-white font-bold text-[11px] leading-tight mb-1 group-hover:text-indigo-400 line-clamp-2">${n.Judul_Karya}</h4>
-                                                <p class="text-slate-500 text-[9px] line-clamp-1">${n.Deskripsi}</p>
+                                                <h4 class="text-white font-bold text-[10px] md:text-[11px] leading-tight mb-1 line-clamp-2">${n.Judul_Karya}</h4>
+                                                <p class="text-slate-500 text-[8px] md:text-[9px] line-clamp-1">Baca selengkapnya...</p>
                                             </div>
                                         </div>
                                     </div>
                                 `).join('')}
-                                ${newsItems.length === 0 ? '<p class="text-slate-600 text-[10px] uppercase text-center py-10">Belum ada artikel terbaru.</p>' : ''}
                             </div>
                         </div>
                     </aside>
-
                 </div>
             `;
         }
@@ -455,17 +501,13 @@
         function renderProfil(container) {
             const items = allData.filter(i => i.Kategori === "Profil");
             container.innerHTML = `
-                <div class="max-w-4xl mx-auto space-y-10">
+                <div class="max-w-4xl mx-auto space-y-8 md:space-y-10">
                     ${items.map(item => `
-                        <div class="glass-card p-12 rounded-[3rem]">
-                            <h2 class="font-serif text-5xl text-white mb-8">${item.Judul_Karya}</h2>
-                            <div class="text-slate-300 font-newspaper text-2xl leading-relaxed whitespace-pre-wrap">${item.Deskripsi}</div>
+                        <div class="glass-card p-8 md:p-12 rounded-2xl md:rounded-[3rem]">
+                            <h2 class="font-serif text-3xl md:text-5xl text-white mb-6 md:mb-8 text-center">${item.Judul_Karya}</h2>
+                            <div class="text-slate-300 font-newspaper text-lg md:text-2xl leading-relaxed whitespace-pre-wrap">${item.Deskripsi}</div>
                         </div>
                     `).join('')}
-                    <div class="glass-card p-12 rounded-[3rem]">
-                         <h3 class="font-serif text-3xl text-white mb-6">Peta Lokasi</h3>
-                         <div class="map-container">${DEFAULT_MAP}</div>
-                    </div>
                 </div>
             `;
         }
@@ -473,14 +515,14 @@
         function renderNewspaperView(container) {
             const news = allData.filter(i => i.Kategori === "Berita");
             container.innerHTML = `
-                <div class="mb-12"><h2 class="font-serif text-5xl text-white uppercase text-center tracking-tighter">WARTA SEKOLAH</h2></div>
-                <div class="grid md:grid-cols-2 gap-10">
+                <div class="mb-8 md:mb-12"><h2 class="font-serif text-3xl md:text-5xl text-white uppercase text-center tracking-tighter">WARTA SEKOLAH</h2></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
                     ${news.map(n => `
-                        <div onclick="showNewsDetail(${allData.indexOf(n)})" class="flex gap-6 pb-10 border-b border-white/5 cursor-pointer group">
-                            <img src="${formatImageUrl(n.Link_Thumbnail)}" class="w-36 h-36 flex-shrink-0 object-cover rounded-2xl grayscale group-hover:grayscale-0 transition-all">
+                        <div onclick="showNewsDetail(${allData.indexOf(n)})" class="flex flex-col xs:flex-row gap-4 md:gap-6 pb-6 md:pb-10 border-b border-white/5 cursor-pointer group">
+                            <img src="${formatImageUrl(n.Link_Thumbnail)}" class="w-full xs:w-32 md:w-36 h-40 xs:h-32 md:h-36 flex-shrink-0 object-cover rounded-xl md:rounded-2xl group-hover:scale-105 transition-all">
                             <div>
-                                <h3 class="text-2xl font-serif text-white mb-3 group-hover:text-indigo-400 leading-tight">${n.Judul_Karya}</h3>
-                                <p class="text-slate-500 text-base line-clamp-3 font-newspaper">${n.Deskripsi}</p>
+                                <h3 class="text-xl md:text-2xl font-serif text-white mb-2 md:mb-3 group-hover:text-indigo-400 leading-tight">${n.Judul_Karya}</h3>
+                                <p class="text-slate-500 text-sm md:text-base line-clamp-3 font-newspaper">${n.Deskripsi}</p>
                             </div>
                         </div>
                     `).join('')}
@@ -491,12 +533,12 @@
         function renderGrid(container, cat) {
             const items = allData.filter(i => i.Kategori === cat);
             container.innerHTML = `
-                <h2 class="font-serif text-4xl text-white mb-12 text-center uppercase tracking-tighter">${cat}</h2>
+                <h2 class="font-serif text-2xl md:text-4xl text-white mb-8 md:mb-12 text-center uppercase tracking-tighter">${cat}</h2>
                 <div class="bento-grid">
                     ${items.map(item => `
-                        <div class="glass-card rounded-[2.5rem] overflow-hidden p-6 group hover:border-indigo-500/40 transition-all">
-                            <img src="${formatImageUrl(item.Link_Thumbnail)}" class="aspect-video w-full object-cover rounded-2xl mb-5 group-hover:scale-105 transition-all duration-500">
-                            <h3 class="font-black text-white text-[12px] uppercase tracking-widest">${item.Judul_Karya}</h3>
+                        <div class="glass-card rounded-2xl md:rounded-[2.5rem] overflow-hidden p-4 md:p-6 group hover:border-indigo-500/40">
+                            <img src="${formatImageUrl(item.Link_Thumbnail)}" class="aspect-video w-full object-cover rounded-xl md:rounded-2xl mb-4 md:mb-5 group-hover:scale-105 transition-all">
+                            <h3 class="font-black text-white text-[10px] md:text-[12px] uppercase tracking-widest text-center">${item.Judul_Karya}</h3>
                         </div>
                     `).join('')}
                 </div>
