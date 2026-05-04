@@ -1,54 +1,27 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Beranda Sekolah</title>
+<title>Beranda</title>
 
 <style>
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  background: #f5f5f5;
-}
-
-/* WRAPPER */
 .container {
   display: flex;
   gap: 20px;
   padding: 20px;
 }
 
-/* KIRI */
 .left {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  width: 50%;
 }
 
-/* KANAN */
 .right {
-  flex: 1;
+  width: 50%;
 }
 
-/* BOX */
 .box {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-}
-
-/* MAP */
-.map iframe {
-  width: 100%;
-  height: 250px;
-  border: none;
-  border-radius: 10px;
-}
-
-/* LIST BERITA */
-ul {
-  padding-left: 20px;
+  background: #eee;
+  padding: 15px;
+  margin-bottom: 15px;
 }
 </style>
 
@@ -61,19 +34,17 @@ ul {
   <!-- KIRI -->
   <div class="left">
 
-    <!-- IDENTITAS -->
     <div class="box">
-      <h2>Identitas Sekolah</h2>
+      <h3>Identitas Sekolah</h3>
       <p>Nama: SDN Kamu</p>
-      <p>Alamat: Isi alamat di sini</p>
-      <p>NPSN: 12345678</p>
+      <p>Alamat: Isi alamat</p>
     </div>
 
-    <!-- MAP -->
-    <div class="box map">
-      <h2>Lokasi Sekolah</h2>
+    <div class="box">
+      <h3>Map Sekolah</h3>
       <iframe 
-        src="https://maps.google.com/maps?q=Pontianak&t=&z=13&ie=UTF8&iwloc=&output=embed">
+        src="https://maps.google.com/maps?q=Pontianak&t=&z=13&output=embed"
+        width="100%" height="200">
       </iframe>
     </div>
 
@@ -83,36 +54,16 @@ ul {
   <div class="right">
 
     <div class="box">
-      <h2>Highlight Berita</h2>
-
-      <ul id="berita-list">
-        <li>Memuat berita...</li>
+      <h3>Highlight Berita</h3>
+      <ul>
+        <li>Berita 1</li>
+        <li>Berita 2</li>
       </ul>
-
     </div>
 
   </div>
 
 </div>
-
-<!-- SCRIPT AMBIL DATA DARI APPS SCRIPT -->
-<script>
-fetch("https://script.google.com/macros/s/AKfycbzdRe8ZjRjMq_WsCtZ4P_BhOJp0DOrFQSIsudNFzs3vF9FvW6tEsqkx-bNDnBXXG-z-/exec")
-.then(res => res.json())
-.then(data => {
-  let list = document.getElementById("berita-list");
-  list.innerHTML = "";
-
-  data.forEach(item => {
-    let li = document.createElement("li");
-    li.textContent = item.artikel; // dari kolom "artikel"
-    list.appendChild(li);
-  });
-})
-.catch(err => {
-  document.getElementById("berita-list").innerHTML = "Gagal memuat berita";
-});
-</script>
 
 </body>
 </html>
