@@ -1,115 +1,367 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SD Negeri 1.2 Kambitin</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SD Negeri 1.2 Kambitin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Playfair+Display:wght@700;900&family=Crimson+Pro:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root { 
+            --primary: #7c3aed; 
+            --glass: rgba(15, 23, 42, 0.7); 
+            --night-sky: #070b14; 
+        }
 
-<script src="https://cdn.tailwindcss.com"></script>
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--night-sky); 
+            color: #f1f5f9; 
+            overflow-x: hidden;
+            margin: 0;
+            position: relative;
+        }
 
-<style>
-body {
-    background: #070b14;
-    color: white;
-    font-family: Arial;
-    margin: 0;
-}
-.glass-card {
-    background: rgba(255,255,255,0.05);
-    padding: 20px;
-    border-radius: 20px;
-}
-</style>
+        .stars-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: twinkle var(--duration) infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 10px white; }
+        }
+
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .font-newspaper { font-family: 'Crimson Pro', serif; }
+        
+        .hero-container { 
+            position: relative; 
+            min-height: 45vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            overflow: hidden;
+            padding-top: 80px;
+        }
+        
+        .hero-overlay { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            background: linear-gradient(to bottom, rgba(7, 11, 20, 0.2), var(--night-sky)); 
+            z-index: 2; 
+        }
+
+        .glass-card { 
+            background: var(--glass); 
+            backdrop-filter: blur(15px); 
+            border: 1px solid rgba(255,255,255,0.08); 
+            transition: all 0.3s ease; 
+        }
+        
+        .filter-pill { transition: all 0.3s ease; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; font-weight: 700; cursor: pointer; }
+        .filter-pill.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 0 20px rgba(124, 58, 237, 0.4); }
+        
+        .loader { width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.1); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .bento-grid { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+        .fade-in { animation: fadeIn 0.5s ease forwards; }
+
+        .map-container {
+            width: 100%;
+            height: 350px;
+            border-radius: 2rem;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+            color: white !important;
+            text-decoration: none;
+        }
+        .social-icon:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(124, 58, 237, 0.3);
+        }
+
+        .school-logo-container {
+            width: 42px;
+            height: 42px;
+            background: white; /* Latar belakang putih agar logo sekolah terlihat jelas */
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 2px solid var(--primary);
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+        }
+    </style>
 </head>
-
 <body>
 
-<!-- HEADER (TIDAK DIHAPUS) -->
-<header style="text-align:center; padding:20px;">
-    <h1 style="font-size:28px; font-weight:bold;">SD Negeri 1.2 Kambitin</h1>
-    <p style="font-size:12px;">Portal Kreativitas Digital</p>
-</header>
+    <div class="stars-container" id="starsBox"></div>
 
-<main class="max-w-6xl mx-auto p-6">
-    <div id="main-content-area">Loading...</div>
-</main>
+    <!-- Navigasi Utama -->
+    <nav class="fixed top-0 w-full z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center bg-slate-900/60 backdrop-blur-xl rounded-2xl px-6 py-3 border border-white/10 shadow-2xl">
+            <div class="flex items-center gap-4 cursor-pointer" onclick="setActiveTab('all')">
+                
+                <!-- [ZONA LOGO SEKOLAH] - SILAKAN GANTI URL DI BAWAH INI -->
+                <div class="school-logo-container">
+                    <img id="mainLogo" src="https://upload.wikimedia.org/wikipedia/commons/9/9c/Logo_of_Ministry_of_Education_and_Culture_of_Republic_of_Indonesia.svg" class="w-9 h-9 object-contain" alt="Logo Sekolah">
+                </div>
 
-<script>
-const API_URL = "https://script.google.com/macros/s/AKfycbzDApoLc6to61gKpj9tDaI3UgOOkMnliTMhPqlM1H9kDCc4kzjd3Rcl1TY3nVq_eM8K/exec";
-const API_TOKEN = "RUANG_KREATIF_12_TOKEN";
-
-let allData = [];
-
-// ambil data dari spreadsheet
-async function loadData() {
-    try {
-        const res = await fetch(API_URL + "?token=" + API_TOKEN);
-        allData = await res.json();
-
-        console.log("DATA:", allData);
-
-        renderHome();
-    } catch (err) {
-        console.error(err);
-        document.getElementById("main-content-area").innerHTML = "Gagal ambil data";
-    }
-}
-
-// tampilkan beranda
-function renderHome() {
-
-    // 🔥 ambil profil sesuai spreadsheet kamu
-    const profil = allData.find(d =>
-        d.Kategori === "Profil" && d.Judul_Karya === "Identitas Sekolah"
-    );
-
-    const berita = allData.filter(d => d.Kategori === "Berita");
-
-    document.getElementById("main-content-area").innerHTML = `
-    <div class="grid md:grid-cols-2 gap-6">
-
-        <!-- KIRI -->
-        <div class="flex flex-col gap-6">
-
-            <div class="glass-card">
-                <h2 class="font-bold mb-2">Identitas Sekolah</h2>
-                <p>${profil ? profil.Deskripsi : ""}</p>
+                <div>
+                    <h1 class="font-extrabold text-xs text-white leading-tight uppercase">SD Negeri 1.2 Kambitin</h1>
+                    <span class="text-[6px] uppercase tracking-widest text-indigo-400 font-black">Portal Resmi Sekolah</span>
+                </div>
             </div>
-
-            <div class="glass-card">
-                <h2 class="font-bold mb-2">Lokasi Sekolah</h2>
-                <iframe 
-                    src="https://maps.google.com/maps?q=Tabalong&output=embed"
-                    class="w-full h-64 rounded-lg">
-                </iframe>
+            <div class="flex gap-4 text-[9px] font-black uppercase tracking-widest">
+                <button onclick="setActiveTab('all')" class="hover:text-indigo-400 transition">Beranda</button>
+                <button onclick="setActiveTab('Berita')" class="hover:text-indigo-400 transition">Artikel</button>
+                <button onclick="setActiveTab('Profil')" class="hover:text-indigo-400 transition">Profil</button>
             </div>
+        </div>
+    </nav>
 
+    <!-- Header / Hero Section -->
+    <header id="hero-section" class="hero-container">
+        <div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2000')"></div>
+        <div class="hero-overlay"></div>
+        <div class="relative z-10 text-center px-6">
+            <h1 class="text-4xl md:text-6xl font-black mb-4 tracking-tighter text-white uppercase">SD NEGERI 1.2 KAMBITIN</h1>
+            <p class="text-indigo-300 font-bold text-[10px] uppercase tracking-[0.4em]">Kabupaten Tabalong, Kalimantan Selatan</p>
+            
+            <!-- [ZONA SOSIAL MEDIA] - SILAKAN GANTI TANDA # DENGAN LINK IBU -->
+            <div class="flex justify-center gap-4 mt-8">
+                <a href="#" class="social-icon" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon" title="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="social-icon" title="TikTok"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 py-12 relative z-10">
+        <!-- Menu Tab -->
+        <div id="tab-menu" class="flex flex-wrap justify-center gap-3 mb-12">
+            <button class="filter-pill active px-6 py-2 rounded-lg text-[9px] uppercase tracking-widest" data-category="all" onclick="setActiveTab('all')">Beranda</button>
+            <button class="filter-pill px-6 py-2 rounded-lg text-[9px] uppercase tracking-widest" data-category="Berita" onclick="setActiveTab('Berita')">Artikel</button>
+            <button class="filter-pill px-6 py-2 rounded-lg text-[9px] uppercase tracking-widest" data-category="Hasil Karya" onclick="setActiveTab('Hasil Karya')">Karya Siswa</button>
+            <button class="filter-pill px-6 py-2 rounded-lg text-[9px] uppercase tracking-widest" data-category="Game Interaktif" onclick="setActiveTab('Game Interaktif')">Game Edukasi</button>
+            <button class="filter-pill px-6 py-2 rounded-lg text-[9px] uppercase tracking-widest" data-category="Profil" onclick="setActiveTab('Profil')">Profil</button>
         </div>
 
-        <!-- KANAN -->
-        <div class="glass-card">
+        <div id="news-detail-view" class="hidden fade-in max-w-4xl mx-auto mb-20">
+            <button onclick="closeNewsDetail()" class="mb-8 text-slate-400 hover:text-indigo-400 transition font-bold text-sm">← Kembali</button>
+            <div id="news-content-full"></div>
+        </div>
 
-            <h2 class="font-bold mb-4">Highlight Berita</h2>
+        <div id="loadingState" class="flex flex-col items-center py-20">
+            <div class="loader mb-4"></div>
+            <p class="text-slate-500 text-[10px] uppercase tracking-widest">Memuat Data...</p>
+        </div>
 
-            ${
-                berita.length > 0
-                ? berita.map(item => `
-                    <div style="margin-bottom:15px">
-                        <b>${item.Judul_Karya}</b><br>
-                        <small>${item.Deskripsi}</small>
-                    </div>
-                `).join("")
-                : "Belum ada berita"
+        <div id="main-content-area" class="fade-in"></div>
+    </main>
+
+    <footer class="border-t border-white/5 py-12 mt-20 bg-slate-950/50">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="text-center md:text-left">
+                <h3 class="font-bold text-white text-sm uppercase">SD Negeri 1.2 Kambitin</h3>
+                <p class="text-slate-500 text-[10px] uppercase tracking-widest mt-1">Kabupaten Tabalong, Kalimantan Selatan</p>
+            </div>
+            
+            <div class="flex gap-4">
+                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-tiktok"></i></a>
+            </div>
+
+            <p class="text-slate-600 text-[9px] uppercase tracking-widest italic">&copy; 2024 SD Negeri 1.2 Kambitin</p>
+        </div>
+    </footer>
+
+    <script>
+        const API_URL = "https://script.google.com/macros/s/AKfycbzuUrihM0YQeMfrVVH34bTa45Y82y4_IK8is0x-NFbOZiEM2Sa4maJbh05TjfgtwH0t/exec"; 
+        const API_TOKEN = "RUANG_KREATIF_12_TOKEN";
+        const DEFAULT_MAP = `<iframe class="w-full h-full" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.1!2d115.4!3d-2.2!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMsKwMTInMDAuMCJTIDExNcKwMjQnMDAuMCJF!5e0!3m2!1sid!2sid!4v1620000000000!5m2!1sid!2sid" allowfullscreen="" loading="lazy"></iframe>`;
+
+        let allData = [];
+        let activeTab = 'all';
+
+        function initStars() {
+            const container = document.getElementById('starsBox');
+            if(!container) return;
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const size = (Math.random() * 2 + 1) + 'px';
+                star.style.width = size; star.style.height = size;
+                star.style.top = Math.random() * 100 + '%';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+                container.appendChild(star);
             }
+        }
 
-        </div>
+        function formatImageUrl(url) {
+            if (!url) return 'https://images.unsplash.com/photo-1594608661623-aa0bd3a67d28?q=80&w=800';
+            if (url.includes('drive.google.com')) {
+                const idMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
+                if (idMatch && idMatch[1]) return `https://lh3.googleusercontent.com/d/${idMatch[1]}=s1000`;
+            }
+            return url;
+        }
 
-    </div>
-    `;
-}
+        async function loadData() {
+            initStars();
+            try {
+                const response = await fetch(`${API_URL}?token=${API_TOKEN}`);
+                allData = await response.json();
+            } catch (e) { console.warn("Demo Mode"); }
 
-loadData();
-</script>
+            if (!allData || allData.length === 0 || allData.status === "error") {
+                allData = [
+                    { Kategori: "Profil", Judul_Karya: "Identitas Sekolah", Deskripsi: "Nama Sekolah: SD Negeri 1.2 Kambitin\nNISN: 30301234\nAlamat: Desa Kambitin, Kec. Tanjung\nKabupaten: Tabalong, Kalimantan Selatan", Link_Thumbnail: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=1000" },
+                    { Kategori: "Berita", Judul_Karya: "Peningkatan Sarana Prasarana", Deskripsi: "Pemerintah daerah memberikan bantuan sarana pendukung belajar berupa perangkat komputer terbaru...", Link_Thumbnail: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=800" }
+                ];
+            }
+            document.getElementById('loadingState').classList.add('hidden');
+            renderView();
+        }
 
+        window.setActiveTab = function(category) {
+            activeTab = category;
+            document.querySelectorAll('.filter-pill').forEach(btn => btn.classList.toggle('active', btn.dataset.category === category));
+            closeNewsDetail();
+            const hero = document.getElementById('hero-section');
+            if (hero) hero.style.display = (category === 'all') ? 'flex' : 'none';
+            renderView();
+        }
+
+        window.showNewsDetail = function(index) {
+            const item = allData[index];
+            document.getElementById('main-content-area').classList.add('hidden');
+            document.getElementById('news-detail-view').classList.remove('hidden');
+            document.getElementById('news-content-full').innerHTML = `
+                <img src="${formatImageUrl(item.Link_Thumbnail)}" class="w-full h-[350px] object-cover rounded-[2.5rem] mb-8 shadow-2xl">
+                <h2 class="font-serif text-4xl text-white mb-6">${item.Judul_Karya}</h2>
+                <div class="font-newspaper text-xl text-slate-300 leading-relaxed whitespace-pre-wrap">${item.Deskripsi}</div>
+            `;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.closeNewsDetail = function() {
+            document.getElementById('main-content-area').classList.remove('hidden');
+            document.getElementById('news-detail-view').classList.add('hidden');
+        }
+
+        function renderView() {
+            const container = document.getElementById('main-content-area');
+            if(!container) return;
+            container.innerHTML = '';
+            if (activeTab === 'all') renderHome(container);
+            else if (activeTab === 'Berita') renderNewspaperView(container);
+            else if (activeTab === 'Profil') renderProfil(container);
+            else renderGrid(container, activeTab);
+        }
+
+        function renderHome(container) {
+            const identitas = allData.find(i => i.Kategori === "Profil" && i.Judul_Karya.includes("Identitas")) || allData[0];
+            const news = allData.filter(i => i.Kategori === "Berita").slice(0, 2);
+
+            container.innerHTML = `
+                <div class="space-y-16">
+                    <section class="glass-card p-10 rounded-[2.5rem] relative overflow-hidden">
+                        <div class="absolute -top-20 -right-20 w-40 h-40 bg-indigo-600/10 blur-[80px] rounded-full"></div>
+                        <div class="relative z-10 flex flex-col md:flex-row gap-10 items-center text-left">
+                            <img src="${formatImageUrl(identitas.Link_Thumbnail)}" class="w-48 h-48 object-cover rounded-3xl shadow-xl border border-white/10">
+                            <div class="flex-1">
+                                <span class="text-indigo-400 font-black text-[9px] uppercase tracking-widest mb-2 block">Informasi Utama</span>
+                                <h2 class="font-serif text-4xl text-white mb-4 uppercase tracking-tighter">${identitas.Judul_Karya}</h2>
+                                <div class="text-slate-300 font-newspaper text-lg leading-relaxed whitespace-pre-wrap">${identitas.Deskripsi}</div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            `;
+        }
+
+        function renderProfil(container) {
+            const items = allData.filter(i => i.Kategori === "Profil");
+            const identitas = items.find(i => i.Judul_Karya.includes("Identitas")) || items[0];
+
+            container.innerHTML = `
+                <div class="space-y-12">
+                    <div class="grid md:grid-cols-2 gap-10">
+                        <div class="glass-card p-10 rounded-[2.5rem] border-white/5 text-left">
+                            <h3 class="text-indigo-400 font-black text-[9px] uppercase tracking-widest mb-4">Profil Sekolah</h3>
+                            <h2 class="font-serif text-4xl text-white mb-8">${identitas.Judul_Karya}</h2>
+                            <div class="text-slate-300 font-newspaper text-xl leading-relaxed whitespace-pre-wrap">${identitas.Deskripsi}</div>
+                        </div>
+                        <div class="map-container h-full shadow-2xl" style="min-height: 400px;">
+                            ${DEFAULT_MAP}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderNewspaperView(container) {
+            const news = allData.filter(i => i.Kategori === "Berita");
+            container.innerHTML = `
+                <div class="newspaper-header"><h2 class="font-serif text-5xl text-white uppercase tracking-tighter">WARTA SEKOLAH</h2></div>
+                <div class="grid md:grid-cols-2 gap-8">
+                    ${news.map(n => `
+                        <div onclick="showNewsDetail(${allData.indexOf(n)})" class="flex gap-6 pb-8 border-b border-white/10 cursor-pointer group">
+                            <img src="${formatImageUrl(n.Link_Thumbnail)}" class="w-32 h-32 object-cover rounded-2xl grayscale group-hover:grayscale-0 transition-all">
+                            <div>
+                                <h3 class="text-xl font-serif text-white mb-2 group-hover:text-indigo-400 transition-colors">${n.Judul_Karya}</h3>
+                                <p class="text-slate-400 text-sm line-clamp-3 font-newspaper">${n.Deskripsi}</p>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function renderGrid(container, cat) {
+            const items = allData.filter(i => i.Kategori === cat);
+            container.innerHTML = `
+                <h2 class="font-serif text-4xl text-white mb-10 text-center uppercase tracking-tighter">${cat}</h2>
+                <div class="bento-grid">${items.map(item => `
+                    <div class="glass-card rounded-[2rem] overflow-hidden p-5 group hover:border-indigo-500/40">
+                        <img src="${formatImageUrl(item.Link_Thumbnail)}" class="aspect-video object-cover rounded-2xl mb-4 group-hover:scale-105 transition-transform duration-500">
+                        <h3 class="font-bold text-white text-[10px] uppercase tracking-widest">${item.Judul_Karya}</h3>
+                    </div>`).join('')}</div>`;
+        }
+
+        window.onload = loadData;
+    </script>
 </body>
 </html>
