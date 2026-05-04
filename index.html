@@ -23,15 +23,10 @@
             position: relative;
         }
 
-        /* ANIMASI BINTANG KELAP-KELIP */
         .stars-container {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1;
-            overflow: hidden;
             background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
         }
 
@@ -53,7 +48,7 @@
         
         .hero-container { 
             position: relative; 
-            min-height: 55vh; 
+            min-height: 45vh; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
@@ -84,47 +79,6 @@
             margin-bottom: 2rem;
         }
 
-        .newspaper-container {
-            border-top: 1px solid rgba(255,255,255,0.2);
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-            padding: 2.5rem 0;
-        }
-
-        .newspaper-grid {
-            display: grid;
-            grid-template-columns: 2.2fr 0.8fr;
-            gap: 3rem;
-        }
-
-        @media (max-width: 1024px) {
-            .newspaper-grid { grid-template-columns: 1fr; gap: 2rem; }
-        }
-
-        .col-divider {
-            border-right: 1px solid rgba(255,255,255,0.1);
-            padding-right: 2.5rem;
-        }
-
-        .newspaper-item {
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .newspaper-item:hover h3, .newspaper-item:hover h4 { color: var(--primary); text-decoration: underline; }
-
-        .sosmed-link {
-            transition: all 0.3s ease;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-        }
-        .sosmed-link:hover { transform: translateY(-3px); background: var(--primary); border-color: var(--primary); }
-        .sosmed-icon-img { width: 20px; height: 20px; object-fit: contain; filter: brightness(0) invert(1); }
-
         .loader { width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.1); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
         
@@ -132,116 +86,96 @@
         .fade-in { animation: fadeIn 0.5s ease forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        #lightbox { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.95); align-items: center; justify-content: center; padding: 20px; }
-        #lightbox.active { display: flex; animation: fadeIn 0.3s ease; }
+        /* Peta Google */
+        .map-container {
+            width: 100%;
+            height: 350px;
+            border-radius: 2rem;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
     </style>
 </head>
 <body>
 
     <div class="stars-container" id="starsBox"></div>
 
-    <div id="lightbox" onclick="this.classList.remove('active')">
-        <img id="lightbox-img" src="" class="max-w-full max-h-full rounded-lg shadow-2xl object-contain">
-    </div>
-
     <!-- Navigasi -->
     <nav class="fixed top-0 w-full z-50 px-6 py-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center bg-slate-900/60 backdrop-blur-xl rounded-2xl px-6 py-3 border border-white/10 shadow-2xl">
-            
             <div class="flex items-center gap-4 cursor-pointer" onclick="setActiveTab('all')">
-                <img id="school-logo" 
-                     src="https://img.icons8.com/fluency/96/school.png" 
-                     class="w-12 h-12 object-contain bg-white/5 rounded-xl p-1" 
-                     alt="Logo Sekolah">
+                <img src="https://img.icons8.com/fluency/96/school.png" class="w-10 h-10 object-contain bg-white/5 rounded-xl p-1">
                 <div>
-                    <h1 class="font-extrabold text-sm text-white leading-tight">SD Negeri 1.2 Kambitin</h1>
-                    <span class="text-[7px] uppercase tracking-widest text-indigo-400 font-black">Portal Kreativitas Digital</span>
+                    <h1 class="font-extrabold text-xs text-white leading-tight">SDN 1.2 Kambitin</h1>
+                    <span class="text-[6px] uppercase tracking-widest text-indigo-400 font-black">Portal Kreativitas</span>
                 </div>
             </div>
-            
-            <div class="hidden lg:flex gap-2">
-                <a href="#" class="sosmed-link"><img src="https://img.icons8.com/ios-filled/50/ffffff/facebook-new.png" class="sosmed-icon-img"></a>
-                <a href="#" class="sosmed-link"><img src="https://img.icons8.com/ios-filled/50/ffffff/instagram-new.png" class="sosmed-icon-img"></a>
-                <a href="#" class="sosmed-link"><img src="https://img.icons8.com/ios-filled/50/ffffff/tiktok.png" class="sosmed-icon-img"></a>
-                <a href="#" class="sosmed-link"><img src="https://img.icons8.com/ios-filled/50/ffffff/youtube-play.png" class="sosmed-icon-img"></a>
-            </div>
-
             <div class="flex gap-4 text-[9px] font-black uppercase tracking-widest">
                 <button onclick="setActiveTab('all')" class="hover:text-indigo-400 transition">Beranda</button>
                 <button onclick="setActiveTab('Berita')" class="hover:text-indigo-400 transition">Artikel</button>
-                <button onclick="setActiveTab('Hasil Karya')" class="hover:text-indigo-400 transition hidden md:block">Karya</button>
+                <button onclick="setActiveTab('Profil')" class="hover:text-indigo-400 transition">Profil</button>
             </div>
         </div>
     </nav>
 
     <header id="hero-section" class="hero-container">
-        <div class="absolute inset-0 bg-cover bg-center opacity-30" style="background-image: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2000')"></div>
+        <div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2000')"></div>
         <div class="hero-overlay"></div>
         <div class="relative z-10 text-center px-6">
-            <h1 class="text-4xl md:text-7xl font-black mb-4 tracking-tighter text-white uppercase text-shadow-lg">SD Negeri 1.2 Kambitin</h1>
-            <p class="text-indigo-300 font-bold text-xs md:text-sm uppercase tracking-[0.4em] mb-4 text-shadow-xl">
-                Menyemai Karya dan Inspirasi dari Ruang Kelas Menuju Cakrawala Dunia
-            </p>
-            <div class="h-px w-24 bg-indigo-500 mx-auto mt-6 opacity-50"></div>
+            <h1 class="text-4xl md:text-6xl font-black mb-4 tracking-tighter text-white uppercase">RUANG KREATIF</h1>
+            <p class="text-indigo-300 font-bold text-[10px] uppercase tracking-[0.4em]">SD Negeri 1.2 Kambitin</p>
         </div>
     </header>
 
     <main class="max-w-7xl mx-auto px-6 py-12 relative z-10">
         <!-- Menu Tab -->
-        <div id="tab-menu" class="flex flex-wrap justify-center gap-3 mb-10">
-            <button class="filter-pill active px-8 py-3 rounded-xl text-[10px] uppercase tracking-widest" data-category="all" onclick="setActiveTab('all')">🏠 Beranda</button>
-            <button class="filter-pill px-8 py-3 rounded-xl text-[10px] uppercase tracking-widest" data-category="Berita" onclick="setActiveTab('Berita')">📰 Artikel</button>
-            <button class="filter-pill px-8 py-3 rounded-xl text-[10px] uppercase tracking-widest" data-category="Hasil Karya" onclick="setActiveTab('Hasil Karya')">🎨 Karya Siswa</button>
-            <button class="filter-pill px-8 py-3 rounded-xl text-[10px] uppercase tracking-widest" data-category="Game Interaktif" onclick="setActiveTab('Game Interaktif')">🎮 Game</button>
-            <button class="filter-pill px-8 py-3 rounded-xl text-[10px] uppercase tracking-widest" data-category="Profil" onclick="setActiveTab('Profil')">🏫 Profil</button>
+        <div id="tab-menu" class="flex flex-wrap justify-center gap-3 mb-12">
+            <button class="filter-pill active px-6 py-2 rounded-lg text-[9px] uppercase tracking-widest" data-category="all" onclick="setActiveTab('all')">Beranda</button>
+            <button class="filter-pill px-6 py-2 rounded-lg text-[9px] uppercase tracking-widest" data-category="Berita" onclick="setActiveTab('Berita')">Artikel</button>
+            <button class="filter-pill px-6 py-2 rounded-lg text-[9px] uppercase tracking-widest" data-category="Hasil Karya" onclick="setActiveTab('Hasil Karya')">Karya</button>
+            <button class="filter-pill px-6 py-2 rounded-lg text-[9px] uppercase tracking-widest" data-category="Game Interaktif" onclick="setActiveTab('Game Interaktif')">Game</button>
+            <button class="filter-pill px-6 py-2 rounded-lg text-[9px] uppercase tracking-widest" data-category="Profil" onclick="setActiveTab('Profil')">Profil</button>
         </div>
 
+        <!-- Detail Berita -->
         <div id="news-detail-view" class="hidden fade-in max-w-4xl mx-auto mb-20">
-            <button onclick="closeNewsDetail()" class="mb-8 flex items-center gap-2 text-slate-400 hover:text-indigo-400 transition font-bold text-sm">
-                ← Kembali
-            </button>
+            <button onclick="closeNewsDetail()" class="mb-8 text-slate-400 hover:text-indigo-400 transition font-bold text-sm">← Kembali</button>
             <div id="news-content-full"></div>
         </div>
 
+        <!-- Loading -->
         <div id="loadingState" class="flex flex-col items-center py-20">
             <div class="loader mb-4"></div>
-            <p class="text-slate-500 animate-pulse text-xs uppercase tracking-widest">Sinkronisasi Data...</p>
+            <p class="text-slate-500 text-[10px] uppercase tracking-widest">Memuat Data...</p>
         </div>
 
         <div id="main-content-area" class="fade-in"></div>
     </main>
 
-    <footer class="border-t border-white/5 py-12 text-center mt-20">
-        <p class="text-slate-600 text-[10px] uppercase tracking-widest italic">&copy; 2024 SD Negeri 1.2 Kambitin • Tabalong, Kalsel</p>
+    <footer class="border-t border-white/5 py-12 text-center mt-20 opacity-40">
+        <p class="text-slate-600 text-[9px] uppercase tracking-widest italic">&copy; 2024 SD Negeri 1.2 Kambitin • Tabalong</p>
     </footer>
 
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbzuUrihM0YQeMfrVVH34bTa45Y82y4_IK8is0x-NFbOZiEM2Sa4maJbh05TjfgtwH0t/exec"; 
         const API_TOKEN = "RUANG_KREATIF_12_TOKEN";
+        const DEFAULT_MAP = `<iframe class="w-full h-full" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.1!2d115.4!3d-2.2!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMsKwMTInMDAuMCJTIDExNcKwMjQnMDAuMCJF!5e0!3m2!1sid!2sid!4v1620000000000!5m2!1sid!2sid" allowfullscreen="" loading="lazy"></iframe>`;
 
         let allData = [];
         let activeTab = 'all';
 
         function initStars() {
             const container = document.getElementById('starsBox');
-            const starCount = 150;
-            for (let i = 0; i < starCount; i++) {
+            for (let i = 0; i < 100; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
                 const size = (Math.random() * 2 + 1) + 'px';
-                star.style.width = size;
-                star.style.height = size;
+                star.style.width = size; star.style.height = size;
                 star.style.top = Math.random() * 100 + '%';
                 star.style.left = Math.random() * 100 + '%';
                 star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
-                star.style.animationDelay = Math.random() * 5 + 's';
                 container.appendChild(star);
             }
-        }
-
-        function getTodayDate() {
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            return new Date().toLocaleDateString('id-ID', options);
         }
 
         function formatImageUrl(url) {
@@ -258,27 +192,14 @@
             try {
                 const response = await fetch(`${API_URL}?token=${API_TOKEN}`);
                 allData = await response.json();
-            } catch (e) { 
-                console.warn("Mode Demo Aktif");
-            }
+            } catch (e) { console.warn("Demo Mode"); }
 
             if (!allData || allData.length === 0 || allData.status === "error") {
                 allData = [
-                    {
-                        Kategori: "Profil",
-                        Judul_Karya: "Identitas Sekolah",
-                        Deskripsi: "Nama Sekolah: SD Negeri 1.2 Kambitin\nNomor NISN: [Contoh: 12345678]\nAlamat: Desa Kambitin, Kec. Tanjung\nKabupaten: Tabalong, Kalimantan Selatan",
-                        Link_Thumbnail: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=1000"
-                    },
-                    {
-                        Kategori: "Profil",
-                        Judul_Karya: "Visi & Misi",
-                        Deskripsi: "VISI: Terwujudnya siswa yang religius, cerdas, dan mandiri.\n\nMISI:\n1. Melaksanakan pembelajaran aktif.\n2. Mengembangkan bakat minat siswa.",
-                        Link_Thumbnail: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1000"
-                    }
+                    { Kategori: "Profil", Judul_Karya: "Identitas Sekolah", Deskripsi: "Nama Sekolah: SD Negeri 1.2 Kambitin\nNISN: 30301234\nAlamat: Desa Kambitin, Kec. Tanjung\nKabupaten: Tabalong, Kalimantan Selatan", Link_Thumbnail: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=1000" },
+                    { Kategori: "Berita", Judul_Karya: "Kunjungan Literasi Digital", Deskripsi: "Siswa kelas 5 melaksanakan kunjungan ke perpustakaan daerah untuk belajar literasi digital secara langsung...", Link_Thumbnail: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=800" }
                 ];
             }
-
             document.getElementById('loadingState').classList.add('hidden');
             renderView();
         }
@@ -292,9 +213,25 @@
             renderView();
         }
 
+        window.showNewsDetail = function(index) {
+            const item = allData[index];
+            document.getElementById('main-content-area').classList.add('hidden');
+            document.getElementById('news-detail-view').classList.remove('hidden');
+            document.getElementById('news-content-full').innerHTML = `
+                <img src="${formatImageUrl(item.Link_Thumbnail)}" class="w-full h-[350px] object-cover rounded-[2.5rem] mb-8 shadow-2xl">
+                <h2 class="font-serif text-4xl text-white mb-6">${item.Judul_Karya}</h2>
+                <div class="font-newspaper text-xl text-slate-300 leading-relaxed whitespace-pre-wrap">${item.Deskripsi}</div>
+            `;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.closeNewsDetail = function() {
+            document.getElementById('main-content-area').classList.remove('hidden');
+            document.getElementById('news-detail-view').classList.add('hidden');
+        }
+
         function renderView() {
             const container = document.getElementById('main-content-area');
-            if (!container) return;
             container.innerHTML = '';
             if (activeTab === 'all') renderHome(container);
             else if (activeTab === 'Berita') renderNewspaperView(container);
@@ -302,61 +239,120 @@
             else renderGrid(container, activeTab);
         }
 
-        function renderProfil(container) {
-            const items = allData.filter(item => item.Kategori === "Profil");
+        function renderHome(container) {
+            const identitas = allData.find(i => i.Kategori === "Profil" && i.Judul_Karya.includes("Identitas")) || allData[0];
+            const news = allData.filter(i => i.Kategori === "Berita").slice(0, 2);
+
             container.innerHTML = `
-                <div class="max-w-4xl mx-auto space-y-10">
-                    <div class="text-center mb-16">
-                        <span class="text-indigo-400 font-black text-[10px] uppercase tracking-[0.5em] mb-2 block">Informasi Resmi</span>
-                        <h2 class="font-serif text-5xl md:text-6xl text-white uppercase tracking-tighter">Profil Sekolah</h2>
-                    </div>
-                    ${items.map(p => `
-                        <div class="glass-card p-8 md:p-12 rounded-[2.5rem] border-white/5 relative overflow-hidden group">
-                            <div class="absolute -top-20 -right-20 w-40 h-40 bg-indigo-600/10 blur-[80px] rounded-full"></div>
-                            <div class="flex flex-col md:flex-row gap-12 items-start relative z-10">
-                                ${p.Link_Thumbnail ? `<img src="${formatImageUrl(p.Link_Thumbnail)}" class="w-full md:w-56 aspect-square object-cover rounded-[2rem] shadow-2xl border border-white/10 group-hover:rotate-2 transition-transform">` : ''}
-                                <div class="flex-1">
-                                    <h3 class="text-3xl font-bold text-white mb-8 uppercase tracking-tighter flex items-center gap-3">
-                                        <span class="w-8 h-[2px] bg-indigo-500"></span>
-                                        ${p.Judul_Karya}
-                                    </h3>
-                                    <div class="text-slate-300 font-newspaper text-xl md:text-2xl leading-[1.6] whitespace-pre-wrap">${p.Deskripsi}</div>
-                                </div>
+                <div class="space-y-16">
+                    <!-- IDENTITAS PALING ATAS -->
+                    <section class="glass-card p-10 rounded-[2.5rem] relative overflow-hidden">
+                        <div class="absolute -top-20 -right-20 w-40 h-40 bg-indigo-600/10 blur-[80px] rounded-full"></div>
+                        <div class="relative z-10 flex flex-col md:flex-row gap-10 items-center text-left">
+                            <img src="${formatImageUrl(identitas.Link_Thumbnail)}" class="w-48 h-48 object-cover rounded-3xl shadow-xl border border-white/10">
+                            <div class="flex-1">
+                                <span class="text-indigo-400 font-black text-[9px] uppercase tracking-widest mb-2 block">Identitas Sekolah</span>
+                                <h2 class="font-serif text-4xl text-white mb-4 uppercase tracking-tighter">${identitas.Judul_Karya}</h2>
+                                <div class="text-slate-300 font-newspaper text-lg leading-relaxed whitespace-pre-wrap">${identitas.Deskripsi}</div>
                             </div>
                         </div>
-                    `).join('')}
-                </div>`;
+                    </section>
+
+                    <!-- BARIS BAWAH: HIGHLIGHT ARTIKEL (KIRI) & MAP (KANAN) -->
+                    <section class="grid md:grid-cols-2 gap-10 items-start">
+                        <!-- SISI KIRI: ARTIKEL HIGHLIGHT -->
+                        <div>
+                            <h3 class="font-serif text-2xl text-white mb-6 flex items-center gap-3">
+                                <span class="w-6 h-px bg-indigo-500"></span> Kabar Terkini
+                            </h3>
+                            <div class="space-y-6">
+                                ${news.map(n => `
+                                    <div onclick="showNewsDetail(${allData.indexOf(n)})" class="glass-card p-5 rounded-3xl cursor-pointer group hover:bg-white/5 transition-all">
+                                        <div class="flex gap-4">
+                                            <img src="${formatImageUrl(n.Link_Thumbnail)}" class="w-24 h-24 object-cover rounded-2xl">
+                                            <div class="flex-1">
+                                                <h4 class="text-white font-bold text-sm mb-1 group-hover:text-indigo-400">${n.Judul_Karya}</h4>
+                                                <p class="text-slate-400 text-[11px] line-clamp-2">${n.Deskripsi}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                                <button onclick="setActiveTab('Berita')" class="w-full py-4 border border-white/5 rounded-2xl text-[9px] uppercase tracking-[0.3em] font-black hover:bg-white/5 transition">Lihat Artikel Lainnya</button>
+                            </div>
+                        </div>
+
+                        <!-- SISI KANAN: GOOGLE MAPS -->
+                        <div>
+                            <h3 class="font-serif text-2xl text-white mb-6 flex items-center gap-3">
+                                <span class="w-6 h-px bg-indigo-500"></span> Letak Sekolah
+                            </h3>
+                            <div class="map-container shadow-2xl">
+                                ${DEFAULT_MAP}
+                            </div>
+                            <p class="mt-4 text-center text-slate-500 text-[10px] italic">Lokasi SDN 1.2 Kambitin, Kab. Tabalong</p>
+                        </div>
+                    </section>
+                </div>
+            `;
         }
 
-        function renderHome(container) {
-            const profil = allData.find(item => item.Kategori === "Profil") || {Judul_Karya: "Selamat Datang", Deskripsi: "SD Negeri 1.2 Kambitin"};
+        function renderProfil(container) {
+            const items = allData.filter(i => i.Kategori === "Profil");
+            const identitas = items.find(i => i.Judul_Karya.includes("Identitas")) || items[0];
+            const visiMisi = items.find(i => i.Judul_Karya.includes("Visi")) || items[1];
+
             container.innerHTML = `
-                <div class="flex flex-col gap-20">
-                    <section class="glass-card p-12 rounded-[3.5rem] border-indigo-500/10 relative overflow-hidden text-center">
-                        <div class="absolute -top-40 -left-40 w-80 h-80 bg-indigo-600/5 blur-[120px] rounded-full"></div>
-                        <h2 class="font-serif text-4xl md:text-5xl text-white mb-6 uppercase tracking-tighter">${profil.Judul_Karya}</h2>
-                        <div class="font-newspaper text-slate-400 text-2xl leading-relaxed italic max-w-2xl mx-auto whitespace-pre-wrap line-clamp-3">${profil.Deskripsi}</div>
-                        <button onclick="setActiveTab('Profil')" class="mt-8 px-10 py-4 bg-indigo-600/20 border border-indigo-500/30 rounded-full text-indigo-400 font-black text-[10px] uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition-all shadow-xl shadow-indigo-900/20">Selengkapnya</button>
-                    </section>
-                </div>`;
+                <div class="space-y-12">
+                    <div class="grid md:grid-cols-2 gap-10">
+                        <!-- KIRI: IDENTITAS -->
+                        <div class="glass-card p-10 rounded-[2.5rem] border-white/5 text-left">
+                            <h3 class="text-indigo-400 font-black text-[9px] uppercase tracking-widest mb-4">Profil Utama</h3>
+                            <h2 class="font-serif text-4xl text-white mb-8">${identitas.Judul_Karya}</h2>
+                            <div class="text-slate-300 font-newspaper text-xl leading-relaxed whitespace-pre-wrap">${identitas.Deskripsi}</div>
+                        </div>
+                        <!-- KANAN: MAP -->
+                        <div class="map-container h-full shadow-2xl" style="min-height: 400px;">
+                            ${DEFAULT_MAP}
+                        </div>
+                    </div>
+                    
+                    ${visiMisi ? `
+                    <div class="glass-card p-10 rounded-[2.5rem] border-white/5 text-left max-w-2xl">
+                        <h3 class="text-indigo-400 font-black text-[9px] uppercase tracking-widest mb-4">Arah & Tujuan</h3>
+                        <h2 class="font-serif text-3xl text-white mb-6">${visiMisi.Judul_Karya}</h2>
+                        <div class="text-slate-300 font-newspaper text-xl leading-relaxed whitespace-pre-wrap">${visiMisi.Deskripsi}</div>
+                    </div>` : ''}
+                </div>
+            `;
         }
 
         function renderNewspaperView(container) {
-            const news = allData.filter(item => item.Kategori === "Berita");
-            if (news.length === 0) {
-                container.innerHTML = `<div class="text-center py-20 text-slate-500 italic">Belum ada artikel berita.</div>`;
-                return;
-            }
-            container.innerHTML = `<div class="newspaper-header"><h2 class="font-serif text-6xl text-white uppercase font-black tracking-tighter">WARTA DIGITAL</h2></div>`;
+            const news = allData.filter(i => i.Kategori === "Berita");
+            container.innerHTML = `
+                <div class="newspaper-header"><h2 class="font-serif text-5xl text-white uppercase tracking-tighter">WARTA SEKOLAH</h2></div>
+                <div class="grid md:grid-cols-2 gap-8">
+                    ${news.map(n => `
+                        <div onclick="showNewsDetail(${allData.indexOf(n)})" class="flex gap-6 pb-8 border-b border-white/10 cursor-pointer group">
+                            <img src="${formatImageUrl(n.Link_Thumbnail)}" class="w-32 h-32 object-cover rounded-2xl grayscale group-hover:grayscale-0 transition-all">
+                            <div>
+                                <h3 class="text-xl font-serif text-white mb-2 group-hover:text-indigo-400 transition-colors">${n.Judul_Karya}</h3>
+                                <p class="text-slate-400 text-sm line-clamp-3 font-newspaper">${n.Deskripsi}</p>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
         }
 
         function renderGrid(container, cat) {
-            const items = allData.filter(item => item.Kategori === cat);
-            container.innerHTML = `<div class="bento-grid">${items.map(item => `
-                <div class="glass-card rounded-[2rem] overflow-hidden p-5 group hover:border-indigo-500/40 transition-colors">
-                    <img src="${formatImageUrl(item.Link_Thumbnail)}" class="aspect-video object-cover rounded-2xl mb-5 group-hover:scale-[1.02] transition-transform duration-500">
-                    <h3 class="font-bold text-white text-sm uppercase tracking-tighter leading-snug">${item.Judul_Karya}</h3>
-                </div>`).join('')}</div>`;
+            const items = allData.filter(i => i.Kategori === cat);
+            container.innerHTML = `
+                <h2 class="font-serif text-4xl text-white mb-10 text-center uppercase tracking-tighter">${cat}</h2>
+                <div class="bento-grid">${items.map(item => `
+                    <div class="glass-card rounded-[2rem] overflow-hidden p-5 group hover:border-indigo-500/40">
+                        <img src="${formatImageUrl(item.Link_Thumbnail)}" class="aspect-video object-cover rounded-2xl mb-4 group-hover:scale-105 transition-transform duration-500">
+                        <h3 class="font-bold text-white text-[10px] uppercase tracking-widest">${item.Judul_Karya}</h3>
+                    </div>`).join('')}</div>`;
         }
 
         window.onload = loadData;
