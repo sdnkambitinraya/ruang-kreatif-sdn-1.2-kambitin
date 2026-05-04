@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SD Negeri 1.2 Kambitin - Ruang Kreatif</title>
+    <title>SD Negeri 1.2 Kambitin</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Playfair+Display:wght@700;900&family=Crimson+Pro:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     
@@ -86,7 +86,6 @@
         .fade-in { animation: fadeIn 0.5s ease forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Peta Google */
         .map-container {
             width: 100%;
             height: 350px;
@@ -106,8 +105,8 @@
             <div class="flex items-center gap-4 cursor-pointer" onclick="setActiveTab('all')">
                 <img src="https://img.icons8.com/fluency/96/school.png" class="w-10 h-10 object-contain bg-white/5 rounded-xl p-1">
                 <div>
-                    <h1 class="font-extrabold text-xs text-white leading-tight">SDN 1.2 Kambitin</h1>
-                    <span class="text-[6px] uppercase tracking-widest text-indigo-400 font-black">Portal Kreativitas</span>
+                    <h1 class="font-extrabold text-xs text-white leading-tight uppercase">SD Negeri 1.2 Kambitin</h1>
+                    <span class="text-[6px] uppercase tracking-widest text-indigo-400 font-black">Portal Resmi Sekolah</span>
                 </div>
             </div>
             <div class="flex gap-4 text-[9px] font-black uppercase tracking-widest">
@@ -118,12 +117,13 @@
         </div>
     </nav>
 
+    <!-- Header / Hero Section -->
     <header id="hero-section" class="hero-container">
         <div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2000')"></div>
         <div class="hero-overlay"></div>
         <div class="relative z-10 text-center px-6">
-            <h1 class="text-4xl md:text-6xl font-black mb-4 tracking-tighter text-white uppercase">RUANG KREATIF</h1>
-            <p class="text-indigo-300 font-bold text-[10px] uppercase tracking-[0.4em]">SD Negeri 1.2 Kambitin</p>
+            <h1 class="text-4xl md:text-6xl font-black mb-4 tracking-tighter text-white uppercase">SD NEGERI 1.2 KAMBITIN</h1>
+            <p class="text-indigo-300 font-bold text-[10px] uppercase tracking-[0.4em]">Kabupaten Tabalong, Kalimantan Selatan</p>
         </div>
     </header>
 
@@ -132,18 +132,16 @@
         <div id="tab-menu" class="flex flex-wrap justify-center gap-3 mb-12">
             <button class="filter-pill active px-6 py-2 rounded-lg text-[9px] uppercase tracking-widest" data-category="all" onclick="setActiveTab('all')">Beranda</button>
             <button class="filter-pill px-6 py-2 rounded-lg text-[9px] uppercase tracking-widest" data-category="Berita" onclick="setActiveTab('Berita')">Artikel</button>
-            <button class="filter-pill px-6 py-2 rounded-lg text-[9px] uppercase tracking-widest" data-category="Hasil Karya" onclick="setActiveTab('Hasil Karya')">Karya</button>
-            <button class="filter-pill px-6 py-2 rounded-lg text-[9px] uppercase tracking-widest" data-category="Game Interaktif" onclick="setActiveTab('Game Interaktif')">Game</button>
+            <button class="filter-pill px-6 py-2 rounded-lg text-[9px] uppercase tracking-widest" data-category="Hasil Karya" onclick="setActiveTab('Hasil Karya')">Karya Siswa</button>
+            <button class="filter-pill px-6 py-2 rounded-lg text-[9px] uppercase tracking-widest" data-category="Game Interaktif" onclick="setActiveTab('Game Interaktif')">Game Edukasi</button>
             <button class="filter-pill px-6 py-2 rounded-lg text-[9px] uppercase tracking-widest" data-category="Profil" onclick="setActiveTab('Profil')">Profil</button>
         </div>
 
-        <!-- Detail Berita -->
         <div id="news-detail-view" class="hidden fade-in max-w-4xl mx-auto mb-20">
             <button onclick="closeNewsDetail()" class="mb-8 text-slate-400 hover:text-indigo-400 transition font-bold text-sm">← Kembali</button>
             <div id="news-content-full"></div>
         </div>
 
-        <!-- Loading -->
         <div id="loadingState" class="flex flex-col items-center py-20">
             <div class="loader mb-4"></div>
             <p class="text-slate-500 text-[10px] uppercase tracking-widest">Memuat Data...</p>
@@ -197,7 +195,7 @@
             if (!allData || allData.length === 0 || allData.status === "error") {
                 allData = [
                     { Kategori: "Profil", Judul_Karya: "Identitas Sekolah", Deskripsi: "Nama Sekolah: SD Negeri 1.2 Kambitin\nNISN: 30301234\nAlamat: Desa Kambitin, Kec. Tanjung\nKabupaten: Tabalong, Kalimantan Selatan", Link_Thumbnail: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=1000" },
-                    { Kategori: "Berita", Judul_Karya: "Kunjungan Literasi Digital", Deskripsi: "Siswa kelas 5 melaksanakan kunjungan ke perpustakaan daerah untuk belajar literasi digital secara langsung...", Link_Thumbnail: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=800" }
+                    { Kategori: "Berita", Judul_Karya: "Peningkatan Sarana Prasarana", Deskripsi: "Pemerintah daerah memberikan bantuan sarana pendukung belajar berupa perangkat komputer terbaru...", Link_Thumbnail: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=800" }
                 ];
             }
             document.getElementById('loadingState').classList.add('hidden');
@@ -245,25 +243,22 @@
 
             container.innerHTML = `
                 <div class="space-y-16">
-                    <!-- IDENTITAS PALING ATAS -->
                     <section class="glass-card p-10 rounded-[2.5rem] relative overflow-hidden">
                         <div class="absolute -top-20 -right-20 w-40 h-40 bg-indigo-600/10 blur-[80px] rounded-full"></div>
                         <div class="relative z-10 flex flex-col md:flex-row gap-10 items-center text-left">
                             <img src="${formatImageUrl(identitas.Link_Thumbnail)}" class="w-48 h-48 object-cover rounded-3xl shadow-xl border border-white/10">
                             <div class="flex-1">
-                                <span class="text-indigo-400 font-black text-[9px] uppercase tracking-widest mb-2 block">Identitas Sekolah</span>
+                                <span class="text-indigo-400 font-black text-[9px] uppercase tracking-widest mb-2 block">Profil Utama</span>
                                 <h2 class="font-serif text-4xl text-white mb-4 uppercase tracking-tighter">${identitas.Judul_Karya}</h2>
                                 <div class="text-slate-300 font-newspaper text-lg leading-relaxed whitespace-pre-wrap">${identitas.Deskripsi}</div>
                             </div>
                         </div>
                     </section>
 
-                    <!-- BARIS BAWAH: HIGHLIGHT ARTIKEL (KIRI) & MAP (KANAN) -->
                     <section class="grid md:grid-cols-2 gap-10 items-start">
-                        <!-- SISI KIRI: ARTIKEL HIGHLIGHT -->
                         <div>
                             <h3 class="font-serif text-2xl text-white mb-6 flex items-center gap-3">
-                                <span class="w-6 h-px bg-indigo-500"></span> Kabar Terkini
+                                <span class="w-6 h-px bg-indigo-500"></span> Artikel Terbaru
                             </h3>
                             <div class="space-y-6">
                                 ${news.map(n => `
@@ -277,19 +272,17 @@
                                         </div>
                                     </div>
                                 `).join('')}
-                                <button onclick="setActiveTab('Berita')" class="w-full py-4 border border-white/5 rounded-2xl text-[9px] uppercase tracking-[0.3em] font-black hover:bg-white/5 transition">Lihat Artikel Lainnya</button>
+                                <button onclick="setActiveTab('Berita')" class="w-full py-4 border border-white/5 rounded-2xl text-[9px] uppercase tracking-[0.3em] font-black hover:bg-white/5 transition">Lihat Semua Artikel</button>
                             </div>
                         </div>
 
-                        <!-- SISI KANAN: GOOGLE MAPS -->
                         <div>
                             <h3 class="font-serif text-2xl text-white mb-6 flex items-center gap-3">
-                                <span class="w-6 h-px bg-indigo-500"></span> Letak Sekolah
+                                <span class="w-6 h-px bg-indigo-500"></span> Peta Lokasi
                             </h3>
                             <div class="map-container shadow-2xl">
                                 ${DEFAULT_MAP}
                             </div>
-                            <p class="mt-4 text-center text-slate-500 text-[10px] italic">Lokasi SDN 1.2 Kambitin, Kab. Tabalong</p>
                         </div>
                     </section>
                 </div>
@@ -304,13 +297,11 @@
             container.innerHTML = `
                 <div class="space-y-12">
                     <div class="grid md:grid-cols-2 gap-10">
-                        <!-- KIRI: IDENTITAS -->
                         <div class="glass-card p-10 rounded-[2.5rem] border-white/5 text-left">
-                            <h3 class="text-indigo-400 font-black text-[9px] uppercase tracking-widest mb-4">Profil Utama</h3>
+                            <h3 class="text-indigo-400 font-black text-[9px] uppercase tracking-widest mb-4">Informasi Sekolah</h3>
                             <h2 class="font-serif text-4xl text-white mb-8">${identitas.Judul_Karya}</h2>
                             <div class="text-slate-300 font-newspaper text-xl leading-relaxed whitespace-pre-wrap">${identitas.Deskripsi}</div>
                         </div>
-                        <!-- KANAN: MAP -->
                         <div class="map-container h-full shadow-2xl" style="min-height: 400px;">
                             ${DEFAULT_MAP}
                         </div>
@@ -318,7 +309,7 @@
                     
                     ${visiMisi ? `
                     <div class="glass-card p-10 rounded-[2.5rem] border-white/5 text-left max-w-2xl">
-                        <h3 class="text-indigo-400 font-black text-[9px] uppercase tracking-widest mb-4">Arah & Tujuan</h3>
+                        <h3 class="text-indigo-400 font-black text-[9px] uppercase tracking-widest mb-4">Visi & Misi</h3>
                         <h2 class="font-serif text-3xl text-white mb-6">${visiMisi.Judul_Karya}</h2>
                         <div class="text-slate-300 font-newspaper text-xl leading-relaxed whitespace-pre-wrap">${visiMisi.Deskripsi}</div>
                     </div>` : ''}
