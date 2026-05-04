@@ -4,95 +4,94 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SD Negeri 1.2 Kambitin</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Playfair+Display:wght@700;900&family=Crimson+Pro:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-    
-    <style>
-        :root { 
-            --primary: #7c3aed; 
-            --glass: rgba(15, 23, 42, 0.7); 
-            --night-sky: #070b14; 
-        }
 
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background: var(--night-sky); 
-            color: #f1f5f9; 
-            overflow-x: hidden;
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body {
+            background: #070b14;
+            color: white;
+            font-family: Arial;
             margin: 0;
         }
 
-        .glass-card { 
-            background: var(--glass); 
-            backdrop-filter: blur(15px); 
-            border: 1px solid rgba(255,255,255,0.08); 
+        .glass-card {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 20px;
         }
     </style>
 </head>
 
 <body>
 
-<main class="max-w-7xl mx-auto px-6 py-12">
-
-<div id="main-content-area"></div>
-
+<main class="max-w-6xl mx-auto p-6">
+    <div id="main-content-area">Loading...</div>
 </main>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbzDApoLc6to61gKpj9tDaI3UgOOkMnliTMhPqlM1H9kDCc4kzjd3Rcl1TY3nVq_eM8K/exec"; 
+const API_URL = "https://script.google.com/macros/s/AKfycbzDApoLc6to61gKpj9tDaI3UgOOkMnliTMhPqlM1H9kDCc4kzjd3Rcl1TY3nVq_eM8K/exec";
 const API_TOKEN = "RUANG_KREATIF_12_TOKEN";
 
 let allData = [];
 
+// 🔥 ambil data dari spreadsheet
 async function loadData() {
-    const res = await fetch(`${API_URL}?token=${API_TOKEN}`);
-    allData = await res.json();
-    renderHome(document.getElementById("main-content-area"));
+    try {
+        const res = await fetch(API_URL + "?token=" + API_TOKEN);
+        allData = await res.json();
+
+        console.log("DATA:", allData);
+
+        renderHome();
+    } catch (err) {
+        document.getElementById("main-content-area").innerHTML = "Gagal ambil data";
+        console.error(err);
+    }
 }
 
-/* ============================= */
-/* 🔥 INI BAGIAN YANG DIPERBAIKI */
-/* ============================= */
-function renderHome(container) {
+// 🔥 tampilkan beranda
+function renderHome() {
 
-    const profil = allData.find(item => item.Kategori === "Tentang Sekolah");
-    const berita = allData.filter(item => item.Kategori === "Berita").slice(0,5);
+    const profil = allData.find(d => d.Kategori === "Tentang Sekolah");
+    const berita = allData.filter(d => d.Kategori === "Berita");
 
-    container.innerHTML = `
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    document.getElementById("main-content-area").innerHTML = `
+    <div class="grid md:grid-cols-2 gap-6">
 
         <!-- KIRI -->
         <div class="flex flex-col gap-6">
 
-            <div class="glass-card p-6 rounded-3xl">
-                <h3 class="text-indigo-400 text-xs uppercase mb-2">Identitas Sekolah</h3>
-                <h2 class="text-xl font-bold">SD Negeri 1.2 Kambitin</h2>
-                <p class="text-slate-300 text-sm mt-2">
-                    ${profil ? profil.Deskripsi : "Profil belum ada"}
-                </p>
+            <div class="glass-card">
+                <h2 class="text-lg font-bold mb-2">Identitas Sekolah</h2>
+                <p>${profil ? profil.Deskripsi : "Selamat datang"}</p>
             </div>
 
-            <div class="glass-card p-4 rounded-3xl">
-                <h3 class="text-indigo-400 text-xs uppercase mb-2">Lokasi</h3>
+            <div class="glass-card">
+                <h2 class="text-lg font-bold mb-2">Lokasi Sekolah</h2>
                 <iframe 
                     src="https://maps.google.com/maps?q=Tabalong&output=embed"
-                    class="w-full h-64 rounded-xl">
+                    class="w-full h-64 rounded-lg">
                 </iframe>
             </div>
 
         </div>
 
         <!-- KANAN -->
-        <div class="glass-card p-6 rounded-3xl">
+        <div class="glass-card">
 
-            <h3 class="text-indigo-400 text-xs uppercase mb-4">Highlight Berita</h3>
+            <h2 class="text-lg font-bold mb-4">Highlight Berita</h2>
 
-            ${berita.map((item,i)=>`
-                <div style="margin-bottom:15px; cursor:pointer" onclick="alert('Detail berita nanti bisa kita buat')">
-                    <b>${item.Judul_Karya}</b><br>
-                    <small>${item.Deskripsi}</small>
-                </div>
-            `).join('')}
+            ${
+                berita.length > 0
+                ? berita.map(item => `
+                    <div style="margin-bottom:15px">
+                        <b>${item.Judul_Karya}</b><br>
+                        <small>${item.Deskripsi}</small>
+                    </div>
+                `).join("")
+                : "Belum ada berita"
+            }
 
         </div>
 
