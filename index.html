@@ -6,7 +6,7 @@
     <title>SD Negeri 1.2 Kambitin - Portal Resmi</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -19,11 +19,13 @@
 
         body {
             margin: 0;
+            overflow-x: hidden;
             background: var(--night-sky);
             color: #f1f5f9;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
+        /* --- BACKGROUND STARS --- */
         .stars-container {
             position: fixed;
             inset: 0;
@@ -41,33 +43,70 @@
 
         @keyframes twinkle {
             0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
+            50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 10px white; }
         }
 
+        /* --- HERO SECTION LUXURY --- */
         .hero-container {
+            position: relative;
             display: flex;
             min-height: 70vh;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            padding: 20px;
+            overflow: hidden;
+            padding-top: 60px;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
             background: linear-gradient(to bottom, transparent, var(--night-sky));
         }
 
+        .tagline-main {
+            background: linear-gradient(90deg, #a78bfa, #f472b6, #a78bfa);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: shine 4s linear infinite;
+        }
+
+        @keyframes shine { to { background-position: 200% center; } }
+
+        /* --- CARD LUXURY FRAME --- */
         .glass-card {
+            position: relative;
             border: 1px solid rgba(255, 255, 255, 0.08);
             background: var(--glass);
             backdrop-filter: blur(15px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .luxury-frame::before {
+            content: "";
+            position: absolute;
+            top: 12px; left: 12px; width: 25px; height: 25px;
+            border-top: 1.5px solid var(--gold); border-left: 1.5px solid var(--gold);
+        }
+
+        .luxury-frame::after {
+            content: "";
+            position: absolute;
+            bottom: 12px; right: 12px; width: 25px; height: 25px;
+            border-bottom: 1.5px solid var(--gold); border-right: 1.5px solid var(--gold);
         }
 
         .filter-pill.active {
-            background: var(--primary);
-            color: white;
+            background: linear-gradient(135deg, var(--primary), #5b21b6);
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(124, 58, 237, 0.4);
         }
 
         .loader {
-            width: 40px; height: 40px;
-            border: 4px solid rgba(255, 255, 255, 0.1);
+            width: 45px; height: 45px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
             border-top-color: var(--primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
@@ -79,47 +118,57 @@
 <body>
     <div class="stars-container" id="starsBox"></div>
 
-    <nav class="fixed top-0 w-full z-50 px-4 py-2">
-        <div class="max-w-7xl mx-auto flex justify-between items-center bg-slate-900/80 backdrop-blur-xl rounded-xl px-4 py-2 border border-white/10 shadow-2xl">
-            <div class="flex items-center gap-3 cursor-pointer" onclick="location.reload()">
-                <div class="w-10 h-10 border border-white/20 rounded-lg flex items-center justify-center overflow-hidden bg-indigo-500">
-                    <i class="fas fa-school text-white"></i>
+    <!-- NAVBAR -->
+    <nav class="fixed top-0 w-full z-50 px-4 py-3">
+        <div class="max-w-7xl mx-auto flex justify-between items-center bg-slate-900/80 backdrop-blur-xl rounded-2xl px-6 py-2 border border-white/10 shadow-2xl">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="window.location.reload()">
+                <div class="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center border border-white/20">
+                    <i class="fas fa-graduation-cap text-white"></i>
                 </div>
                 <div>
-                    <h1 class="font-bold text-xs text-white uppercase">SDN 1.2 Kambitin</h1>
-                    <span class="block text-[7px] text-indigo-400 uppercase font-black">Portal Resmi</span>
+                    <h1 class="font-extrabold text-xs text-white uppercase tracking-tight">SDN 1.2 Kambitin</h1>
+                    <span class="block text-[8px] tracking-widest text-indigo-400 uppercase font-black">Official Portal</span>
                 </div>
             </div>
-            <div class="flex gap-4 text-[9px] font-black uppercase">
-                <button onclick="setActiveTab('all')" class="text-white hover:text-indigo-400">Beranda</button>
-                <button onclick="setActiveTab('Berita')" class="text-white hover:text-indigo-400">Artikel</button>
+            <div class="flex gap-6 text-[10px] font-bold uppercase tracking-widest">
+                <button onclick="setActiveTab('all')" class="text-white hover:text-indigo-400 transition">Beranda</button>
+                <button onclick="setActiveTab('Berita')" class="text-white hover:text-indigo-400 transition">Berita</button>
             </div>
         </div>
     </nav>
 
+    <!-- HERO -->
     <header id="hero-section" class="hero-container">
-        <div class="relative z-10">
-            <h1 class="text-4xl md:text-7xl font-black mb-4 text-white uppercase">SD NEGERI 1.2 <br> KAMBITIN</h1>
-            <p class="italic text-indigo-300 text-sm md:text-lg">"Mengukir Prestasi Meraih Masa Depan Gemilang"</p>
+        <div class="hero-overlay"></div>
+        <div class="relative z-10 text-center px-6">
+            <h1 class="text-5xl md:text-8xl font-black mb-4 tracking-tighter text-white uppercase leading-none">
+                SD NEGERI 1.2<br><span class="text-indigo-500">KAMBITIN</span>
+            </h1>
+            <p class="tagline-main italic text-sm md:text-xl font-medium max-w-2xl mx-auto">
+                "Dari Ruang Kelas Menuju Cakrawala Dunia, Mengukir Prestasi Meraih Masa Depan Gemilang"
+            </p>
         </div>
     </header>
 
+    <!-- CONTENT -->
     <main class="max-w-7xl mx-auto px-6 py-12 relative z-10">
-        <div id="tab-menu" class="flex justify-center gap-2 mb-12">
-            <button class="filter-pill active px-6 py-2 rounded-lg text-[10px] uppercase font-bold border border-white/10" onclick="setActiveTab('all')">Semua</button>
-            <button class="filter-pill px-6 py-2 rounded-lg text-[10px] uppercase font-bold border border-white/10" onclick="setActiveTab('Berita')">Berita</button>
+        <div id="tab-menu" class="flex justify-center gap-3 mb-16">
+            <button class="filter-pill active px-8 py-2.5 rounded-full text-[10px] uppercase font-black tracking-widest bg-white/5 border border-white/10 text-white" onclick="setActiveTab('all')" data-cat="all">Semua</button>
+            <button class="filter-pill px-8 py-2.5 rounded-full text-[10px] uppercase font-black tracking-widest bg-white/5 border border-white/10 text-white" onclick="setActiveTab('Berita')" data-cat="Berita">Berita</button>
         </div>
 
         <div id="loadingState" class="flex flex-col items-center py-20">
-            <div class="loader mb-4"></div>
-            <p class="text-slate-500 text-[10px] uppercase">Memuat Data...</p>
+            <div class="loader mb-6"></div>
+            <p class="text-indigo-400 text-xs font-bold uppercase tracking-[0.2em]">Sinkronisasi Data...</p>
         </div>
 
-        <div id="main-content-area" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+        <div id="main-content-area" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
         
         <div id="news-detail-view" class="hidden max-w-4xl mx-auto">
-            <button onclick="closeNewsDetail()" class="mb-6 text-indigo-400 font-bold text-xs">← KEMBALI</button>
-            <div id="news-content-full"></div>
+            <button onclick="closeNewsDetail()" class="group mb-8 text-indigo-400 font-black text-xs uppercase tracking-widest flex items-center gap-2">
+                <i class="fas fa-arrow-left transition-transform group-hover:-translate-x-1"></i> Kembali ke Galeri
+            </button>
+            <div id="news-content-full" class="bg-slate-900/50 p-8 rounded-3xl border border-white/10 backdrop-blur-md"></div>
         </div>
     </main>
 
@@ -136,8 +185,8 @@
                 document.getElementById('loadingState').style.display = 'none';
                 renderView('all');
             } catch (e) {
-                console.error("Gagal ambil data", e);
-                document.getElementById('loadingState').innerHTML = 'Gagal memuat data dari Spreadsheet.';
+                console.error("Fetch Error:", e);
+                document.getElementById('loadingState').innerHTML = '<p class="text-red-400 uppercase text-xs font-bold">Koneksi Database Terputus</p>';
             }
             initStars();
         }
@@ -151,18 +200,24 @@
             const filtered = cat === 'all' ? allData : allData.filter(i => i.Kategori === cat);
             
             filtered.forEach((item, index) => {
-                const img = item.Link_Thumbnail || 'https://via.placeholder.com/400x225/1e293b/ffffff?text=SDN+1.2';
+                const img = item.Link_Thumbnail || 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=1000';
                 container.innerHTML += `
-                    <div class="glass-card p-4 rounded-2xl cursor-pointer hover:bg-white/5 transition" onclick="showDetail(${index})">
-                        <img src="${img}" class="w-full aspect-video object-cover rounded-xl mb-4">
-                        <h3 class="font-bold text-white text-sm uppercase">${item.Judul_Karya}</h3>
-                        <p class="text-slate-400 text-xs mt-2 line-clamp-2">${item.Deskripsi}</p>
+                    <div class="glass-card luxury-frame p-5 rounded-2xl cursor-pointer hover:shadow-[0_0_30px_rgba(124,58,237,0.2)]" onclick="showDetail(${index})">
+                        <div class="overflow-hidden rounded-xl mb-5">
+                            <img src="${img}" class="w-full aspect-video object-cover hover:scale-110 transition duration-700">
+                        </div>
+                        <span class="text-[9px] text-gold font-black uppercase tracking-[0.2em] mb-2 block">${item.Kategori}</span>
+                        <h3 class="font-extrabold text-white text-base leading-snug uppercase tracking-tight">${item.Judul_Karya}</h3>
+                        <p class="text-slate-400 text-xs mt-3 line-clamp-2 font-light">${item.Deskripsi}</p>
                     </div>
                 `;
             });
         }
 
         function setActiveTab(cat) {
+            document.querySelectorAll('.filter-pill').forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('onclick').includes(cat));
+            });
             closeNewsDetail();
             renderView(cat);
         }
@@ -174,11 +229,14 @@
             document.getElementById('news-detail-view').classList.remove('hidden');
             
             document.getElementById('news-content-full').innerHTML = `
-                <h1 class="text-3xl font-bold mb-6">${item.Judul_Karya}</h1>
-                <img src="${item.Link_Thumbnail}" class="w-full rounded-2xl mb-8">
-                <div class="text-slate-300 leading-relaxed text-lg">${item.Deskripsi}</div>
+                <h1 class="text-4xl font-black text-white mb-4 uppercase tracking-tighter">${item.Judul_Karya}</h1>
+                <div class="h-1 w-20 bg-indigo-500 mb-8"></div>
+                <img src="${item.Link_Thumbnail}" class="w-full rounded-2xl mb-8 shadow-2xl border border-white/10">
+                <div class="prose prose-invert max-w-none">
+                    <p class="text-slate-300 leading-relaxed text-lg font-light">${item.Deskripsi}</p>
+                </div>
             `;
-            window.scrollTo(0,0);
+            window.scrollTo({top: 0, behavior: 'smooth'});
         }
 
         function closeNewsDetail() {
@@ -189,13 +247,13 @@
 
         function initStars() {
             const box = document.getElementById('starsBox');
-            for(let i=0; i<50; i++) {
+            for(let i=0; i<100; i++) {
                 const s = document.createElement('div');
                 s.className = 'star';
                 s.style.left = Math.random()*100+'%';
                 s.style.top = Math.random()*100+'%';
+                s.style.width = s.style.height = Math.random()*2+1+'px';
                 s.style.setProperty('--duration', Math.random()*3+2+'s');
-                s.style.width = s.style.height = Math.random()*3+'px';
                 box.appendChild(s);
             }
         }
