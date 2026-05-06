@@ -23,11 +23,11 @@
 
     <style>
         :root {
-            --primary: #7c3aed;
-            --gold: #d6b15f;
-            --gold-soft: rgba(214, 177, 95, 0.28);
-            --glass: rgba(15, 23, 42, 0.7);
-            --night-sky: #070b14;
+            --primary: #4338ca; /* Indigo gelap untuk kontras di bg biru */
+            --gold: #b45309; 
+            --gold-soft: rgba(180, 83, 9, 0.1);
+            --glass: rgba(255, 255, 255, 0.4); /* Glass putih transparan */
+            --sky-blue: #87CEEB; /* Biru Langit */
         }
 
         * {
@@ -37,45 +37,55 @@
         body {
             margin: 0;
             overflow-x: hidden;
-            background: var(--night-sky);
-            color: #f1f5f9;
+            background: var(--sky-blue);
+            color: #000000; /* HURUF HITAM */
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
-        .stars-container {
+        /* CONTAINER AWAN BERGERAK */
+        .clouds-container {
             position: fixed;
             inset: 0;
             z-index: -1;
-            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+            overflow: hidden;
+            pointer-events: none;
         }
 
-        .star {
+        .cloud {
             position: absolute;
-            border-radius: 50%;
             background: white;
-            opacity: 0.5;
-            animation: twinkle var(--duration) infinite ease-in-out;
+            width: 120px;
+            height: 45px;
+            border-radius: 100px;
+            opacity: 0.8;
+            animation: moveClouds var(--duration) linear infinite;
+        }
+        
+        .cloud::after, .cloud::before {
+            content: '';
+            position: absolute;
+            background: white;
+            border-radius: 100px;
+        }
+        .cloud::after { width: 50px; height: 50px; top: -25px; left: 20px; }
+        .cloud::before { width: 70px; height: 70px; top: -35px; right: 20px; }
+
+        @keyframes moveClouds {
+            from { transform: translateX(-200px); }
+            to { transform: translateX(110vw); }
         }
 
-        @keyframes twinkle {
-            0%, 100% {
-                opacity: 0.3;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1.2);
-                box-shadow: 0 0 10px white;
-            }
+        /* Typography Fix untuk Background Terang */
+        h1, h2, h3, h4, .text-white {
+            color: #000000 !important;
+        }
+        
+        .text-slate-300, .text-slate-400, .text-slate-500 {
+            color: #1e293b !important; /* Abu gelap/hitam */
         }
 
-        .font-serif {
-            font-family: 'Playfair Display', serif;
-        }
-
-        .font-newspaper {
-            font-family: 'Crimson Pro', serif;
-        }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .font-newspaper { font-family: 'Crimson Pro', serif; }
 
         .hero-container {
             position: relative;
@@ -102,7 +112,7 @@
 
         .hero-slide.active {
             z-index: 1;
-            opacity: 0.35;
+            opacity: 0.5;
             transform: scale(1);
         }
 
@@ -110,895 +120,283 @@
             position: absolute;
             inset: 0;
             z-index: 2;
-            background: linear-gradient(to bottom, transparent, var(--night-sky));
+            background: linear-gradient(to bottom, transparent, var(--sky-blue));
         }
 
         .glass-card {
             position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             background: var(--glass);
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(10px);
             transition: all 0.3s ease;
         }
 
-        .glass-card::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            border-radius: inherit;
-            background:
-                linear-gradient(135deg, var(--gold-soft), transparent 18%),
-                linear-gradient(315deg, rgba(244, 213, 141, 0.16), transparent 16%);
-            opacity: 0.55;
-            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-            mask-composite: exclude;
-            -webkit-mask-composite: xor;
-            padding: 1px;
-        }
-
-        .luxury-frame {
-            position: relative;
-        }
-
-        .luxury-frame::before,
-        .luxury-frame::after {
-            content: "";
-            position: absolute;
-            width: 34px;
-            height: 34px;
-            pointer-events: none;
-            opacity: 0.9;
-        }
-
         .luxury-frame::before {
-            top: 14px;
-            left: 14px;
             border-top: 1px solid var(--gold);
             border-left: 1px solid var(--gold);
         }
 
         .luxury-frame::after {
-            right: 14px;
-            bottom: 14px;
             border-right: 1px solid var(--gold);
             border-bottom: 1px solid var(--gold);
         }
 
-        .gold-divider {
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(214, 177, 95, 0.75), transparent);
-        }
-
         .filter-pill {
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.05);
-            color: #94a3b8;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.5);
+            color: #000;
             font-weight: 700;
-            white-space: nowrap;
-            cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .filter-pill.active {
-            border-color: var(--primary);
-            background: linear-gradient(135deg, var(--primary), #5b21b6);
-            color: white;
-            box-shadow: 0 0 20px rgba(124, 58, 237, 0.4), inset 0 0 0 1px rgba(214, 177, 95, 0.34);
+            background: #000;
+            color: #fff !important;
         }
 
         .loader {
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(255, 255, 255, 0.1);
+            border: 4px solid rgba(0, 0, 0, 0.1);
             border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        .bento-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1rem;
-        }
-
-        .fade-in {
-            animation: fadeIn 0.5s ease forwards;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .map-container {
-            width: 100%;
-            height: 250px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 1.25rem;
         }
 
         .social-icon {
-            display: flex;
-            width: 38px;
-            height: 38px;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            color: white !important;
-            text-decoration: none;
-            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.6);
+            color: #000 !important;
+            border: 1px solid rgba(0,0,0,0.1);
         }
 
         .social-icon:hover {
             background: var(--primary);
-            transform: translateY(-3px);
-        }
-
-        .school-logo-container {
-            display: flex;
-            width: 44px;
-            height: 44px;
-            align-items: center;
-            justify-content: center;
-            overflow: visible;
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            border-radius: 10px;
-            background: transparent;
-            flex-shrink: 0;
-        }
-
-        .school-logo-container img {
-            transform: scale(1.8);
-            transform-origin: center;
-        }
-
-        .tagline-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
+            color: #fff !important;
         }
 
         .tagline-main {
-            color: transparent;
-            background: linear-gradient(90deg, #a78bfa, #f472b6, #a78bfa);
+            background: linear-gradient(90deg, #1e1b4b, #4338ca, #1e1b4b);
             background-size: 200% auto;
-            background-clip: text;
             -webkit-background-clip: text;
-            font-family: 'Crimson Pro', serif;
-            font-size: 1rem;
-            font-weight: 600;
-            font-style: italic;
-            line-height: 1.4;
-            letter-spacing: 0.1em;
-            animation: shine 4s linear infinite;
-        }
-
-        @keyframes shine {
-            to {
-                background-position: 200% center;
-            }
-        }
-
-        .tagline-line {
-            width: 80px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--gold), var(--primary), var(--gold), transparent);
-        }
-
-        #tab-menu {
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-
-        #tab-menu::-webkit-scrollbar {
-            display: none;
-        }
-
-        .article-body p + p {
-            margin-top: 1.1rem;
-        }
-
-        .identity-list {
-            display: grid;
-            gap: 0.75rem;
-        }
-
-        .identity-row {
-            display: grid;
-            grid-template-columns: minmax(120px, 0.85fr) auto 1.4fr;
-            gap: 0.75rem;
-            align-items: start;
-            padding-bottom: 0.75rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .identity-label {
-            color: #c4b5fd;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 0.68rem;
-            font-weight: 800;
-            line-height: 1.5;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-        }
-
-        .identity-separator {
-            color: #64748b;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-clip: text;
+            color: transparent;
             font-weight: 800;
         }
 
-        .identity-value {
-            color: #e2e8f0;
-            line-height: 1.55;
-        }
+        .identity-label { color: #4338ca; }
+        .identity-value { color: #000; }
+        .identity-row { border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
 
-        @media (min-width: 768px) {
-            .hero-container {
-                min-height: 65vh;
-            }
-
-            .tagline-main {
-                font-size: 1.25rem;
-                letter-spacing: 0.2em;
-            }
-        }
-
-        @media (max-width: 520px) {
-            .identity-row {
-                grid-template-columns: 1fr auto 1.25fr;
-                gap: 0.5rem;
-            }
-
-            .identity-label {
-                font-size: 0.58rem;
-                letter-spacing: 0.04em;
-            }
-        }
     </style>
 </head>
 <body>
-    <div class="stars-container" id="starsBox"></div>
+    <div class="clouds-container" id="cloudsBox"></div>
 
     <nav class="fixed top-0 w-full z-50 px-4 py-2 md:px-6 md:py-3">
-        <div class="max-w-7xl mx-auto flex justify-between items-center bg-slate-900/80 backdrop-blur-xl rounded-xl md:rounded-2xl px-4 py-1 md:px-6 md:py-1.5 border border-white/10 shadow-2xl">
-            <button class="flex items-center gap-3 text-left" type="button" onclick="setActiveTab('all')" aria-label="Kembali ke beranda">
-                <div class="school-logo-container">
-                    <img id="mainLogo" src="" class="w-full h-full object-contain" alt="Logo Sekolah">
+        <div class="max-w-7xl mx-auto flex justify-between items-center bg-white/70 backdrop-blur-xl rounded-xl md:rounded-2xl px-4 py-1 md:px-6 md:py-1.5 border border-black/10 shadow-lg">
+            <button class="flex items-center gap-3 text-left" type="button" onclick="setActiveTab('all')">
+                <div class="school-logo-container bg-white/50 rounded-lg p-1" style="width: 44px; height: 44px;">
+                    <img id="mainLogo" src="" class="w-full h-full object-contain" alt="Logo">
                 </div>
-                <div class="block min-w-0">
-                    <h1 class="font-extrabold text-[9px] xs:text-[10px] md:text-xs text-white leading-tight uppercase truncate">SDN 1.2 Kambitin</h1>
-                    <span class="block text-[6px] uppercase tracking-widest text-indigo-400 font-black truncate">Portal Resmi</span>
+                <div class="block">
+                    <h1 class="font-extrabold text-[10px] md:text-xs text-black leading-tight uppercase">SDN 1.2 Kambitin</h1>
+                    <span class="block text-[7px] uppercase tracking-widest text-indigo-700 font-black">Portal Resmi</span>
                 </div>
             </button>
 
-            <div class="flex gap-3 md:gap-4 text-[8px] md:text-[9px] font-black uppercase tracking-widest">
-                <button onclick="setActiveTab('all')" class="hover:text-indigo-400 transition text-white" type="button">Beranda</button>
-                <button onclick="setActiveTab('Profil')" class="hover:text-indigo-400 transition text-white" type="button">Profil</button>
-                <button onclick="setActiveTab('Berita')" class="hover:text-indigo-400 transition text-white" type="button">Artikel</button>
+            <div class="flex gap-3 md:gap-4 text-[9px] font-black uppercase tracking-widest">
+                <button onclick="setActiveTab('all')" class="hover:text-indigo-600 transition text-black">Beranda</button>
+                <button onclick="setActiveTab('Profil')" class="hover:text-indigo-600 transition text-black">Profil</button>
+                <button onclick="setActiveTab('Berita')" class="hover:text-indigo-600 transition text-black">Artikel</button>
             </div>
         </div>
     </nav>
 
     <header id="hero-section" class="hero-container">
         <div id="slideshow-wrapper" class="absolute inset-0 w-full h-full"></div>
-
         <div class="hero-overlay"></div>
         <div class="relative z-10 text-center px-6 max-w-5xl">
-            <h1 class="text-3xl md:text-6xl lg:text-7xl font-black mb-4 md:mb-6 tracking-tighter text-white uppercase leading-none">
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-black mb-4 tracking-tighter text-black uppercase leading-none">
                 SD NEGERI 1.2 <br class="md:hidden"> KAMBITIN
             </h1>
 
-            <div class="tagline-container">
-                <div class="tagline-line"></div>
-                <p class="tagline-main px-2 md:px-4 text-center">
+            <div class="tagline-container flex flex-col items-center gap-4">
+                <div class="w-20 h-1 bg-black"></div>
+                <p class="tagline-main px-2 text-center text-lg md:text-xl italic">
                     "Dari Ruang Kelas Menuju Cakrawala Dunia, Mengukir Prestasi Meraih Masa Depan Gemilang"
                 </p>
-                <div class="tagline-line"></div>
+                <div class="w-20 h-1 bg-black"></div>
             </div>
 
-            <div class="flex justify-center gap-3 md:gap-4 mt-8 md:mt-12">
-                <a href="#" class="social-icon" title="Facebook" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="social-icon" title="Instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="social-icon" title="YouTube" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                <a href="#" class="social-icon" title="TikTok" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            <div class="flex justify-center gap-4 mt-12">
+                <a href="#" class="social-icon w-10 h-10 flex items-center justify-center rounded-lg shadow-sm"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon w-10 h-10 flex items-center justify-center rounded-lg shadow-sm"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon w-10 h-10 flex items-center justify-center rounded-lg shadow-sm"><i class="fab fa-youtube"></i></a>
             </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 relative z-10">
-        <div id="tab-menu" class="flex overflow-x-auto justify-start md:justify-center gap-2 mb-8 md:mb-12 pb-2">
-            <button class="filter-pill active px-5 py-2 rounded-lg text-[8px] md:text-[9px] uppercase tracking-widest" data-category="all" onclick="setActiveTab('all')" type="button">Beranda</button>
-            <button class="filter-pill px-5 py-2 rounded-lg text-[8px] md:text-[9px] uppercase tracking-widest" data-category="Profil" onclick="setActiveTab('Profil')" type="button">Profil</button>
-            <button class="filter-pill px-5 py-2 rounded-lg text-[8px] md:text-[9px] uppercase tracking-widest" data-category="Berita" onclick="setActiveTab('Berita')" type="button">Artikel</button>
-            <button class="filter-pill px-5 py-2 rounded-lg text-[8px] md:text-[9px] uppercase tracking-widest" data-category="Hasil Karya" onclick="setActiveTab('Hasil Karya')" type="button">Karya</button>
-            <button class="filter-pill px-5 py-2 rounded-lg text-[8px] md:text-[9px] uppercase tracking-widest" data-category="Game Interaktif" onclick="setActiveTab('Game Interaktif')" type="button">Game</button>
+    <main class="max-w-7xl mx-auto px-4 md:px-6 py-12 relative z-10">
+        <div id="tab-menu" class="flex overflow-x-auto justify-start md:justify-center gap-2 mb-12 pb-2">
+            <button class="filter-pill active px-6 py-2.5 rounded-xl text-[9px] uppercase tracking-widest" data-category="all" onclick="setActiveTab('all')">Beranda</button>
+            <button class="filter-pill px-6 py-2.5 rounded-xl text-[9px] uppercase tracking-widest" data-category="Profil" onclick="setActiveTab('Profil')">Profil</button>
+            <button class="filter-pill px-6 py-2.5 rounded-xl text-[9px] uppercase tracking-widest" data-category="Berita" onclick="setActiveTab('Berita')">Artikel</button>
+            <button class="filter-pill px-6 py-2.5 rounded-xl text-[9px] uppercase tracking-widest" data-category="Hasil Karya" onclick="setActiveTab('Hasil Karya')">Karya</button>
         </div>
 
-        <div id="news-detail-view" class="hidden fade-in max-w-4xl mx-auto mb-12 md:mb-20">
-            <button onclick="closeNewsDetail()" class="mb-6 text-slate-400 hover:text-indigo-400 transition font-bold text-xs" type="button">Kembali</button>
+        <div id="loadingState" class="flex flex-col items-center py-20">
+            <div class="loader w-10 h-10 rounded-full animate-spin mb-4"></div>
+            <p class="text-black text-[10px] uppercase font-bold tracking-widest">Memuat Data...</p>
+        </div>
+
+        <div id="news-detail-view" class="hidden fade-in max-w-4xl mx-auto mb-20">
+            <button onclick="closeNewsDetail()" class="mb-6 text-black hover:text-indigo-600 transition font-black text-xs uppercase tracking-widest">← Kembali</button>
             <div id="news-content-full"></div>
-        </div>
-
-        <div id="loadingState" class="flex flex-col items-center py-10 md:py-20">
-            <div class="loader mb-4"></div>
-            <p class="text-slate-500 text-[8px] md:text-[10px] uppercase tracking-widest">Memuat Data...</p>
         </div>
 
         <div id="main-content-area" class="fade-in"></div>
     </main>
 
-    <footer class="border-t border-white/5 py-8 md:py-12 mt-10 md:mt-20 bg-slate-950/50">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
-            <div>
-                <h3 class="font-bold text-white text-xs md:text-sm uppercase">SD Negeri 1.2 Kambitin</h3>
-                <p class="text-slate-500 text-[8px] md:text-[10px] uppercase tracking-widest mt-1">Kabupaten Tabalong, Kalsel</p>
+    <footer class="border-t border-black/5 py-12 bg-white/30 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-center md:text-left">
+                <h3 class="font-bold text-black text-sm uppercase">SD Negeri 1.2 Kambitin</h3>
+                <p class="text-black/60 text-[10px] uppercase tracking-widest mt-1">Kabupaten Tabalong, Kalsel</p>
             </div>
-            <p class="text-slate-600 text-[8px] md:text-[9px] uppercase tracking-widest italic">&copy; 2026 SD Negeri 1.2 Kambitin</p>
+            <p class="text-black/60 text-[9px] uppercase tracking-widest font-bold">© 2026 SD Negeri 1.2 Kambitin</p>
         </div>
     </footer>
 
     <script>
         const API_URL = 'https://script.google.com/macros/s/AKfycbxq_QBlXPoFyxsyKHEkFg9JTxG1-OdVZvAWcRJwNgVjCumNQrpvMVC5KvhiI8rdIRc/exec';
         const API_TOKEN = 'RUANG_KREATIF_12_TOKEN';
-
         const LOGO_SEKOLAH = 'https://drive.google.com/file/d/1V2UwCJtj-ZcvXPXRZm7Fw0_hzTaLpmT4/view?usp=drive_link';
-
         const FOTO_GURU = [
             'https://images.unsplash.com/photo-1544717297-fa95b3396467?q=80&w=2000',
-            'https://images.unsplash.com/photo-1491843330757-37758135ca70?q=80&w=2000',
-            'https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2000'
+            'https://images.unsplash.com/photo-1491843330757-37758135ca70?q=80&w=2000'
         ];
-
-        const DEFAULT_MAP = '<iframe class="w-full h-full" src="https://www.google.com/maps?q=SDN%201.2%20KAMBITIN%20%40-2.0766415%2C115.3735665&z=16&output=embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>';
-
         const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1594608661623-aa0bd3a67d28?q=80&w=800';
-        const CATEGORY = {
-            HOME: 'all',
-            NEWS: 'Berita',
-            PROFILE: 'Profil',
-            WORKS: 'Hasil Karya',
-            GAMES: 'Game Interaktif'
-        };
 
+        const CATEGORY = { HOME: 'all', NEWS: 'Berita', PROFILE: 'Profil', WORKS: 'Hasil Karya' };
         let allData = [];
         let activeTab = CATEGORY.HOME;
-        let currentSlide = 0;
-        let slideTimer = null;
-
-        function escapeHtml(value) {
-            return String(value ?? '')
-                .replaceAll('&', '&amp;')
-                .replaceAll('<', '&lt;')
-                .replaceAll('>', '&gt;')
-                .replaceAll('"', '&quot;')
-                .replaceAll("'", '&#039;');
-        }
 
         function formatImageUrl(url) {
             if (!url) return FALLBACK_IMAGE;
-
             if (url.includes('drive.google.com')) {
                 const idMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
-                if (idMatch && idMatch[1]) {
-                    return `https://lh3.googleusercontent.com/d/${idMatch[1]}=s1000`;
-                }
+                if (idMatch) return `https://lh3.googleusercontent.com/d/${idMatch[1]}=s1000`;
             }
-
             return url;
         }
 
-        function getItemsByCategory(category, limit) {
-            const items = allData.filter(item => item.Kategori === category);
-            return Number.isInteger(limit) ? items.slice(0, limit) : items;
-        }
-
-        function renderArticleBody(text) {
-            const paragraphs = String(text ?? '')
-                .split(/\n{2,}|\r?\n/)
-                .map(paragraph => paragraph.trim())
-                .filter(Boolean);
-
-            if (!paragraphs.length) {
-                return '<p>Isi berita belum tersedia.</p>';
+        // ANIMASI AWAN
+        function initClouds() {
+            const container = document.getElementById('cloudsBox');
+            for (let i = 0; i < 8; i++) {
+                const cloud = document.createElement('div');
+                cloud.className = 'cloud';
+                cloud.style.top = Math.random() * 80 + '%';
+                cloud.style.left = '-' + (Math.random() * 200 + 100) + 'px';
+                cloud.style.setProperty('--duration', (Math.random() * 30 + 30) + 's');
+                cloud.style.transform = `scale(${Math.random() * 0.5 + 0.5})`;
+                container.appendChild(cloud);
             }
-
-            return paragraphs.map(paragraph => `<p>${escapeHtml(paragraph)}</p>`).join('');
-        }
-
-        function renderFormattedDescription(text) {
-            const lines = String(text ?? '')
-                .split(/\r?\n/)
-                .map(line => line.trim())
-                .filter(Boolean);
-
-            if (!lines.length) return '';
-
-            const identityRows = lines
-                .map(line => {
-                    const separatorIndex = line.indexOf(':');
-                    if (separatorIndex <= 0) return null;
-
-                    return {
-                        label: line.slice(0, separatorIndex).trim(),
-                        value: line.slice(separatorIndex + 1).trim()
-                    };
-                })
-                .filter(row => row && row.label && row.value);
-
-            if (identityRows.length >= Math.max(2, Math.ceil(lines.length * 0.6))) {
-                return `
-                    <div class="identity-list">
-                        ${identityRows.map(row => `
-                            <div class="identity-row">
-                                <div class="identity-label">${escapeHtml(row.label)}</div>
-                                <div class="identity-separator">:</div>
-                                <div class="identity-value">${escapeHtml(row.value)}</div>
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
-            }
-
-            return `<div class="whitespace-pre-wrap">${escapeHtml(text)}</div>`;
-        }
-
-        function updatePageSpacing(isDetailOpen = false) {
-            const hero = document.getElementById('hero-section');
-            const main = document.querySelector('main');
-            const shouldShowHero = activeTab === CATEGORY.HOME && !isDetailOpen;
-
-            if (hero) {
-                hero.style.display = shouldShowHero ? 'flex' : 'none';
-            }
-
-            if (main) {
-                main.style.paddingTop = shouldShowHero ? '' : '6.5rem';
-            }
-        }
-
-        function initStars() {
-            const container = document.getElementById('starsBox');
-            if (!container || container.children.length > 0) return;
-
-            for (let i = 0; i < 60; i++) {
-                const star = document.createElement('div');
-                const size = `${Math.random() * 2 + 1}px`;
-
-                star.className = 'star';
-                star.style.width = size;
-                star.style.height = size;
-                star.style.top = `${Math.random() * 100}%`;
-                star.style.left = `${Math.random() * 100}%`;
-                star.style.setProperty('--duration', `${Math.random() * 3 + 2}s`);
-                container.appendChild(star);
-            }
-        }
-
-        function initSlideshow() {
-            const wrapper = document.getElementById('slideshow-wrapper');
-            if (!wrapper) return;
-
-            wrapper.innerHTML = '';
-            clearInterval(slideTimer);
-            currentSlide = 0;
-
-            FOTO_GURU.forEach((img, index) => {
-                const slide = document.createElement('div');
-                slide.className = `hero-slide ${index === 0 ? 'active' : ''}`;
-                slide.style.backgroundImage = `url('${formatImageUrl(img)}')`;
-                wrapper.appendChild(slide);
-            });
-
-            if (FOTO_GURU.length <= 1) return;
-
-            slideTimer = setInterval(() => {
-                const slides = document.querySelectorAll('.hero-slide');
-                if (!slides.length) return;
-
-                slides[currentSlide].classList.remove('active');
-                currentSlide = (currentSlide + 1) % slides.length;
-                slides[currentSlide].classList.add('active');
-            }, 6000);
         }
 
         async function loadData() {
             document.getElementById('mainLogo').src = formatImageUrl(LOGO_SEKOLAH);
-            initStars();
+            initClouds();
             initSlideshow();
-
             try {
-                const response = await fetch(`${API_URL}?token=${encodeURIComponent(API_TOKEN)}`);
-                const data = await response.json();
-                allData = Array.isArray(data) ? data : [];
-            } catch (error) {
-                console.warn('API Error:', error);
-            }
-
-            if (!allData.length) {
-                allData = [
-                    {
-                        Kategori: CATEGORY.PROFILE,
-                        Judul_Karya: 'Selamat Datang',
-                        Deskripsi: 'SD Negeri 1.2 Kambitin berkomitmen mendidik siswa dengan kasih sayang dan inovasi.',
-                        Link_Thumbnail: ''
-                    },
-                    {
-                        Kategori: CATEGORY.NEWS,
-                        Judul_Karya: 'Contoh Berita',
-                        Deskripsi: 'Ini adalah tampilan contoh ketika data belum terhubung dengan Google Sheets.',
-                        Link_Thumbnail: ''
-                    }
-                ];
-            }
-
+                const res = await fetch(`${API_URL}?token=${API_TOKEN}`);
+                allData = await res.json();
+            } catch (e) { console.error(e); }
+            
             document.getElementById('loadingState').classList.add('hidden');
             renderView();
         }
 
-        window.setActiveTab = function setActiveTab(category) {
-            activeTab = category;
-
-            document.querySelectorAll('.filter-pill').forEach(button => {
-                button.classList.toggle('active', button.dataset.category === category);
-            });
-
-            closeNewsDetail();
-            updatePageSpacing(false);
-
-            renderView();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        };
-
-        window.showNewsDetail = function showNewsDetail(index) {
-            const item = allData[index];
-            if (!item) return;
-
-            document.getElementById('main-content-area').classList.add('hidden');
-            document.getElementById('news-detail-view').classList.remove('hidden');
-            updatePageSpacing(true);
-            document.getElementById('news-content-full').innerHTML = `
-                <article class="space-y-7 md:space-y-9">
-                    <figure class="luxury-frame relative overflow-hidden rounded-2xl md:rounded-[2.5rem] shadow-2xl border border-white/10 bg-slate-900">
-                        <img src="${formatImageUrl(item.Link_Thumbnail)}" class="w-full max-h-[78vh] object-contain bg-slate-950" alt="${escapeHtml(item.Judul_Karya)}">
-                    </figure>
-
-                    <header class="border-y border-white/10 py-6 md:py-8">
-                        <p class="text-indigo-300 text-[8px] md:text-[9px] font-black uppercase tracking-[0.35em] mb-3">${escapeHtml(item.Kategori || 'Artikel')}</p>
-                        <h2 class="font-serif text-3xl md:text-6xl text-white leading-none tracking-tight">${escapeHtml(item.Judul_Karya)}</h2>
-                        <div class="gold-divider mt-6"></div>
-                    </header>
-
-                    <div class="glass-card luxury-frame rounded-2xl md:rounded-[2rem] p-6 md:p-10">
-                        <div class="article-body font-newspaper text-lg md:text-2xl text-slate-300 leading-relaxed">
-                            ${renderArticleBody(item.Deskripsi)}
+        function renderView() {
+            const container = document.getElementById('main-content-area');
+            container.innerHTML = '';
+            
+            if (activeTab === 'all') {
+                const news = allData.filter(i => i.Kategori === 'Berita').slice(0, 3);
+                container.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="glass-card p-8 rounded-[2rem] luxury-frame">
+                            <h2 class="font-serif text-3xl mb-4">Tentang Kami</h2>
+                            <p class="font-newspaper text-xl leading-relaxed">SD Negeri 1.2 Kambitin adalah wadah pendidikan yang mengutamakan kreativitas dan akhlak mulia.</p>
                         </div>
-                    </div>
-                </article>
-            `;
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        };
-
-        window.closeNewsDetail = function closeNewsDetail() {
-            document.getElementById('main-content-area').classList.remove('hidden');
-            document.getElementById('news-detail-view').classList.add('hidden');
-            updatePageSpacing(false);
-        };
-
-     function renderView() {
-    const container = document.getElementById('main-content-area');
-    if (!container) return;
-
-    container.innerHTML = '';
-
-    if (activeTab === CATEGORY.HOME) renderHome(container);
-    else if (activeTab === CATEGORY.NEWS) renderNewspaperView(container);
-    else if (activeTab === CATEGORY.PROFILE) renderProfile(container); // <--- Pastikan ini ada
-    else renderGrid(container, activeTab);
-}
-
-        function renderHome(container) {
-            const profileItems = getItemsByCategory(CATEGORY.PROFILE);
-            const workItems = getItemsByCategory(CATEGORY.WORKS, 4);
-            const newsItems = getItemsByCategory(CATEGORY.NEWS, 6);
-
-            container.innerHTML = `
-                <div class="flex flex-col lg:flex-row gap-8 md:gap-10">
-                    <div class="lg:w-2/3 space-y-10 md:space-y-16">
-                        <section class="glass-card luxury-frame p-6 md:p-10 rounded-2xl md:rounded-[2.5rem] shadow-2xl overflow-hidden">
-                            <p class="text-[#d6b15f] text-[8px] md:text-[9px] font-black uppercase tracking-[0.35em] mb-4">Selamat Datang</p>
-                            <h2 class="font-serif text-3xl md:text-5xl text-white leading-none tracking-tight mb-5">Portal Ruang Kreatif SD Negeri 1.2 Kambitin</h2>
-                            <div class="gold-divider mb-5"></div>
-                            <p class="font-newspaper text-lg md:text-2xl text-slate-300 leading-relaxed">
-                                Tempat berbagi informasi sekolah, karya siswa, kegiatan belajar, dan cerita baik dari lingkungan SD Negeri 1.2 Kambitin.
-                            </p>
-                            <div class="flex flex-wrap gap-3 mt-7">
-                                <button onclick="setActiveTab('${CATEGORY.PROFILE}')" class="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 text-white text-[9px] font-black uppercase tracking-widest transition" type="button">Lihat Profil</button>
-                                <button onclick="setActiveTab('${CATEGORY.NEWS}')" class="px-5 py-3 rounded-xl bg-[#d6b15f]/15 hover:bg-[#d6b15f]/25 border border-[#d6b15f]/30 text-[#f6df9b] text-[9px] font-black uppercase tracking-widest transition" type="button">Baca Artikel</button>
-                            </div>
-                        </section>
-
-                        <section class="space-y-4 md:space-y-6">
-                            ${profileItems.map(item => `
-                                <div class="glass-card luxury-frame p-6 md:p-10 rounded-2xl md:rounded-[2.5rem] border-l-4 border-indigo-600 shadow-2xl">
-                                    <h2 class="font-serif text-2xl md:text-4xl text-white mb-4 md:mb-6">${escapeHtml(item.Judul_Karya)}</h2>
-                                    <div class="text-slate-300 font-newspaper text-base md:text-xl leading-relaxed">${renderFormattedDescription(item.Deskripsi)}</div>
+                        <div class="space-y-4">
+                            <h3 class="font-serif text-2xl mb-4">Berita Terbaru</h3>
+                            ${news.map((item, idx) => `
+                                <div onclick="showNewsDetail(${allData.indexOf(item)})" class="glass-card p-4 rounded-2xl flex gap-4 cursor-pointer hover:bg-white/60 transition">
+                                    <img src="${formatImageUrl(item.Link_Thumbnail)}" class="w-20 h-20 object-cover rounded-xl">
+                                    <div>
+                                        <h4 class="font-bold uppercase text-[11px]">${item.Judul_Karya}</h4>
+                                        <p class="text-[10px] line-clamp-2">${item.Deskripsi}</p>
+                                    </div>
                                 </div>
                             `).join('')}
-                        </section>
-
-                        <section>
-                            <h3 class="font-serif text-xl md:text-2xl text-white mb-4 flex items-center gap-3">
-                                <span class="w-6 md:w-8 h-[2px] bg-indigo-500"></span> Lokasi Sekolah
-                            </h3>
-                            <div class="map-container shadow-2xl">${DEFAULT_MAP}</div>
-                        </section>
-
-                        <section>
-                            <div class="flex justify-between items-center mb-6 md:mb-8">
-                                <h3 class="font-serif text-xl md:text-3xl text-white tracking-tighter uppercase">Karya Kreatif</h3>
-                                <button onclick="setActiveTab('${CATEGORY.WORKS}')" class="text-indigo-400 text-[8px] font-black uppercase tracking-widest hover:underline" type="button">Semua</button>
-                            </div>
-                            <div class="grid grid-cols-1 xs:grid-cols-2 gap-4 md:gap-6">
-                                ${workItems.map(item => `
-                                    <div class="glass-card rounded-xl md:rounded-[1.5rem] overflow-hidden p-3 md:p-4 group">
-                                        <img src="${formatImageUrl(item.Link_Thumbnail)}" class="aspect-video w-full object-cover rounded-lg md:rounded-xl mb-3 md:mb-4 group-hover:scale-105 transition-all" alt="${escapeHtml(item.Judul_Karya)}">
-                                        <h4 class="font-bold text-white text-[10px] md:text-[11px] uppercase tracking-wider line-clamp-1">${escapeHtml(item.Judul_Karya)}</h4>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        </section>
-                    </div>
-
-                    <aside class="lg:w-1/3 space-y-6 md:space-y-8">
-                        <div class="sticky top-24">
-                            <div class="flex justify-between items-end mb-4 md:mb-6">
-                                <h3 class="font-serif text-xl md:text-2xl text-white flex items-center gap-3">
-                                    <span class="w-6 md:w-8 h-[2px] bg-indigo-500"></span> Berita Terkini
-                                </h3>
-                            </div>
-                            <div class="space-y-3 md:space-y-4">
-                                ${newsItems.map(item => `
-                                    <button onclick="showNewsDetail(${allData.indexOf(item)})" class="glass-card w-full text-left p-3 md:p-4 rounded-xl md:rounded-2xl cursor-pointer group hover:bg-white/5" type="button">
-                                        <div class="flex gap-3 md:gap-4">
-                                            <div class="w-12 h-12 md:w-16 md:h-16 flex-shrink-0">
-                                                <img src="${formatImageUrl(item.Link_Thumbnail)}" class="w-full h-full object-cover rounded-lg md:rounded-xl grayscale group-hover:grayscale-0" alt="${escapeHtml(item.Judul_Karya)}">
-                                            </div>
-                                            <div class="overflow-hidden">
-                                                <h4 class="text-white font-bold text-[10px] md:text-[11px] leading-tight mb-1 line-clamp-2">${escapeHtml(item.Judul_Karya)}</h4>
-                                                <p class="text-slate-500 text-[8px] md:text-[9px] line-clamp-1">Baca selengkapnya...</p>
-                                            </div>
-                                        </div>
-                                    </button>
-                                `).join('')}
-                            </div>
                         </div>
-                    </aside>
-                </div>
-            `;
-        }
-
-        function renderProfile(container) {
-            const items = getItemsByCategory(CATEGORY.PROFILE);
-
-            container.innerHTML = `
-                <div class="max-w-4xl mx-auto space-y-8 md:space-y-10">
+                    </div>
+                `;
+            } else {
+                const items = allData.filter(i => i.Kategori === activeTab);
+                container.innerHTML = `<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     ${items.map(item => `
-                        <div class="glass-card luxury-frame p-8 md:p-12 rounded-2xl md:rounded-[3rem]">
-                            <h2 class="font-serif text-3xl md:text-5xl text-white mb-6 md:mb-8 text-center">${escapeHtml(item.Judul_Karya)}</h2>
-                            <div class="text-slate-300 font-newspaper text-lg md:text-2xl leading-relaxed">${renderFormattedDescription(item.Deskripsi)}</div>
+                        <div class="glass-card p-4 rounded-3xl group cursor-pointer" onclick="showNewsDetail(${allData.indexOf(item)})">
+                            <img src="${formatImageUrl(item.Link_Thumbnail)}" class="w-full aspect-video object-cover rounded-2xl mb-4">
+                            <h4 class="font-black uppercase text-xs mb-2">${item.Judul_Karya}</h4>
                         </div>
                     `).join('')}
-
-                    <section class="glass-card luxury-frame p-6 md:p-8 rounded-2xl md:rounded-[2.5rem]">
-                        <div class="mb-5 md:mb-6">
-                            <p class="text-[#d6b15f] text-[8px] md:text-[9px] font-black uppercase tracking-[0.35em] mb-3">Peta Sekolah</p>
-                            <h3 class="font-serif text-2xl md:text-4xl text-white leading-tight">Lokasi SD Negeri 1.2 Kambitin</h3>
-                        </div>
-                        <div class="map-container shadow-2xl">${DEFAULT_MAP}</div>
-                    </section>
-                </div>
-            `;
-        }
-
-        function renderNewspaperView(container) {
-            const newsItems = getItemsByCategory(CATEGORY.NEWS);
-            const mainNews = newsItems[0];
-            const subNews = newsItems.slice(1, 3);
-            const highlightNews = newsItems.slice(3);
-
-            container.innerHTML = `
-                <div class="mb-8 md:mb-12">
-                    <p class="text-center text-indigo-300 text-[8px] md:text-[9px] font-black uppercase tracking-[0.35em] mb-3">Edisi Ruang Kreatif</p>
-                    <h2 class="font-serif text-4xl md:text-6xl text-white uppercase text-center tracking-tighter">Warta Sekolah</h2>
-                    <div class="mt-5 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
-                </div>
-
-                ${!newsItems.length ? `
-                    <div class="glass-card p-8 rounded-2xl text-center text-slate-400 font-newspaper text-xl">Belum ada artikel yang ditampilkan.</div>
-                ` : `
-                    <div class="grid grid-cols-1 lg:grid-cols-[1.55fr_0.85fr] gap-8 md:gap-10 items-start">
-                        <section class="order-1 space-y-6 md:space-y-8">
-                            ${mainNews ? `
-                                <button onclick="showNewsDetail(${allData.indexOf(mainNews)})" class="glass-card luxury-frame w-full text-left overflow-hidden rounded-2xl md:rounded-[2.5rem] group" type="button">
-                                    <img src="${formatImageUrl(mainNews.Link_Thumbnail)}" class="w-full h-[240px] md:h-[430px] object-cover group-hover:scale-105 transition-all duration-500" alt="${escapeHtml(mainNews.Judul_Karya)}">
-                                    <div class="p-6 md:p-8">
-                                        <p class="text-[#d6b15f] text-[8px] md:text-[9px] font-black uppercase tracking-[0.3em] mb-3">Berita Utama</p>
-                                        <h3 class="font-serif text-3xl md:text-5xl text-white leading-none tracking-tight group-hover:text-indigo-200">${escapeHtml(mainNews.Judul_Karya)}</h3>
-                                        <p class="mt-4 text-slate-400 text-base md:text-xl line-clamp-3 font-newspaper leading-relaxed">${escapeHtml(mainNews.Deskripsi)}</p>
-                                    </div>
-                                </button>
-                            ` : ''}
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
-                                ${subNews.map(item => `
-                                    <button onclick="showNewsDetail(${allData.indexOf(item)})" class="text-left group border-t border-white/10 pt-5" type="button">
-                                        <img src="${formatImageUrl(item.Link_Thumbnail)}" class="w-full h-44 md:h-52 object-cover rounded-xl md:rounded-2xl mb-4 group-hover:scale-[1.02] transition-all" alt="${escapeHtml(item.Judul_Karya)}">
-                                        <p class="text-indigo-300 text-[8px] font-black uppercase tracking-[0.25em] mb-2">Sub Utama</p>
-                                        <h4 class="font-serif text-2xl md:text-3xl text-white leading-tight group-hover:text-indigo-300">${escapeHtml(item.Judul_Karya)}</h4>
-                                        <p class="mt-2 text-slate-500 text-sm md:text-base line-clamp-2 font-newspaper">${escapeHtml(item.Deskripsi)}</p>
-                                    </button>
-                                `).join('')}
-                            </div>
-                        </section>
-
-                        <aside class="order-2 lg:sticky lg:top-24">
-                            <div class="border-y border-white/10 py-4 mb-5">
-                                <h3 class="font-serif text-2xl text-white uppercase tracking-tight">Highlight Lainnya</h3>
-                            </div>
-                            <div class="space-y-4">
-                                ${(highlightNews.length ? highlightNews : newsItems.slice(1)).map((item, index) => `
-                                    <button onclick="showNewsDetail(${allData.indexOf(item)})" class="w-full text-left group border-b border-white/10 pb-4" type="button">
-                                        <div class="flex gap-4">
-                                            <span class="font-serif text-3xl text-indigo-300/80 leading-none">${String(index + 1).padStart(2, '0')}</span>
-                                            <div class="min-w-0">
-                                                <h4 class="font-serif text-lg md:text-xl text-white leading-tight group-hover:text-indigo-300">${escapeHtml(item.Judul_Karya)}</h4>
-                                                <p class="mt-2 text-slate-500 text-sm line-clamp-2 font-newspaper">${escapeHtml(item.Deskripsi)}</p>
-                                            </div>
-                                        </div>
-                                    </button>
-                                `).join('')}
-                            </div>
-                        </aside>
-                    </div>
-                `}
-            `;
-        }
-
-        function renderGrid(container, category) {
-            const items = getItemsByCategory(category);
-
-            container.innerHTML = `
-                <h2 class="font-serif text-2xl md:text-4xl text-white mb-8 md:mb-12 text-center uppercase tracking-tighter">${escapeHtml(category)}</h2>
-                <div class="bento-grid">
-                    ${items.map(item => `
-                        <div class="glass-card rounded-2xl md:rounded-[2.5rem] overflow-hidden p-4 md:p-6 group hover:border-indigo-500/40">
-                            <img src="${formatImageUrl(item.Link_Thumbnail)}" class="aspect-video w-full object-cover rounded-xl md:rounded-2xl mb-4 md:mb-5 group-hover:scale-105 transition-all" alt="${escapeHtml(item.Judul_Karya)}">
-                            <h3 class="font-black text-white text-[10px] md:text-[12px] uppercase tracking-widest text-center">${escapeHtml(item.Judul_Karya)}</h3>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-        }
-
-        window.addEventListener('load', loadData);
-        function renderProfile(container) {
-    const profileItems = getItemsByCategory(CATEGORY.PROFILE);
-    
-    // 1. Ambil Teks (Visi/Misi/Identitas) - yang Link_Thumbnail-nya kosong
-    const infoItems = profileItems.filter(item => !item.Link_Thumbnail || item.Link_Thumbnail.trim() === "");
-
-    // 2. Ambil Guru - Punya foto DAN judul ada kata Guru/Kepala/Staff/PTK
-    const teacherItems = profileItems.filter(item => {
-        const judul = (item.Judul_Karya || "").toLowerCase();
-        return item.Link_Thumbnail && 
-               (judul.includes('guru') || judul.includes('kepala') || judul.includes('staff') || judul.includes('ptk'));
-    });
-
-    // 3. Ambil Kegiatan - Punya foto TAPI judul tidak ada kata Guru/Kepala/Staff
-    const activityItems = profileItems.filter(item => {
-        const judul = (item.Judul_Karya || "").toLowerCase();
-        return item.Link_Thumbnail && 
-               !(judul.includes('guru') || judul.includes('kepala') || judul.includes('staff') || judul.includes('ptk'));
-    });
-
-    container.innerHTML = `
-        <div class="space-y-16">
-            <!-- BAGIAN VISI MISI -->
-            <section class="space-y-8">
-                ${infoItems.map(item => `
-                    <div class="glass-card luxury-frame p-6 md:p-10 rounded-2xl md:rounded-[2.5rem] border-l-4 border-indigo-600 shadow-2xl">
-                        <h2 class="font-serif text-2xl md:text-4xl text-white mb-4 md:mb-6">${escapeHtml(item.Judul_Karya)}</h2>
-                        <div class="text-slate-300 font-newspaper text-base md:text-xl leading-relaxed">
-                            ${renderFormattedDescription(item.Deskripsi)}
-                        </div>
-                    </div>
-                `).join('')}
-            </section>
-
-            <!-- BAGIAN SLIDER GURU -->
-            ${teacherItems.length > 0 ? `
-                <section>
-                    <div class="flex items-center gap-4 mb-8">
-                        <h3 class="font-serif text-2xl md:text-4xl text-white whitespace-nowrap">Pendidik & Staff</h3>
-                        <div class="h-[1px] w-full bg-gradient-to-r from-indigo-500 to-transparent"></div>
-                    </div>
-                    <div class="teacher-slider-container" id="teacherSlider">
-                        ${teacherItems.map(item => `
-                            <div class="teacher-card">
-                                <div class="glass-card luxury-frame rounded-2xl overflow-hidden p-4 group h-full">
-                                    <div class="aspect-[3/4] overflow-hidden rounded-xl mb-4 bg-slate-800">
-                                        <img src="${formatImageUrl(item.Link_Thumbnail)}" 
-                                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
-                                             alt="${escapeHtml(item.Judul_Karya)}">
-                                    </div>
-                                    <h4 class="text-white font-bold text-sm leading-tight">${escapeHtml(item.Judul_Karya)}</h4>
-                                    <p class="text-indigo-400 text-[10px] uppercase font-black tracking-tighter mt-1">${escapeHtml(item.Deskripsi)}</p>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </section>
-            ` : ''}
-
-            <!-- BAGIAN DOKUMENTASI KEGIATAN -->
-            ${activityItems.length > 0 ? `
-                <section>
-                    <div class="flex items-center gap-4 mb-8">
-                        <h3 class="font-serif text-2xl md:text-4xl text-white whitespace-nowrap">Dokumentasi Profil</h3>
-                        <div class="h-[1px] w-full bg-gradient-to-r from-indigo-500 to-transparent"></div>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        ${activityItems.map(item => `
-                            <div class="glass-card rounded-2xl overflow-hidden group">
-                                <div class="aspect-video overflow-hidden">
-                                    <img src="${formatImageUrl(item.Link_Thumbnail)}" 
-                                         class="w-full h-full object-cover group-hover:scale-105 transition-transform" 
-                                         alt="${escapeHtml(item.Judul_Karya)}">
-                                </div>
-                                <div class="p-4">
-                                    <h5 class="text-white font-bold text-xs uppercase tracking-wider">${escapeHtml(item.Judul_Karya)}</h5>
-                                    <p class="text-slate-400 text-[10px] mt-1 line-clamp-2">${escapeHtml(item.Deskripsi)}</p>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </section>
-            ` : ''}
-        </div>
-    `;
-
-    // Jalankan slider otomatis
-    if (teacherItems.length > 0) {
-        const slider = document.getElementById('teacherSlider');
-        let scrollAmount = 0;
-        setInterval(() => {
-            if (slider) {
-                scrollAmount += slider.offsetWidth / 2;
-                if (scrollAmount >= slider.scrollWidth) scrollAmount = 0;
-                slider.scrollTo({ left: scrollAmount, behavior: 'smooth' });
+                </div>`;
             }
-        }, 5000);
-    }
-}
+        }
+
+        window.setActiveTab = (cat) => {
+            activeTab = cat;
+            document.querySelectorAll('.filter-pill').forEach(b => b.classList.toggle('active', b.dataset.category === cat));
+            closeNewsDetail();
+            renderView();
+            document.getElementById('hero-section').style.display = (cat === 'all') ? 'flex' : 'none';
+        };
+
+        window.showNewsDetail = (index) => {
+            const item = allData[index];
+            document.getElementById('main-content-area').classList.add('hidden');
+            document.getElementById('news-detail-view').classList.remove('hidden');
+            document.getElementById('news-content-full').innerHTML = `
+                <div class="glass-card p-8 rounded-[3rem] luxury-frame">
+                    <img src="${formatImageUrl(item.Link_Thumbnail)}" class="w-full rounded-2xl mb-8 shadow-xl">
+                    <h2 class="font-serif text-4xl mb-6">${item.Judul_Karya}</h2>
+                    <div class="font-newspaper text-2xl leading-relaxed text-black">${item.Deskripsi}</div>
+                </div>
+            `;
+            window.scrollTo(0,0);
+        };
+
+        window.closeNewsDetail = () => {
+            document.getElementById('main-content-area').classList.remove('hidden');
+            document.getElementById('news-detail-view').classList.add('hidden');
+        };
+
+        function initSlideshow() {
+            const wrapper = document.getElementById('slideshow-wrapper');
+            FOTO_GURU.forEach((img, i) => {
+                const div = document.createElement('div');
+                div.className = `hero-slide ${i===0?'active':''}`;
+                div.style.backgroundImage = `url('${img}')`;
+                wrapper.appendChild(div);
+            });
+            let curr = 0;
+            setInterval(() => {
+                const slides = document.querySelectorAll('.hero-slide');
+                slides[curr].classList.remove('active');
+                curr = (curr + 1) % slides.length;
+                slides[curr].classList.add('active');
+            }, 5000);
+        }
+
+        loadData();
     </script>
 </body>
 </html>
