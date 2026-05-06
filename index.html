@@ -113,9 +113,39 @@
         }
 
         @keyframes spin { to { transform: rotate(360deg); } }
+        /* === MODE SIANG (GLASS MORNING) === */
+body.day-mode {
+    background: linear-gradient(to top, #aee2ff, #f0fbff);
+    color: #1e293b;
+}
+
+/* kartu jadi kaca terang */
+body.day-mode .glass-card {
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(20px);
+}
+
+/* navbar jadi terang */
+body.day-mode nav div {
+    background: rgba(255,255,255,0.6) !important;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+/* teks jadi gelap */
+body.day-mode h1,
+body.day-mode h3,
+body.day-mode p {
+    color: #1e293b;
+}
+
+/* hilangkan bintang */
+body.day-mode .stars-container {
+    display: none;
+}
     </style>
 </head>
-<body>
+<body class="day-mode">
     <div class="stars-container" id="starsBox"></div>
 
     <!-- NAVBAR -->
