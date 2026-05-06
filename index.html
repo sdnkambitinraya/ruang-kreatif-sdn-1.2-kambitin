@@ -703,17 +703,17 @@
             updatePageSpacing(false);
         };
 
-        function renderView() {
-            const container = document.getElementById('main-content-area');
-            if (!container) return;
+     function renderView() {
+    const container = document.getElementById('main-content-area');
+    if (!container) return;
 
-            container.innerHTML = '';
+    container.innerHTML = '';
 
-            if (activeTab === CATEGORY.HOME) renderHome(container);
-            else if (activeTab === CATEGORY.NEWS) renderNewspaperView(container);
-            else if (activeTab === CATEGORY.PROFILE) renderProfile(container);
-            else renderGrid(container, activeTab);
-        }
+    if (activeTab === CATEGORY.HOME) renderHome(container);
+    else if (activeTab === CATEGORY.NEWS) renderNewspaperView(container);
+    else if (activeTab === CATEGORY.PROFILE) renderProfile(container); // <--- Pastikan ini ada
+    else renderGrid(container, activeTab);
+}
 
         function renderHome(container) {
             const profileItems = getItemsByCategory(CATEGORY.PROFILE);
@@ -900,6 +900,105 @@
         }
 
         window.addEventListener('load', loadData);
+        function renderProfile(container) {
+    const profileItems = getItemsByCategory(CATEGORY.PROFILE);
+    
+    // 1. Ambil Teks (Visi/Misi/Identitas) - yang Link_Thumbnail-nya kosong
+    const infoItems = profileItems.filter(item => !item.Link_Thumbnail || item.Link_Thumbnail.trim() === "");
+
+    // 2. Ambil Guru - Punya foto DAN judul ada kata Guru/Kepala/Staff/PTK
+    const teacherItems = profileItems.filter(item => {
+        const judul = (item.Judul_Karya || "").toLowerCase();
+        return item.Link_Thumbnail && 
+               (judul.includes('guru') || judul.includes('kepala') || judul.includes('staff') || judul.includes('ptk'));
+    });
+
+    // 3. Ambil Kegiatan - Punya foto TAPI judul tidak ada kata Guru/Kepala/Staff
+    const activityItems = profileItems.filter(item => {
+        const judul = (item.Judul_Karya || "").toLowerCase();
+        return item.Link_Thumbnail && 
+               !(judul.includes('guru') || judul.includes('kepala') || judul.includes('staff') || judul.includes('ptk'));
+    });
+
+    container.innerHTML = `
+        <div class="space-y-16">
+            <!-- BAGIAN VISI MISI -->
+            <section class="space-y-8">
+                ${infoItems.map(item => `
+                    <div class="glass-card luxury-frame p-6 md:p-10 rounded-2xl md:rounded-[2.5rem] border-l-4 border-indigo-600 shadow-2xl">
+                        <h2 class="font-serif text-2xl md:text-4xl text-white mb-4 md:mb-6">${escapeHtml(item.Judul_Karya)}</h2>
+                        <div class="text-slate-300 font-newspaper text-base md:text-xl leading-relaxed">
+                            ${renderFormattedDescription(item.Deskripsi)}
+                        </div>
+                    </div>
+                `).join('')}
+            </section>
+
+            <!-- BAGIAN SLIDER GURU -->
+            ${teacherItems.length > 0 ? `
+                <section>
+                    <div class="flex items-center gap-4 mb-8">
+                        <h3 class="font-serif text-2xl md:text-4xl text-white whitespace-nowrap">Pendidik & Staff</h3>
+                        <div class="h-[1px] w-full bg-gradient-to-r from-indigo-500 to-transparent"></div>
+                    </div>
+                    <div class="teacher-slider-container" id="teacherSlider">
+                        ${teacherItems.map(item => `
+                            <div class="teacher-card">
+                                <div class="glass-card luxury-frame rounded-2xl overflow-hidden p-4 group h-full">
+                                    <div class="aspect-[3/4] overflow-hidden rounded-xl mb-4 bg-slate-800">
+                                        <img src="${formatImageUrl(item.Link_Thumbnail)}" 
+                                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
+                                             alt="${escapeHtml(item.Judul_Karya)}">
+                                    </div>
+                                    <h4 class="text-white font-bold text-sm leading-tight">${escapeHtml(item.Judul_Karya)}</h4>
+                                    <p class="text-indigo-400 text-[10px] uppercase font-black tracking-tighter mt-1">${escapeHtml(item.Deskripsi)}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </section>
+            ` : ''}
+
+            <!-- BAGIAN DOKUMENTASI KEGIATAN -->
+            ${activityItems.length > 0 ? `
+                <section>
+                    <div class="flex items-center gap-4 mb-8">
+                        <h3 class="font-serif text-2xl md:text-4xl text-white whitespace-nowrap">Dokumentasi Profil</h3>
+                        <div class="h-[1px] w-full bg-gradient-to-r from-indigo-500 to-transparent"></div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        ${activityItems.map(item => `
+                            <div class="glass-card rounded-2xl overflow-hidden group">
+                                <div class="aspect-video overflow-hidden">
+                                    <img src="${formatImageUrl(item.Link_Thumbnail)}" 
+                                         class="w-full h-full object-cover group-hover:scale-105 transition-transform" 
+                                         alt="${escapeHtml(item.Judul_Karya)}">
+                                </div>
+                                <div class="p-4">
+                                    <h5 class="text-white font-bold text-xs uppercase tracking-wider">${escapeHtml(item.Judul_Karya)}</h5>
+                                    <p class="text-slate-400 text-[10px] mt-1 line-clamp-2">${escapeHtml(item.Deskripsi)}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </section>
+            ` : ''}
+        </div>
+    `;
+
+    // Jalankan slider otomatis
+    if (teacherItems.length > 0) {
+        const slider = document.getElementById('teacherSlider');
+        let scrollAmount = 0;
+        setInterval(() => {
+            if (slider) {
+                scrollAmount += slider.offsetWidth / 2;
+                if (scrollAmount >= slider.scrollWidth) scrollAmount = 0;
+                slider.scrollTo({ left: scrollAmount, behavior: 'smooth' });
+            }
+        }, 5000);
+    }
+}
     </script>
 </body>
 </html>
