@@ -5,48 +5,88 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SD Negeri 1.2 Kambitin - Portal Resmi</title>
 
+    <script>
+        tailwind = {
+            theme: {
+                extend: {
+                    screens: {
+                        xs: '475px'
+                    }
+                }
+            }
+        };
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Playfair+Display:wght@700;900&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            --primary: #7c3aed;
-            --gold: #d6b15f;
-            --glass: rgba(15, 23, 42, 0.7);
-            --night-sky: #070b14;
+            --primary: #4338ca; /* Indigo gelap untuk kontras di bg biru */
+            --gold: #b45309; 
+            --gold-soft: rgba(180, 83, 9, 0.1);
+            --glass: rgba(255, 255, 255, 0.4); /* Glass putih transparan */
+            --sky-blue: #87CEEB; /* Biru Langit */
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
             margin: 0;
             overflow-x: hidden;
-            background: var(--night-sky);
-            color: #f1f5f9;
+            background: var(--sky-blue);
+            color: #000000; /* HURUF HITAM */
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
-        /* --- BACKGROUND STARS --- */
-        .stars-container {
+        /* CONTAINER AWAN BERGERAK */
+        .clouds-container {
             position: fixed;
             inset: 0;
             z-index: -1;
-            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+            overflow: hidden;
+            pointer-events: none;
         }
 
-        .star {
+        .cloud {
             position: absolute;
-            border-radius: 50%;
             background: white;
-            opacity: 0.5;
-            animation: twinkle var(--duration) infinite ease-in-out;
+            width: 120px;
+            height: 45px;
+            border-radius: 100px;
+            opacity: 0.8;
+            animation: moveClouds var(--duration) linear infinite;
+        }
+        
+        .cloud::after, .cloud::before {
+            content: '';
+            position: absolute;
+            background: white;
+            border-radius: 100px;
+        }
+        .cloud::after { width: 50px; height: 50px; top: -25px; left: 20px; }
+        .cloud::before { width: 70px; height: 70px; top: -35px; right: 20px; }
+
+        @keyframes moveClouds {
+            from { transform: translateX(-200px); }
+            to { transform: translateX(110vw); }
         }
 
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 10px white; }
+        /* Typography Fix untuk Background Terang */
+        h1, h2, h3, h4, .text-white {
+            color: #000000 !important;
+        }
+        
+        .text-slate-300, .text-slate-400, .text-slate-500 {
+            color: #1e293b !important; /* Abu gelap/hitam */
         }
 
-        /* --- HERO SECTION LUXURY --- */
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .font-newspaper { font-family: 'Crimson Pro', serif; }
+
         .hero-container {
             position: relative;
             display: flex;
@@ -57,232 +97,306 @@
             padding-top: 60px;
         }
 
+        .hero-slide {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            width: 100%;
+            height: 100%;
+            background-position: center;
+            background-size: cover;
+            opacity: 0;
+            transform: scale(1.1);
+            transition: opacity 1.5s ease-in-out, transform 8s ease-out;
+        }
+
+        .hero-slide.active {
+            z-index: 1;
+            opacity: 0.5;
+            transform: scale(1);
+        }
+
         .hero-overlay {
             position: absolute;
             inset: 0;
             z-index: 2;
-            background: linear-gradient(to bottom, transparent, var(--night-sky));
+            background: linear-gradient(to bottom, transparent, var(--sky-blue));
+        }
+
+        .glass-card {
+            position: relative;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .luxury-frame::before {
+            border-top: 1px solid var(--gold);
+            border-left: 1px solid var(--gold);
+        }
+
+        .luxury-frame::after {
+            border-right: 1px solid var(--gold);
+            border-bottom: 1px solid var(--gold);
+        }
+
+        .filter-pill {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.5);
+            color: #000;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .filter-pill.active {
+            background: #000;
+            color: #fff !important;
+        }
+
+        .loader {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-top-color: var(--primary);
+        }
+
+        .social-icon {
+            background: rgba(255, 255, 255, 0.6);
+            color: #000 !important;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .social-icon:hover {
+            background: var(--primary);
+            color: #fff !important;
         }
 
         .tagline-main {
-            background: linear-gradient(90deg, #a78bfa, #f472b6, #a78bfa);
+            background: linear-gradient(90deg, #1e1b4b, #4338ca, #1e1b4b);
             background-size: 200% auto;
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            animation: shine 4s linear infinite;
+            font-weight: 800;
         }
 
-        @keyframes shine { to { background-position: 200% center; } }
+        .identity-label { color: #4338ca; }
+        .identity-value { color: #000; }
+        .identity-row { border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
 
-        /* --- CARD LUXURY FRAME --- */
-        .glass-card {
-            position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .luxury-frame::before {
-            content: "";
-            position: absolute;
-            top: 12px; left: 12px; width: 25px; height: 25px;
-            border-top: 1.5px solid var(--gold); border-left: 1.5px solid var(--gold);
-        }
-
-        .luxury-frame::after {
-            content: "";
-            position: absolute;
-            bottom: 12px; right: 12px; width: 25px; height: 25px;
-            border-bottom: 1.5px solid var(--gold); border-right: 1.5px solid var(--gold);
-        }
-
-        .filter-pill.active {
-            background: linear-gradient(135deg, var(--primary), #5b21b6);
-            border-color: var(--primary);
-            box-shadow: 0 0 20px rgba(124, 58, 237, 0.4);
-        }
-
-        .loader {
-            width: 45px; height: 45px;
-            border: 3px solid rgba(255, 255, 255, 0.1);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
-        /* === MODE SIANG (GLASS MORNING) === */
-body.day-mode {
-    background: linear-gradient(to top, #aee2ff, #f0fbff);
-    color: #1e293b;
-}
-
-/* kartu jadi kaca terang */
-body.day-mode .glass-card {
-    background: rgba(255, 255, 255, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(20px);
-}
-
-/* navbar jadi terang */
-body.day-mode nav div {
-    background: rgba(255,255,255,0.6) !important;
-    border: 1px solid rgba(0,0,0,0.05);
-}
-
-
-/* hilangkan bintang */
-body.day-mode .stars-container {
-    display: none;
-}
     </style>
 </head>
-<body class="day-mode">
-    <div class="stars-container" id="starsBox"></div>
+<body>
+    <div class="clouds-container" id="cloudsBox"></div>
 
-    <!-- NAVBAR -->
-    <nav class="fixed top-0 w-full z-50 px-4 py-3">
-        <div class="max-w-7xl mx-auto flex justify-between items-center bg-slate-900/80 backdrop-blur-xl rounded-2xl px-6 py-2 border border-white/10 shadow-2xl">
-            <div class="flex items-center gap-3 cursor-pointer" onclick="window.location.reload()">
-                <div class="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center border border-white/20">
-                    <i class="fas fa-graduation-cap text-white"></i>
+    <nav class="fixed top-0 w-full z-50 px-4 py-2 md:px-6 md:py-3">
+        <div class="max-w-7xl mx-auto flex justify-between items-center bg-white/70 backdrop-blur-xl rounded-xl md:rounded-2xl px-4 py-1 md:px-6 md:py-1.5 border border-black/10 shadow-lg">
+            <button class="flex items-center gap-3 text-left" type="button" onclick="setActiveTab('all')">
+                <div class="school-logo-container bg-white/50 rounded-lg p-1" style="width: 44px; height: 44px;">
+                    <img id="mainLogo" src="" class="w-full h-full object-contain" alt="Logo">
                 </div>
-                <div>
-                    <h1 class="font-extrabold text-xs text-white uppercase tracking-tight">SDN 1.2 Kambitin</h1>
-                    <span class="block text-[8px] tracking-widest text-indigo-400 uppercase font-black">Official Portal</span>
+                <div class="block">
+                    <h1 class="font-extrabold text-[10px] md:text-xs text-black leading-tight uppercase">SDN 1.2 Kambitin</h1>
+                    <span class="block text-[7px] uppercase tracking-widest text-indigo-700 font-black">Portal Resmi</span>
                 </div>
-            </div>
-            <div class="flex gap-6 text-[10px] font-bold uppercase tracking-widest">
-                <button onclick="setActiveTab('all')" class="text-white hover:text-indigo-400 transition">Beranda</button>
-                <button onclick="setActiveTab('Berita')" class="text-white hover:text-indigo-400 transition">Berita</button>
+            </button>
+
+            <div class="flex gap-3 md:gap-4 text-[9px] font-black uppercase tracking-widest">
+                <button onclick="setActiveTab('all')" class="hover:text-indigo-600 transition text-black">Beranda</button>
+                <button onclick="setActiveTab('Profil')" class="hover:text-indigo-600 transition text-black">Profil</button>
+                <button onclick="setActiveTab('Berita')" class="hover:text-indigo-600 transition text-black">Artikel</button>
             </div>
         </div>
     </nav>
 
-    <!-- HERO -->
     <header id="hero-section" class="hero-container">
+        <div id="slideshow-wrapper" class="absolute inset-0 w-full h-full"></div>
         <div class="hero-overlay"></div>
-        <div class="relative z-10 text-center px-6">
-            <h1 class="text-5xl md:text-8xl font-black mb-4 tracking-tighter text-white uppercase leading-none">
-                SD NEGERI 1.2<br><span class="text-indigo-500">KAMBITIN</span>
+        <div class="relative z-10 text-center px-6 max-w-5xl">
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-black mb-4 tracking-tighter text-black uppercase leading-none">
+                SD NEGERI 1.2 <br class="md:hidden"> KAMBITIN
             </h1>
-            <p class="tagline-main italic text-sm md:text-xl font-medium max-w-2xl mx-auto">
-                "Dari Ruang Kelas Menuju Cakrawala Dunia, Mengukir Prestasi Meraih Masa Depan Gemilang"
-            </p>
+
+            <div class="tagline-container flex flex-col items-center gap-4">
+                <div class="w-20 h-1 bg-black"></div>
+                <p class="tagline-main px-2 text-center text-lg md:text-xl italic">
+                    "Dari Ruang Kelas Menuju Cakrawala Dunia, Mengukir Prestasi Meraih Masa Depan Gemilang"
+                </p>
+                <div class="w-20 h-1 bg-black"></div>
+            </div>
+
+            <div class="flex justify-center gap-4 mt-12">
+                <a href="#" class="social-icon w-10 h-10 flex items-center justify-center rounded-lg shadow-sm"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon w-10 h-10 flex items-center justify-center rounded-lg shadow-sm"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon w-10 h-10 flex items-center justify-center rounded-lg shadow-sm"><i class="fab fa-youtube"></i></a>
+            </div>
         </div>
     </header>
 
-    <!-- CONTENT -->
-    <main class="max-w-7xl mx-auto px-6 py-12 relative z-10">
-        <div id="tab-menu" class="flex justify-center gap-3 mb-16">
-            <button class="filter-pill active px-8 py-2.5 rounded-full text-[10px] uppercase font-black tracking-widest bg-white/5 border border-white/10 text-white" onclick="setActiveTab('all')" data-cat="all">Semua</button>
-            <button class="filter-pill px-8 py-2.5 rounded-full text-[10px] uppercase font-black tracking-widest bg-white/5 border border-white/10 text-white" onclick="setActiveTab('Berita')" data-cat="Berita">Berita</button>
+    <main class="max-w-7xl mx-auto px-4 md:px-6 py-12 relative z-10">
+        <div id="tab-menu" class="flex overflow-x-auto justify-start md:justify-center gap-2 mb-12 pb-2">
+            <button class="filter-pill active px-6 py-2.5 rounded-xl text-[9px] uppercase tracking-widest" data-category="all" onclick="setActiveTab('all')">Beranda</button>
+            <button class="filter-pill px-6 py-2.5 rounded-xl text-[9px] uppercase tracking-widest" data-category="Profil" onclick="setActiveTab('Profil')">Profil</button>
+            <button class="filter-pill px-6 py-2.5 rounded-xl text-[9px] uppercase tracking-widest" data-category="Berita" onclick="setActiveTab('Berita')">Artikel</button>
+            <button class="filter-pill px-6 py-2.5 rounded-xl text-[9px] uppercase tracking-widest" data-category="Hasil Karya" onclick="setActiveTab('Hasil Karya')">Karya</button>
         </div>
 
         <div id="loadingState" class="flex flex-col items-center py-20">
-            <div class="loader mb-6"></div>
-            <p class="text-indigo-400 text-xs font-bold uppercase tracking-[0.2em]">Sinkronisasi Data...</p>
+            <div class="loader w-10 h-10 rounded-full animate-spin mb-4"></div>
+            <p class="text-black text-[10px] uppercase font-bold tracking-widest">Memuat Data...</p>
         </div>
 
-        <div id="main-content-area" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
-        
-        <div id="news-detail-view" class="hidden max-w-4xl mx-auto">
-            <button onclick="closeNewsDetail()" class="group mb-8 text-indigo-400 font-black text-xs uppercase tracking-widest flex items-center gap-2">
-                <i class="fas fa-arrow-left transition-transform group-hover:-translate-x-1"></i> Kembali ke Galeri
-            </button>
-            <div id="news-content-full" class="bg-slate-900/50 p-8 rounded-3xl border border-white/10 backdrop-blur-md"></div>
+        <div id="news-detail-view" class="hidden fade-in max-w-4xl mx-auto mb-20">
+            <button onclick="closeNewsDetail()" class="mb-6 text-black hover:text-indigo-600 transition font-black text-xs uppercase tracking-widest">← Kembali</button>
+            <div id="news-content-full"></div>
         </div>
+
+        <div id="main-content-area" class="fade-in"></div>
     </main>
+
+    <footer class="border-t border-black/5 py-12 bg-white/30 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-center md:text-left">
+                <h3 class="font-bold text-black text-sm uppercase">SD Negeri 1.2 Kambitin</h3>
+                <p class="text-black/60 text-[10px] uppercase tracking-widest mt-1">Kabupaten Tabalong, Kalsel</p>
+            </div>
+            <p class="text-black/60 text-[9px] uppercase tracking-widest font-bold">© 2026 SD Negeri 1.2 Kambitin</p>
+        </div>
+    </footer>
 
     <script>
         const API_URL = 'https://script.google.com/macros/s/AKfycbxq_QBlXPoFyxsyKHEkFg9JTxG1-OdVZvAWcRJwNgVjCumNQrpvMVC5KvhiI8rdIRc/exec';
         const API_TOKEN = 'RUANG_KREATIF_12_TOKEN';
-        
-        let allData = [];
+        const LOGO_SEKOLAH = 'https://drive.google.com/file/d/1V2UwCJtj-ZcvXPXRZm7Fw0_hzTaLpmT4/view?usp=drive_link';
+        const FOTO_GURU = [
+            'https://images.unsplash.com/photo-1544717297-fa95b3396467?q=80&w=2000',
+            'https://images.unsplash.com/photo-1491843330757-37758135ca70?q=80&w=2000'
+        ];
+        const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1594608661623-aa0bd3a67d28?q=80&w=800';
 
-        async function init() {
+        const CATEGORY = { HOME: 'all', NEWS: 'Berita', PROFILE: 'Profil', WORKS: 'Hasil Karya' };
+        let allData = [];
+        let activeTab = CATEGORY.HOME;
+
+        function formatImageUrl(url) {
+            if (!url) return FALLBACK_IMAGE;
+            if (url.includes('drive.google.com')) {
+                const idMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
+                if (idMatch) return `https://lh3.googleusercontent.com/d/${idMatch[1]}=s1000`;
+            }
+            return url;
+        }
+
+        // ANIMASI AWAN
+        function initClouds() {
+            const container = document.getElementById('cloudsBox');
+            for (let i = 0; i < 8; i++) {
+                const cloud = document.createElement('div');
+                cloud.className = 'cloud';
+                cloud.style.top = Math.random() * 80 + '%';
+                cloud.style.left = '-' + (Math.random() * 200 + 100) + 'px';
+                cloud.style.setProperty('--duration', (Math.random() * 30 + 30) + 's');
+                cloud.style.transform = `scale(${Math.random() * 0.5 + 0.5})`;
+                container.appendChild(cloud);
+            }
+        }
+
+        async function loadData() {
+            document.getElementById('mainLogo').src = formatImageUrl(LOGO_SEKOLAH);
+            initClouds();
+            initSlideshow();
             try {
                 const res = await fetch(`${API_URL}?token=${API_TOKEN}`);
                 allData = await res.json();
-                document.getElementById('loadingState').style.display = 'none';
-                renderView('all');
-            } catch (e) {
-                console.error("Fetch Error:", e);
-                document.getElementById('loadingState').innerHTML = '<p class="text-red-400 uppercase text-xs font-bold">Koneksi Database Terputus</p>';
-            }
-            initStars();
+            } catch (e) { console.error(e); }
+            
+            document.getElementById('loadingState').classList.add('hidden');
+            renderView();
         }
 
-        function renderView(cat) {
+        function renderView() {
             const container = document.getElementById('main-content-area');
-            const hero = document.getElementById('hero-section');
-            hero.style.display = (cat === 'all') ? 'flex' : 'none';
             container.innerHTML = '';
-
-            const filtered = cat === 'all' ? allData : allData.filter(i => i.Kategori === cat);
             
-            filtered.forEach((item, index) => {
-                const img = item.Link_Thumbnail || 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=1000';
-                container.innerHTML += `
-                    <div class="glass-card luxury-frame p-5 rounded-2xl cursor-pointer hover:shadow-[0_0_30px_rgba(124,58,237,0.2)]" onclick="showDetail(${index})">
-                        <div class="overflow-hidden rounded-xl mb-5">
-                            <img src="${img}" class="w-full aspect-video object-cover hover:scale-110 transition duration-700">
+            if (activeTab === 'all') {
+                const news = allData.filter(i => i.Kategori === 'Berita').slice(0, 3);
+                container.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="glass-card p-8 rounded-[2rem] luxury-frame">
+                            <h2 class="font-serif text-3xl mb-4">Tentang Kami</h2>
+                            <p class="font-newspaper text-xl leading-relaxed">SD Negeri 1.2 Kambitin adalah wadah pendidikan yang mengutamakan kreativitas dan akhlak mulia.</p>
                         </div>
-                        <span class="text-[9px] text-gold font-black uppercase tracking-[0.2em] mb-2 block">${item.Kategori}</span>
-                        <h3 class="font-extrabold text-white text-base leading-snug uppercase tracking-tight">${item.Judul_Karya}</h3>
-                        <p class="text-slate-400 text-xs mt-3 line-clamp-2 font-light">${item.Deskripsi}</p>
+                        <div class="space-y-4">
+                            <h3 class="font-serif text-2xl mb-4">Berita Terbaru</h3>
+                            ${news.map((item, idx) => `
+                                <div onclick="showNewsDetail(${allData.indexOf(item)})" class="glass-card p-4 rounded-2xl flex gap-4 cursor-pointer hover:bg-white/60 transition">
+                                    <img src="${formatImageUrl(item.Link_Thumbnail)}" class="w-20 h-20 object-cover rounded-xl">
+                                    <div>
+                                        <h4 class="font-bold uppercase text-[11px]">${item.Judul_Karya}</h4>
+                                        <p class="text-[10px] line-clamp-2">${item.Deskripsi}</p>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
                     </div>
                 `;
-            });
-        }
-
-        function setActiveTab(cat) {
-            document.querySelectorAll('.filter-pill').forEach(btn => {
-                btn.classList.toggle('active', btn.getAttribute('onclick').includes(cat));
-            });
-            closeNewsDetail();
-            renderView(cat);
-        }
-
-        function showDetail(idx) {
-            const item = allData[idx];
-            document.getElementById('main-content-area').classList.add('hidden');
-            document.getElementById('tab-menu').classList.add('hidden');
-            document.getElementById('news-detail-view').classList.remove('hidden');
-            
-            document.getElementById('news-content-full').innerHTML = `
-                <h1 class="text-4xl font-black text-white mb-4 uppercase tracking-tighter">${item.Judul_Karya}</h1>
-                <div class="h-1 w-20 bg-indigo-500 mb-8"></div>
-                <img src="${item.Link_Thumbnail}" class="w-full rounded-2xl mb-8 shadow-2xl border border-white/10">
-                <div class="prose prose-invert max-w-none">
-                    <p class="text-slate-300 leading-relaxed text-lg font-light">${item.Deskripsi}</p>
-                </div>
-            `;
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        }
-
-        function closeNewsDetail() {
-            document.getElementById('main-content-area').classList.remove('hidden');
-            document.getElementById('tab-menu').classList.remove('hidden');
-            document.getElementById('news-detail-view').classList.add('hidden');
-        }
-
-        function initStars() {
-            const box = document.getElementById('starsBox');
-            for(let i=0; i<100; i++) {
-                const s = document.createElement('div');
-                s.className = 'star';
-                s.style.left = Math.random()*100+'%';
-                s.style.top = Math.random()*100+'%';
-                s.style.width = s.style.height = Math.random()*2+1+'px';
-                s.style.setProperty('--duration', Math.random()*3+2+'s');
-                box.appendChild(s);
+            } else {
+                const items = allData.filter(i => i.Kategori === activeTab);
+                container.innerHTML = `<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    ${items.map(item => `
+                        <div class="glass-card p-4 rounded-3xl group cursor-pointer" onclick="showNewsDetail(${allData.indexOf(item)})">
+                            <img src="${formatImageUrl(item.Link_Thumbnail)}" class="w-full aspect-video object-cover rounded-2xl mb-4">
+                            <h4 class="font-black uppercase text-xs mb-2">${item.Judul_Karya}</h4>
+                        </div>
+                    `).join('')}
+                </div>`;
             }
         }
 
-        init();
+        window.setActiveTab = (cat) => {
+            activeTab = cat;
+            document.querySelectorAll('.filter-pill').forEach(b => b.classList.toggle('active', b.dataset.category === cat));
+            closeNewsDetail();
+            renderView();
+            document.getElementById('hero-section').style.display = (cat === 'all') ? 'flex' : 'none';
+        };
+
+        window.showNewsDetail = (index) => {
+            const item = allData[index];
+            document.getElementById('main-content-area').classList.add('hidden');
+            document.getElementById('news-detail-view').classList.remove('hidden');
+            document.getElementById('news-content-full').innerHTML = `
+                <div class="glass-card p-8 rounded-[3rem] luxury-frame">
+                    <img src="${formatImageUrl(item.Link_Thumbnail)}" class="w-full rounded-2xl mb-8 shadow-xl">
+                    <h2 class="font-serif text-4xl mb-6">${item.Judul_Karya}</h2>
+                    <div class="font-newspaper text-2xl leading-relaxed text-black">${item.Deskripsi}</div>
+                </div>
+            `;
+            window.scrollTo(0,0);
+        };
+
+        window.closeNewsDetail = () => {
+            document.getElementById('main-content-area').classList.remove('hidden');
+            document.getElementById('news-detail-view').classList.add('hidden');
+        };
+
+        function initSlideshow() {
+            const wrapper = document.getElementById('slideshow-wrapper');
+            FOTO_GURU.forEach((img, i) => {
+                const div = document.createElement('div');
+                div.className = `hero-slide ${i===0?'active':''}`;
+                div.style.backgroundImage = `url('${img}')`;
+                wrapper.appendChild(div);
+            });
+            let curr = 0;
+            setInterval(() => {
+                const slides = document.querySelectorAll('.hero-slide');
+                slides[curr].classList.remove('active');
+                curr = (curr + 1) % slides.length;
+                slides[curr].classList.add('active');
+            }, 5000);
+        }
+
+        loadData();
     </script>
 </body>
 </html>
